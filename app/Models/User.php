@@ -17,10 +17,16 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    public $timestamps = false;
+
     protected $fillable = [
-        'name',
-        'email',
+        'nama',
+        'username',
         'password',
+        'email',
+        'foto',
+        'prodi',
     ];
 
     /**
@@ -41,4 +47,44 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role(){
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+    public function pengusul1TugasAkhir(){
+        return $this->hasOne(TugasAkhir::class, 'pengusul1');
+    }
+    public function pengusul2TugasAkhir(){
+        return $this->hasOne(TugasAkhir::class, 'pengusul2');
+    }
+    public function pengusul1Sempro(){
+        return $this->hasOne(Sempro::class, 'pengusul1');
+    }
+    public function pengusul2Sempro(){
+        return $this->hasOne(Sempro::class, 'pengusul2');
+    }
+    public function pengusul1Pengajuan(){
+        return $this->hasOne(PengajuanJudul::class, 'pengusul1');
+    }
+    public function pengusul2Pengajuan(){
+        return $this->hasOne(PengajuanJudul::class, 'pengusul2');
+    }
+    public function pengusul1Bimbingan(){
+        return $this->hasMany(Bimbingan::class, 'pengusul1');
+    }
+    public function dospemBimbingan(){
+        return $this->hasMany(Bimbingan::class, 'dospem_id');
+    }
+    public function pengusul2Bimbingan(){
+        return $this->hasMany(Bimbingan::class, 'pengusul2');
+    }
+    public function pengusul1Jadwal(){
+        return $this->hasMany(Jadwal::class, 'pengusul1');
+    }
+    public function pengusul2Jadwal(){
+        return $this->hasMany(Jadwal::class, 'pengusul2');
+    }
+    public function dospemJadwal(){
+        return $this->hasMany(Jadwal::class, 'dospem_id');
+    }
 }
