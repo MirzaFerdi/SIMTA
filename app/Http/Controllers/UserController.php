@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        $role = Role::all();
+        return view('user', compact('users', 'role'));
     }
 
     /**
@@ -60,6 +63,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('user')->with('success', 'User deleted successfully');
     }
 }

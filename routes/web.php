@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +18,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(Auth::check()){
+        return redirect()->route('dashboard');
+    }
+    return view('auth.login');
+})->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [AuthController::class, 'index'])->name('dashboard');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::middleware(['role:1'])->group(function () {
+        Route::get('/user', [UserController::class, 'index'])->name('user');
+        Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+        Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+        Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::post('/user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
+    });
+
+    Route::middleware(['role:3'])->group(function () {
+    });
 });
+Route::get('/403', function () {
+    return view('errors.403');
+})->name('403');

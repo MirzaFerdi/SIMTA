@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
             [
                 'role_id' => 1,
                 'nama' => 'Admin',
-                'username' => 'admin',
+                'username' => '1131740001',
                 'password' => bcrypt('admin'),
                 'email' => 'admin@mail.com',
                 'foto' => 'admin.jpg',
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             [
                 'role_id' => 2,
                 'nama' => 'Dosen',
-                'username' => 'dosen',
+                'username' => '1231740001',
                 'password' => bcrypt('dosen'),
                 'email' => 'dosen@mail.com',
                 'foto' => 'dosen.jpg',
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             [
                 'role_id' => 3,
                 'nama' => 'Mahasiswa',
-                'username' => 'mahasiswa',
+                'username' => '2131740011',
                 'password' => bcrypt('mahasiswa'),
                 'email' => 'mahasiswa1@mail.com',
                 'foto' => 'mahasiswa1.jpg',
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             [
                 'role_id' => 3,
                 'nama' => 'Mahasiswa 2',
-                'username' => 'mahasiswa2',
+                'username' => '2131740012',
                 'password' => bcrypt('mahasiswa2'),
                 'email' => 'mahasiswa2@mail.com',
                 'foto' => 'mahasiswa2.jpg',
