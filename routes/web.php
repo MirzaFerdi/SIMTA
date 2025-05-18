@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +29,15 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AuthController::class, 'index'])->name('dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
 
     Route::middleware(['role:1'])->group(function () {
         Route::get('/user', [UserController::class, 'index'])->name('user');
         Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
         Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
         Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-        Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
         Route::post('/user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
     });
 

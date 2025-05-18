@@ -24,6 +24,7 @@ class User extends Authenticatable
         'nama',
         'username',
         'password',
+        'encrypted_password',
         'email',
         'foto',
         'prodi',

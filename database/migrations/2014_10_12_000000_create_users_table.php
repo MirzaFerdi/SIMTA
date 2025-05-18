@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('encrypted_password');
             $table->string('email')->unique();
             $table->string('foto')->nullable();
             $table->string('prodi');

@@ -51,7 +51,7 @@
             @endif
 
             <a class="nav-link {{ Request::is('admin/penjadwalan') ? 'active fw-bold bg-light text-dark' : '' }}"
-                href="/admin/penjadwalan">
+                href="/profile">
                 <i class="fas fa-user-alt me-2"></i>Profile
             </a>
             </li>

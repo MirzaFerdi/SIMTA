@@ -14,6 +14,6 @@
         {{ $routeTitles[$currentRoute] ?? ucfirst(str_replace('.', ' ', $currentRoute)) }}
     </span>
     <div class="ms-auto">
-        <span class="me-3">Hi, {{ auth()->user()->nama }}</span>
+        <span class="me-3">{{ auth()->user()->nama }}</span>
     </div>
 </nav>
