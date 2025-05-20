@@ -10,7 +10,7 @@ class TugasAkhir extends Model
 
     public $timestamps = false;
 
-    protected $table = 'tugas_akhir';
+    protected $table = 'tugas_akhirs';
 
     protected $fillable = [
         'pengusul1',

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pengusul1')->constrained('users')->onDelete('cascade');
             $table->foreignId('pengusul2')->constrained('users')->onDelete('cascade');
-            $table->foreignId('dospem')->constrained('users')->onDelete('cascade');
+            $table->foreignId('dospem_id')->constrained('users')->onDelete('cascade');
             $table->date('tanggal');
             $table->string('topik_bimbingan');
             $table->string('status')->default('diproses');

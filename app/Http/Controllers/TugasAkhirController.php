@@ -12,7 +12,8 @@ class TugasAkhirController extends Controller
      */
     public function index()
     {
-        //
+        $tugasAkhir = TugasAkhir::all();
+        return view('ujian.tugasAkhir', compact('tugasAkhir'));
     }
 
     /**

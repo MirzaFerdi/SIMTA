@@ -3,9 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PengajuanJudulController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\SemproController;
+use App\Http\Controllers\TugasAkhirController;
+use App\Models\Bimbingan;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +36,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/pengajuan', [PengajuanJudulController::class, 'index'])->name('pengajuan');
+    Route::get('/penjadwalan', [JadwalController::class, 'index'])->name('penjadwalan');
+    Route::get('/seminar-proposal', [SemproController::class, 'index'])->name('sempro');
+    Route::get('/tugas-akhir', [TugasAkhirController::class, 'index'])->name('tugas-akhir');
+    Route::get('/bimbingan', [BimbinganController::class, 'index'])->name('bimbingan');
 
     Route::middleware(['role:1'])->group(function () {
         Route::get('/user', [UserController::class, 'index'])->name('user');

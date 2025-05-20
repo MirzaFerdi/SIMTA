@@ -25,19 +25,6 @@
                 <div class="card shadow border-0 rounded-4">
                     <div class="card-body p-4">
                         <div class="row align-items-center">
-                            <!-- Foto Profil -->
-                            <div class="col-md-4 text-center mb-3 mb-md-0">
-                                @if ($user->foto)
-                                    <img src="{{ asset('storage/foto-profile/' . $user->foto) }}" alt="Foto Profil"
-                                        class="rounded-circle shadow"
-                                        style="width: 150px; height: 150px; object-fit: cover;">
-                                @else
-                                    <img src="{{ asset('images/default-user.png') }}" alt="Foto Default"
-                                        class="rounded-circle shadow"
-                                        style="width: 150px; height: 150px; object-fit: cover;">
-                                @endif
-                            </div>
-
                             <!-- Detail User -->
                             <div class="col-md-8">
                                 <h4 class="mb-3 text-primary">Profil Pengguna</h4>
@@ -55,12 +42,27 @@
                                             <i class="bi bi-eye" id="eye-icon"></i>
                                         </button>
                                     </li>
-                                    <li class="list-group-item"><strong>NIP:</strong> {{ $user->username }}</li>
+                                    @if ($user->role && $user->role->nama_role === 'admin')
+                                        <li class="list-group-item"><strong>NIP:</strong> {{ $user->username }}</li>
+                                    @elseif ($user->role && $user->role->nama_role === 'mahasiswa')
+                                        <li class="list-group-item"><strong>NIM:</strong> {{ $user->username }}</li>
+                                    @endif
                                     <li class="list-group-item"><strong>Prodi:</strong> {{ $user->prodi }}</li>
-                                    <li class="list-group-item"><strong>Role:</strong> {{ $user->role->nama_role ?? '-' }}
                                     </li>
                                 </ul>
                             </div>
+
+                            <!-- Foto Profil -->
+                            <div class="col-md-4 text-center mb-3 mb-md-0">
+                                @if ($user->foto)
+                                    <img src="{{ asset('storage/foto-profile/' . $user->foto) }}" alt="Foto Profil"
+                                        class="rounded shadow" style="width: 150px; height: 225px; object-fit: cover;">
+                                @else
+                                    <img src="{{ asset('images/default-user.png') }}" alt="Foto Default"
+                                        class="rounded shadow" style="width: 150px; height: 225px; object-fit: cover;">
+                                @endif
+                            </div>
+
                         </div>
                     </div>
 
@@ -91,35 +93,33 @@
 
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-4 text-center">
-                                <img src="{{ asset('storage/foto-profile/' . $user->foto) }}"
-                                    class="img-thumbnail rounded-circle mb-3"
-                                    style="width: 150px; height: 150px; object-fit: cover;" alt="Foto Profil">
-                            </div>
                             <div class="col-md-8">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama Lengkap</label>
                                     <input type="text" class="form-control" name="nama" value="{{ $user->nama }}"
                                         required>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email Aktif</label>
                                     <input type="email" class="form-control" name="email" value="{{ $user->email }}"
                                         required>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password Baru
                                         <small class="text-muted">(Kosongkan jika tidak diubah)</small></label>
                                     <input type="password" class="form-control" name="password"
                                         placeholder="Password baru (opsional)">
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="foto" class="form-label">Ganti Foto Profil</label>
                                     <input type="file" class="form-control" name="foto">
                                 </div>
+                            </div>
+
+                            <div class="col-md-4 text-center">
+                                <img src="{{ asset('storage/foto-profile/' . $user->foto) }}"
+                                    class="rounded mb-3"
+                                    style="width: 150px; height: 225px; object-fit: cover;" alt="Foto Profil">
                             </div>
                         </div>
                     </div>

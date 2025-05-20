@@ -10,7 +10,7 @@ class Jadwal extends Model
 
     public $timestamps = false;
 
-    protected $table = 'jadwal';
+    protected $table = 'jadwals';
 
     protected $fillable = [
         'pengusul1',

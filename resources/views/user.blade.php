@@ -22,7 +22,7 @@
     @endif
 
     <div class="container p-4 mt-3 shadow">
-        <h2>Data User</h2>
+        <h4>Data User</h4>
         <table class="table table-bordered">
             <thead>
                 <tr>

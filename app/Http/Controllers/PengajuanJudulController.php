@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PengajuanJudul;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PengajuanJudulController extends Controller
@@ -12,7 +13,9 @@ class PengajuanJudulController extends Controller
      */
     public function index()
     {
-        //
+        $pengajuanJudul = PengajuanJudul::with(['pengusul1Pengajuan', 'pengusul2Pengajuan'])->get();
+        $user = User::all();
+        return view('pengajuanJudul', compact('pengajuanJudul', 'user'));
     }
 
     /**

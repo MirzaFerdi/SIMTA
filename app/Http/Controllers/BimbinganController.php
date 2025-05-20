@@ -12,7 +12,8 @@ class BimbinganController extends Controller
      */
     public function index()
     {
-        //
+        $bimbingan = Bimbingan::all();
+        return view('bimbingan', compact('bimbingan'));
     }
 
     /**

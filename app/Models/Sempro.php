@@ -10,7 +10,7 @@ class Sempro extends Model
 
     public $timestamps = false;
 
-    protected $table = 'sempro';
+    protected $table = 'sempros';
 
     protected $fillable = [
         'pengusul1',

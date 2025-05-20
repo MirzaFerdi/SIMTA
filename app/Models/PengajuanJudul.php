@@ -10,7 +10,7 @@ class PengajuanJudul extends Model
 
     public $timestamps = false;
 
-    protected $table = 'pengajuan_judul';
+    protected $table = 'pengajuan_juduls';
 
     protected $fillable = [
         'pengusul1',
@@ -20,10 +20,10 @@ class PengajuanJudul extends Model
         'status'
     ];
 
-    public function pengusul1(){
+    public function pengusul1Pengajuan(){
         return $this->belongsTo(User::class, 'pengusul1');
     }
-    public function pengusul2(){
+    public function pengusul2Pengajuan(){
         return $this->belongsTo(User::class, 'pengusul2');
     }
     public function tugasAkhir(){

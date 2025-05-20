@@ -12,7 +12,8 @@ class SemproController extends Controller
      */
     public function index()
     {
-        //
+        $sempro = Sempro::all();
+        return view('ujian.sempro', compact('sempro'));
     }
 
     /**

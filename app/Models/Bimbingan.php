@@ -10,30 +10,26 @@ class Bimbingan extends Model
 
     public $timestamps = false;
 
-    protected $table = 'bimbingan';
+    protected $table = 'bimbingans';
 
     protected $fillable = [
         'pengusul1',
         'pengusul2',
         'dospem_id',
-        'no_ta',
-        'abstrak',
+        'tanggal',
+        'topik_bimbingan',
         'status',
-        'laporan',
-        'ppt',
-        'berita_acara',
-        'bimbingan'
     ];
 
-    public function pengusul1(){
+    public function pengusul1Bimbingan(){
         return $this->belongsTo(User::class, 'pengusul1');
     }
 
-    public function pengusul2(){
+    public function pengusul2Bimbingan(){
         return $this->belongsTo(User::class, 'pengusul2');
     }
 
-    public function dospem(){
+    public function dospemBimbingan(){
         return $this->belongsTo(User::class, 'dospem_id');
     }
 }
