@@ -13,9 +13,17 @@ class PengajuanJudulController extends Controller
      */
     public function index()
     {
-        $pengajuanJudul = PengajuanJudul::with(['pengusul1Pengajuan', 'pengusul2Pengajuan'])->get();
-        $user = User::all();
-        return view('pengajuanJudul', compact('pengajuanJudul', 'user'));
+        $pengajuanJudul = PengajuanJudul::all();
+        $mahasiswa = User::where('role_id', '3')->get();
+        $userId = auth()->id();
+        if (auth()->user()->role_id == 3) {
+            $pengajuanUser = PengajuanJudul::where('pengusul1', $userId)
+            ->orWhere('pengusul2', $userId)
+            ->get();
+        } else {
+            $pengajuanUser = collect();
+        }
+        return view('pengajuanJudul', compact('pengajuanJudul', 'mahasiswa', 'pengajuanUser'));
     }
 
     /**
@@ -31,7 +39,19 @@ class PengajuanJudulController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tahun' => 'required',
+            'judul' => 'required',
+            'pengusul1' => 'required',
+            'pengusul2' => 'required',
+        ]);
+        $pengajuanJudul = new PengajuanJudul();
+        $pengajuanJudul->tahun = $request->tahun;
+        $pengajuanJudul->judul = $request->judul;
+        $pengajuanJudul->pengusul1 = $request->pengusul1;
+        $pengajuanJudul->pengusul2 = $request->pengusul2;
+        $pengajuanJudul->save();
+        return redirect()->route('pengajuanJudul.index')->with('success', 'Pengajuan Judul Berhasil Ditambahkan');
     }
 
     /**

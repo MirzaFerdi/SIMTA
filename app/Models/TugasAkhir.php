@@ -24,10 +24,10 @@ class TugasAkhir extends Model
         'berita_acara',
         'bimbingan'
     ];
-    public function pengusul1(){
+    public function pengusul1TugasAkhir(){
         return $this->belongsTo(User::class, 'pengusul1');
     }
-    public function pengusul2(){
+    public function pengusul2TugasAkhir(){
         return $this->belongsTo(User::class, 'pengusul2');
     }
     public function pengajuan(){

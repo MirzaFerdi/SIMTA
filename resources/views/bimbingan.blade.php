@@ -24,37 +24,48 @@
             <div class="col-md-12">
                 <div class="card shadow border-0 rounded-4">
                     <div class="card-body p-4">
-                        <h4 class="mb-3">Bimbingan</h4>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: center;">No</th>
-                                    <th style="text-align: center;">Tanggal</th>
-                                    <th>Topik Bimbingan</th>
-                                    <th>Mahasiswa</th>
-                                    <th>Dosen Pembimbing</th>
-                                    <th style="text-align: center;">Status</th>
-                                    <th style="text-align: center;">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($bimbingan as $bim)
+                        <div class="mb-3 row align-items-center">
+                            <div class="col-md-6 col-sm-6 text-start">
+                                <h4>Bimbingan</h4>
+                            </div>
+                            <div class="col-md-6 col-sm-6 text-end">
+                                <button type="button" class="btn btn-primary mt-md-0" data-bs-toggle="modal"
+                                    data-bs-target="#tambahModal">
+                                    Tambah
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
                                     <tr>
-                                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                        <td style="text-align: center;">{{ $bim->tanggal }}</td>
-                                        <td>{{ $bim->topik_bimbingan }}</td>
-                                        <td>
-                                            <div class="">
-                                                {{ $bim->pengusul1Bimbingan->nama }}
-                                            </div>
-                                            <div class="">
-                                                {{ $bim->pengusul2Bimbingan->nama }}
-                                            </div>
-                                        </td>
-                                        <td>{{ $bim->dospemBimbingan->nama }}</td>
-                                        <td style="text-align: center;">{{ $bim->status }}</td>
-                                        <td>
-                                            {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                        <th style="text-align: center;">No</th>
+                                        <th style="text-align: center;">Tanggal</th>
+                                        <th>Topik Bimbingan</th>
+                                        <th>Mahasiswa</th>
+                                        <th>Dosen Pembimbing</th>
+                                        <th style="text-align: center;">Status</th>
+                                        <th style="text-align: center;">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($bimbingan as $bim)
+                                        <tr>
+                                            <td style="text-align: center;">{{ $loop->iteration }}</td>
+                                            <td style="text-align: center;">{{ $bim->tanggal }}</td>
+                                            <td>{{ $bim->topik_bimbingan }}</td>
+                                            <td>
+                                                <div class="">
+                                                    {{ $bim->pengusul1Bimbingan->nama }}
+                                                </div>
+                                                <div class="">
+                                                    {{ $bim->pengusul2Bimbingan->nama }}
+                                                </div>
+                                            </td>
+                                            <td>{{ $bim->dospemBimbingan->nama }}</td>
+                                            <td style="text-align: center;">{{ $bim->status }}</td>
+                                            <td>
+                                                {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#detailModal{{ $user->id }}">
                                                     Detail
                                                 </button>
@@ -62,7 +73,7 @@
                                                     data-bs-target="#editModal{{ $user->id }}">
                                                     Edit
                                                 </button> --}}
-                                            {{-- <form action="{{ route('user.delete', $user->id) }}" method="POST"
+                                                {{-- <form action="{{ route('user.delete', $user->id) }}" method="POST"
                                                     class="d-inline">
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger btn-sm"
@@ -70,11 +81,12 @@
                                                         Hapus
                                                     </button>
                                                 </form> --}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="text-center">
                             {{-- <button type="submit" class="btn btn-primary">Jadwalkan</button> --}}
                         </div>

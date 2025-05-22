@@ -24,35 +24,93 @@
             <div class="col-md-12">
                 <div class="card shadow border-0 rounded-4">
                     <div class="card-body p-4">
-                        <h4 class="mb-3">Pengajuan Judul</h4>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: center;">No</th>
-                                    <th style="text-align: center;">Tahun</th>
-                                    <th>Judul</th>
-                                    <th>Pengusul</th>
-                                    <th style="text-align: center;">Status</th>
-                                    <th style="text-align: center;">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($pengajuanJudul as $pJ)
-                                    <tr>
-                                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                        <td style="text-align: center;">{{ $pJ->tahun }}</td>
-                                        <td >{{ $pJ->judul }}</td>
-                                        <td>
-                                            <div class="">
-                                                {{ $pJ->pengusul1Pengajuan->nama }}
-                                            </div>
-                                            <div class="">
-                                                {{ $pJ->pengusul2Pengajuan->nama }}
-                                            </div>
-                                        </td>
-                                        <td style="text-align: center;">{{ $pJ->status }}</td>
-                                        <td>
-                                            {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                        @php
+                            $status = $pengajuanUser->first()->status ?? '';
+                            $badgeClass = 'text-bg-secondary';
+                            if ($status == 'Diterima') {
+                                $badgeClass = 'text-bg-success';
+                            } elseif ($status == 'Ditolak') {
+                                $badgeClass = 'text-bg-danger';
+                            }
+                        @endphp
+                        <h4 class="mb-3">
+                            Pengajuan Judul
+                            <span class="badge {{ $badgeClass }}">{{ $status }}</span>
+                        </h4>
+                        @if (auth()->user()->role_id == 3)
+                            <div class="div">
+                                <form method="POST">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="tahun" class="form-label">Tahun</label>
+                                        <input type="text" class="form-control" id="tahun" name="tahun"
+                                            placeholder="Masukkan tahun" value="{{ $pengajuanUser->first()->tahun ?? '' }}"
+                                            readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="judul" class="form-label">Judul</label>
+                                        <input type="text" class="form-control" id="judul" name="judul"
+                                            placeholder="Masukkan judul" value="{{ $pengajuanUser->first()->judul ?? '' }}"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pengusul1" class="form-label">Pengusul 1</label>
+                                        <select class="form-select" id="pengusul1" name="pengusul1" required>
+                                            <option hidden value="">Pilih Pengusul 1</option>
+                                            @foreach ($mahasiswa as $mhs)
+                                                <option value="{{ $mhs->id }}"
+                                                    {{ $pengajuanUser->first()->pengusul1 == $mhs->id ? 'selected' : '' }}>
+                                                    {{ $mhs->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pengusul2" class="form-label">Pengusul 2</label>
+                                        <select class="form-select" id="pengusul2" name="pengusul2" required>
+                                            <option hidden value="">Pilih Pengusul 2</option>
+                                            @foreach ($mahasiswa as $mhs)
+                                                <option value="{{ $mhs->id }}"
+                                                    {{ $pengajuanUser->first()->pengusul2 == $mhs->id ? 'selected' : '' }}>
+                                                    {{ $mhs->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-secondary">Edit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        @else
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">No</th>
+                                            <th style="text-align: center;">Tahun</th>
+                                            <th>Judul</th>
+                                            <th>Pengusul</th>
+                                            <th style="text-align: center;">Status</th>
+                                            <th style="text-align: center;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($pengajuanJudul as $pJ)
+                                            <tr>
+                                                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                                                <td style="text-align: center;">{{ $pJ->tahun }}</td>
+                                                <td>{{ $pJ->judul }}</td>
+                                                <td>
+                                                    <div class="">
+                                                        {{ $pJ->pengusul1Pengajuan->nama }}
+                                                    </div>
+                                                    <div class="">
+                                                        {{ $pJ->pengusul2Pengajuan->nama }}
+                                                    </div>
+                                                </td>
+                                                <td style="text-align: center;">{{ $pJ->status }}</td>
+                                                <td>
+                                                    {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#detailModal{{ $user->id }}">
                                                     Detail
                                                 </button>
@@ -60,7 +118,7 @@
                                                     data-bs-target="#editModal{{ $user->id }}">
                                                     Edit
                                                 </button> --}}
-                                            {{-- <form action="{{ route('user.delete', $user->id) }}" method="POST"
+                                                    {{-- <form action="{{ route('user.delete', $user->id) }}" method="POST"
                                                     class="d-inline">
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger btn-sm"
@@ -68,68 +126,13 @@
                                                         Hapus
                                                     </button>
                                                 </form> --}}
-                                        </td>
-                                    </tr>
-
-
-                                    <!-- Detail Modal -->
-                                    {{-- <div class="modal fade" id="detailModal{{ $user->id }}" tabindex="-1"
-                        aria-labelledby="detailModalLabel{{ $user->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="detailModalLabel{{ $user->id }}">Detail User</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body bg-light">
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">NIM</label>
-                                        <input type="text" class="form-control" id="username" name="username"
-                                            value="{{ $user->username }}" readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="nama" class="form-label">Nama</label>
-                                        <input type="text" class="form-control" id="nama" name="nama"
-                                            value="{{ $user->nama }}" readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            value="{{ $user->email }}" readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Password</label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="password{{ $user->id }}"
-                                                value="{{ $user->decrypted_password }}" readonly>
-                                            <button class="btn btn-outline-secondary" type="button"
-                                                onclick="togglePassword({{ $user->id }})">
-                                                <i class="bi bi-eye" id="toggleIcon{{ $user->id }}"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="prodi" class="form-label">Prodi</label>
-                                        <input type="text" class="form-control" id="prodi" name="prodi"
-                                            value="{{ $user->prodi }}" readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="role_id" class="form-label">Role</label>
-                                        <input type="text" class="form-control" id="role_id" name="role_id"
-                                            value="{{ $user->role->nama_role }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Tutup</button>
-                                </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                    </div> --}}
-                                @endforeach
-                            </tbody>
-                        </table>
+                        @endif
                         <div class="text-center">
                             {{-- <button type="submit" class="btn btn-primary">Jadwalkan</button> --}}
                         </div>

@@ -24,10 +24,10 @@ class Sempro extends Model
         'berita_acara'
     ];
 
-    public function pengusul1(){
+    public function pengusul1Sempro(){
         return $this->belongsTo(User::class, 'pengusul1');
     }
-    public function pengusul2(){
+    public function pengusul2Sempro(){
         return $this->belongsTo(User::class, 'pengusul2');
     }
     public function pengajuan(){

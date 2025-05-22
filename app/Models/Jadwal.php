@@ -23,19 +23,16 @@ class Jadwal extends Model
         'tempat',
         'jenis_ujian'
     ];
-
-    public function pengusul1(){
+    public function pengusul1Jadwal(){
         return $this->belongsTo(User::class, 'pengusul1');
     }
-
-    public function pengusul2(){
+    public function pengusul2Jadwal(){
         return $this->belongsTo(User::class, 'pengusul2');
     }
-    public function dospem(){
-        return $this->belongsTo(User::class, 'dospem_id');
-    }
-
     public function pengajuan(){
         return $this->belongsTo(PengajuanJudul::class, 'pengajuan_id');
+    }
+    public function dospemJadwal(){
+        return $this->belongsTo(User::class, 'dospem_id');
     }
 }

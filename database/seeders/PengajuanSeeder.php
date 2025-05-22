@@ -18,7 +18,7 @@ class PengajuanSeeder extends Seeder
             'pengusul2' => 4,
             'tahun' => 2025,
             'judul' => 'Judul Pengajuan 1',
-            'status' => 'pending'
+            'status' => 'Diterima',
         ]);
     }
 }

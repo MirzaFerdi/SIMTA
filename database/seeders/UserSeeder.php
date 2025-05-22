@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'role_id' => 1,
-                'nama' => 'Admin',
+                'nama' => 'Dion Cahya',
                 'username' => '1131740001',
                 'password' => bcrypt('admin'),
                 'encrypted_password' => Crypt::encryptString('admin'),
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id' => 2,
-                'nama' => 'Dosen',
+                'nama' => 'Alvionitha',
                 'username' => '1231740001',
                 'password' => bcrypt('dosen'),
                 'encrypted_password' => Crypt::encryptString('dosen'),
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id' => 3,
-                'nama' => 'Mahasiswa',
+                'nama' => 'Abdul Rahman',
                 'username' => '2131740011',
                 'password' => bcrypt('mahasiswa'),
                 'encrypted_password' => Crypt::encryptString('mahasiswa'),
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id' => 3,
-                'nama' => 'Mahasiswa 2',
+                'nama' => 'Budi Santoso',
                 'username' => '2131740012',
                 'password' => bcrypt('mahasiswa'),
                 'encrypted_password' => Crypt::encryptString('mahasiswa'),

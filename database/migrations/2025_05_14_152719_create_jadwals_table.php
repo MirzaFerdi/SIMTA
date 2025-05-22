@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('pengusul1')->constrained('users')->onDelete('cascade');
             $table->foreignId('pengusul2')->constrained('users')->onDelete('cascade');
             $table->foreignId('pengajuan_id')->constrained('pengajuan_juduls')->onDelete('cascade');
-            $table->foreignId('dospem')->constrained('users')->onDelete('cascade');
+            $table->foreignId('dospem_id')->constrained('users')->onDelete('cascade');
             $table->date('tanggal');
-            $table->year('tahun_akademik');
+            $table->string('tahun_akademik');
             $table->time('jam');
             $table->string('tempat');
             $table->string('jenis_ujian');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class JadwalController extends Controller
@@ -12,8 +13,8 @@ class JadwalController extends Controller
      */
     public function index()
     {
-        $jadwal = Jadwal::all();
-        return view('penjadwalan', compact('jadwal'));
+        $jadwals = Jadwal::all();
+        return view('penjadwalan', compact('jadwals'));
     }
 
     /**

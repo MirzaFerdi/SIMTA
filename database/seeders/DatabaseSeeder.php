@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PengajuanSeeder::class,
             BimbinganSeeder::class,
+            PenjadwalanSeeder::class,
+            TugasAkhirSeeder::class,
+            SemproSeeder::class,
             // Add other seeders here if needed
         ]);
     }

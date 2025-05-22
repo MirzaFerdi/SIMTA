@@ -20,61 +20,66 @@
     @endif
 
     <div class="container mt-3">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card shadow border-0 rounded-4">
                     <div class="card-body p-4">
-                        <h4 class="mb-3 text-primary">Tugas Akhir</h4>
-                        <!-- Form Tugas Akhir -->
-                        {{-- <form action="{{ route('ta.store') }}" method="POST">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="tanggal_jadwal" class="form-label">Tanggal Jadwal</label>
-                                <input type="date" name="tanggal_jadwal" id="tanggal_jadwal"
-                                    class="form-control @error('tanggal_jadwal') is-invalid @enderror"
-                                    value="{{ old('tanggal_jadwal') }}">
-                                @error('tanggal_jadwal')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
+                        <h4 class="mb-3">Tugas Akhir</h4>
+                        @if (auth()->user()->role_id == 1)
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">No</th>
+                                            <th>Nama Mahasiswa</th>
+                                            <th>Judul</th>
+                                            <th>File</th>
+                                            <th style="text-align: center;">Status</th>
+                                            <th style="text-align: center;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($tugasAkhir as $TA)
+                                            <tr>
+                                                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                                                <td>
+                                                    <div class="">
+                                                        {{ $TA->pengusul1TugasAkhir->nama }}
+                                                    </div>
+                                                    <div class="">
+                                                        {{ $TA->pengusul2TugasAkhir->nama }}
+                                                    </div>
+                                                </td>
+                                                <td>{{ $TA->pengajuan->judul }}</td>
+                                                <td>
+                                                    <div class="">
+                                                        {{ $TA->laporan }}
+                                                    </div>
+                                                    <div class="">
+                                                        {{ $TA->berita_acara }}
+                                                    </div>
+                                                    <div class="">
+                                                        {{ $TA->ppt }}
+                                                    </div>
+                                                    <div class="">
+                                                        {{ $TA->bimbingan }}
+                                                    </div>
+                                                </td>
+                                                <td style="text-align: center;">{{ $TA->status }}</td>
+                                                <td style="text-align: center;">
+                                                    <button type="button" class="btn btn-success btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#detailModal{{ $TA->id }}">
+                                                        Detail
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="jam_mulai" class="form-label">Jam Mulai</label>
-                                <input type="time" name="jam_mulai" id="jam_mulai"
-                                    class="form-control @error('jam_mulai') is-invalid @enderror"
-                                    value="{{ old('jam_mulai') }}">
-                                @error('jam_mulai')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="jam_selesai" class="form-label">Jam Selesai</label>
-                                <input type="time" name="jam_selesai" id="jam_selesai"
-                                    class="form-control @error('jam_selesai') is-invalid @enderror"
-                                    value="{{ old('jam_selesai') }}">
-                                @error('jam_selesai')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="ruangan" class="form-label">Ruangan</label>
-                                <select name="ruangan" id="ruangan"
-                                    class="form-select @error('ruangan') is-invalid @enderror">
-                                    <option value="">Pilih Ruangan</option>
-                                    @foreach ($ruangans as $ruangan)
-                                        <option value="{{ $ruangan->id }}"
-                                            {{ old('ruangan') == $ruangan->id ? 'selected' : '' }}>
-                                            {{ $ruangan->nama_ruangan }}</option>
-                                    @endforeach
-                                </select>
-                                @error('ruangan')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </form> --}}
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Jadwalkan</button>
-                        </div>
+                        @else
+                        @endif
                     </div>
                 </div>
             </div>
