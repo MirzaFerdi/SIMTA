@@ -201,17 +201,15 @@
             }
         }
         setTimeout(() => {
-            const successAlert = document.getElementById('success-alert');
-            if (successAlert) {
-                const bsAlert = bootstrap.Alert.getOrCreateInstance(successAlert);
-                bsAlert.close();
+            var alert = document.getElementById('success-alert');
+            if (alert) {
+                alert.remove();
             }
         }, 3000);
         setTimeout(() => {
-            const errorAlert = document.getElementById('error-alert');
-            if (errorAlert) {
-                const bsAlert = bootstrap.Alert.getOrCreateInstance(errorAlert);
-                bsAlert.close();
+            var alert = document.getElementById('error-alert');
+            if (alert) {
+                alert.remove();
             }
         }, 5000);
     </script>

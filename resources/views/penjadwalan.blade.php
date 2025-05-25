@@ -66,12 +66,13 @@
                                         <th>Dosen Pembimbing</th>
                                         @if (auth()->user()->role_id == 3)
                                             <th style="text-align: center;">Ujian</th>
+                                        @else
+                                            <th style="text-align: center;">Aksi</th>
                                         @endif
-                                        <th style="text-align: center;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($jadwals as $jadwal)
+                                    @foreach ($jadwalUser as $jadwal)
                                         <tr>
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                                             <td style="text-align: center;">{{ $jadwal->tanggal }}</td>
@@ -89,9 +90,9 @@
                                             <td>{{ $jadwal->dospemJadwal->nama }}</td>
                                             @if (auth()->user()->role_id == 3)
                                                 <td style="text-align: center;">{{ $jadwal->jenis_ujian }}</td>
-                                            @endif
-                                            <td>
-                                                {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                            @else
+                                                <td>
+                                                    {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#detailModal{{ $user->id }}">
                                                     Detail
                                                 </button>
@@ -99,7 +100,7 @@
                                                     data-bs-target="#editModal{{ $user->id }}">
                                                     Edit
                                                 </button> --}}
-                                                {{-- <form action="{{ route('user.delete', $user->id) }}" method="POST"
+                                                    {{-- <form action="{{ route('user.delete', $user->id) }}" method="POST"
                                                     class="d-inline">
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger btn-sm"
@@ -107,7 +108,8 @@
                                                         Hapus
                                                     </button>
                                                 </form> --}}
-                                            </td>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -128,16 +130,14 @@
         setTimeout(function() {
             var alert = document.getElementById('success-alert');
             if (alert) {
-                alert.classList.remove('show');
-                alert.classList.add('fade');
+                alert.remove();
             }
         }, 3000);
 
         setTimeout(function() {
             var alert = document.getElementById('error-alert');
             if (alert) {
-                alert.classList.remove('show');
-                alert.classList.add('fade');
+                alert.remove();
             }
         }, 3000);
     </script>

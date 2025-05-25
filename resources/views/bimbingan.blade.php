@@ -2,13 +2,22 @@
 
 @section('content')
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+        <div class="alert alert-success position-absolute top-0 end-0 z-2 alert-dismissible fade show" role="alert"
+            id="success-alert">
             <strong>Berhasil!</strong> {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @if (session('error'))
+        <div class="alert alert-danger position-absolute top-0 end-0 z-2 alert-dismissible fade show" role="alert"
+            id="error-alert">
+            <strong>Gagal!</strong> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
+        <div class="alert alert-danger position-absolute top-0 end-0 z-2 alert-dismissible fade show" role="alert"
+            id="error-alert">
             <strong>Gagal!</strong> Silakan periksa inputan Anda.
             <ul class="mt-2 mb-0">
                 @foreach ($errors->all() as $error)
@@ -49,46 +58,131 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($bimbingan as $bim)
+                                    @foreach ($bimbinganUser as $bim)
                                         <tr>
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                                             <td style="text-align: center;">{{ $bim->tanggal }}</td>
                                             <td>{{ $bim->topik_bimbingan }}</td>
                                             <td>
                                                 <div class="">
-                                                    {{ $bim->pengusul1Bimbingan->nama }}
-                                                </div>
-                                                <div class="">
-                                                    {{ $bim->pengusul2Bimbingan->nama }}
+                                                    <ul>
+                                                        <li>{{ $bim->pengusul1Bimbingan->nama }}</li>
+                                                        <li>{{ $bim->pengusul2Bimbingan->nama }}</li>
+
+                                                    </ul>
                                                 </div>
                                             </td>
                                             <td>{{ $bim->dospemBimbingan->nama }}</td>
                                             <td style="text-align: center;">{{ $bim->status }}</td>
                                             <td>
-                                                {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#detailModal{{ $user->id }}">
-                                                    Detail
-                                                </button>
                                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $user->id }}">
+                                                    data-bs-target="#editModal{{ $bim->id }}">
                                                     Edit
-                                                </button> --}}
-                                                {{-- <form action="{{ route('user.delete', $user->id) }}" method="POST"
+                                                </button>
+                                                <form action="{{ route('bimbingan.delete', $bim->id) }}" method="POST"
                                                     class="d-inline">
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Yakin ingin menghapus?')">
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus bimbingan ini?')">
                                                         Hapus
                                                     </button>
-                                                </form> --}}
+                                                </form>
                                             </td>
                                         </tr>
+                                        {{-- Modal Edit --}}
+                                        <div class="modal fade" id="editModal{{ $bim->id }}" tabindex="-1"
+                                            aria-labelledby="editModalLabel{{ $bim->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel{{ $bim->id }}">Edit
+                                                            Bimbingan</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('bimbingan.update', $bim->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <label for="tanggal" class="form-label">Tanggal</label>
+                                                                <input type="date" class="form-control" id="tanggal"
+                                                                    name="tanggal" value="{{ $bim->tanggal }}" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="topik_bimbingan" class="form-label">Topik
+                                                                    Bimbingan</label>
+                                                                <textarea class="form-control" id="topik_bimbingan" name="topik_bimbingan" rows="5" required>{{ $bim->topik_bimbingan }}</textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="dospem_id" class="form-label">Dosen
+                                                                    Pembimbing</label>
+                                                                <select class="form-select" id="dospem_id" name="dospem_id"
+                                                                    required>
+                                                                    <option hidden value="">Pilih Dosen Pembimbing</option>
+                                                                    @foreach ($dospem as $dos)
+                                                                        <option value="{{ $dos->id }}"
+                                                                            {{ $bim->dospem_id == $dos->id ? 'selected' : '' }}>
+                                                                            {{ $dos->nama }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan
+                                                                Perubahan</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        <div class="text-center">
-                            {{-- <button type="submit" class="btn btn-primary">Jadwalkan</button> --}}
+                        {{-- Modal Tambah --}}
+                        <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="tambahModalLabel">Tambah Bimbingan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ route('bimbingan.store') }}" method="POST">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="tanggal" class="form-label">Tanggal</label>
+                                                <input type="date" class="form-control" id="tanggal" name="tanggal"
+                                                    required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="topik_bimbingan" class="form-label">Topik Bimbingan</label>
+                                                <textarea class="form-control" id="topik_bimbingan" name="topik_bimbingan" rows="10" required></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="dospem_id" class="form-label">Dosen Pembimbing</label>
+                                                <select class="form-select" id="dospem_id" name="dospem_id" required>
+                                                    <option hidden value="">Pilih Dosen Pembimbing</option>
+                                                    @foreach ($dospem as $dos)
+                                                        <option value="{{ $dos->id }}">{{ $dos->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary">Tambah</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,16 +196,14 @@
         setTimeout(function() {
             var alert = document.getElementById('success-alert');
             if (alert) {
-                alert.classList.remove('show');
-                alert.classList.add('fade');
+                alert.remove();
             }
         }, 3000);
 
         setTimeout(function() {
             var alert = document.getElementById('error-alert');
             if (alert) {
-                alert.classList.remove('show');
-                alert.classList.add('fade');
+                alert.remove();
             }
         }, 3000);
     </script>

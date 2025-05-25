@@ -54,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:3'])->group(function () {
         Route::post('/pengajuan/store', [PengajuanJudulController::class, 'store'])->name('pengajuan.store');
         Route::put('/pengajuan/{pengajuanJudul}', [PengajuanJudulController::class, 'update'])->name('pengajuan.update');
+        Route::post('/bimbingan/store', [BimbinganController::class, 'store'])->name('bimbingan.store');
+        Route::put('/bimbingan/{bimbingan}', [BimbinganController::class, 'update'])->name('bimbingan.update');
+        Route::post('/bimbingan/delete/{bimbingan}', [BimbinganController::class, 'destroy'])->name('bimbingan.delete');
 
     });
 });

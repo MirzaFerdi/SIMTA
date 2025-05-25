@@ -14,7 +14,15 @@ class JadwalController extends Controller
     public function index()
     {
         $jadwals = Jadwal::all();
-        return view('penjadwalan', compact('jadwals'));
+        $userId = auth()->id();
+        if (auth()->user()->role_id == 3) {
+            $jadwalUser = Jadwal::where('pengusul1', $userId)
+                ->orWhere('pengusul2', $userId)
+                ->get();
+        } else {
+            $jadwalUser = collect();
+        }
+        return view('penjadwalan', compact('jadwals', 'jadwalUser'));
     }
 
     /**

@@ -140,16 +140,14 @@
         setTimeout(function() {
             var alert = document.getElementById('success-alert');
             if (alert) {
-                var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
-                bsAlert.close();
+                alert.remove();
             }
         }, 3000);
 
         setTimeout(function() {
             var alert = document.getElementById('error-alert');
             if (alert) {
-                var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
-                bsAlert.close();
+                alert.remove();
             }
         }, 5000);
     </script>

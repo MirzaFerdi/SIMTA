@@ -11,13 +11,13 @@
                 href="/pengajuan">
                 <i class="fas fa-book-reader" style="width: 30px;"></i>Pengajuan Judul
             </a>
-            <a class="nav-link {{ Request::is('penjadwalan') ? 'active fw-bold bg-light text-dark' : '' }}"
-                href="/penjadwalan">
-                <i class="fas fa-calendar-alt" style="width: 30px;"></i>Penjadwalan
-            </a>
             <a class="nav-link {{ Request::is('bimbingan') ? 'active fw-bold bg-light text-dark' : '' }}"
                 href="/bimbingan">
                 <i class="fas fa-chalkboard-teacher" style="width: 30px;"></i>Bimbingan
+            </a>
+            <a class="nav-link {{ Request::is('penjadwalan') ? 'active fw-bold bg-light text-dark' : '' }}"
+                href="/penjadwalan">
+                <i class="fas fa-calendar-alt" style="width: 30px;"></i>Penjadwalan
             </a>
 
             @php
@@ -48,14 +48,12 @@
             </div>
 
             @if (auth()->user()->role_id == 1)
-                <a class="nav-link {{ Request::is('user') ? 'active fw-bold bg-light text-dark' : '' }}"
-                    href="/user">
+                <a class="nav-link {{ Request::is('user') ? 'active fw-bold bg-light text-dark' : '' }}" href="/user">
                     <i class="fas fa-users" style="width: 30px;"></i>Data User
                 </a>
             @endif
 
-            <a class="nav-link {{ Request::is('profile') ? 'active fw-bold bg-light text-dark' : '' }}"
-                href="/profile">
+            <a class="nav-link {{ Request::is('profile') ? 'active fw-bold bg-light text-dark' : '' }}" href="/profile">
                 <i class="fas fa-user-alt" style="width: 30px;"></i>Profile
             </a>
             </li>
