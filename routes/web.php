@@ -52,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['role:3'])->group(function () {
+        Route::post('/pengajuan/store', [PengajuanJudulController::class, 'store'])->name('pengajuan.store');
+        Route::put('/pengajuan/{pengajuanJudul}', [PengajuanJudulController::class, 'update'])->name('pengajuan.update');
+
     });
 });
 Route::get('/403', function () {

@@ -50,8 +50,9 @@ class PengajuanJudulController extends Controller
         $pengajuanJudul->judul = $request->judul;
         $pengajuanJudul->pengusul1 = $request->pengusul1;
         $pengajuanJudul->pengusul2 = $request->pengusul2;
+        $pengajuanJudul->status = 'Diproses';
         $pengajuanJudul->save();
-        return redirect()->route('pengajuanJudul.index')->with('success', 'Pengajuan Judul Berhasil Ditambahkan');
+        return redirect()->route('pengajuan')->with('success', 'Pengajuan Judul Berhasil Ditambahkan');
     }
 
     /**
@@ -75,7 +76,19 @@ class PengajuanJudulController extends Controller
      */
     public function update(Request $request, PengajuanJudul $pengajuanJudul)
     {
-        //
+        $request->validate([
+            'tahun' => 'required',
+            'judul' => 'required',
+            'pengusul1' => 'required',
+            'pengusul2' => 'required',
+        ]);
+        $pengajuanJudul->tahun = $request->tahun;
+        $pengajuanJudul->judul = $request->judul;
+        $pengajuanJudul->pengusul1 = $request->pengusul1;
+        $pengajuanJudul->pengusul2 = $request->pengusul2;
+        $pengajuanJudul->status = 'Diproses';
+        $pengajuanJudul->save();
+        return redirect()->route('pengajuan')->with('success', 'Pengajuan Judul Berhasil Diupdate');
     }
 
     /**

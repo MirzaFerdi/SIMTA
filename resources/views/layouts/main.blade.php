@@ -96,7 +96,8 @@
         <div id="content" class="d-flex flex-column w-100">
             @include('layouts.navbar')
 
-            <main class="flex-grow-1 p-4">
+            <main class="flex-grow-1 position-relative p-4">
+
                 @yield('content')
             </main>
 

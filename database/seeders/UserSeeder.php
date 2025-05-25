@@ -55,6 +55,26 @@ class UserSeeder extends Seeder
                 'foto' => 'mahasiswa2.jpg',
                 'prodi' => 'Teknik Informatika',
             ],
+            [
+                'role_id' => 3,
+                'nama' => 'Citra Ayu',
+                'username' => '2131740013',
+                'password' => bcrypt('mahasiswa'),
+                'encrypted_password' => Crypt::encryptString('mahasiswa'),
+                'email' => 'mahasiswa3@mail.com',
+                'foto' => 'mahasiswa3.jpg',
+                'prodi' => 'Teknik Informatika',
+            ],
+            [
+                'role_id' => 3,
+                'nama' => 'Dewi Lestari',
+                'username' => '2131740014',
+                'password' => bcrypt('mahasiswa'),
+                'encrypted_password' => Crypt::encryptString('mahasiswa'),
+                'email' => 'mahasiswa4@mail.com',
+                'foto' => 'mahasiswa4.jpg',
+                'prodi' => 'Teknik Informatika',
+            ],
         ]);
     }
 }
