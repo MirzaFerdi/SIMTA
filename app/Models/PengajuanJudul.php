@@ -29,10 +29,11 @@ class PengajuanJudul extends Model
     public function tugasAkhir(){
         return $this->hasOne(TugasAkhir::class, 'pengajuan_id');
     }
-    public function sempro(){
+    public function pengajuanSempro(){
         return $this->hasOne(Sempro::class, 'pengajuan_id');
     }
     public function jadwal(){
         return $this->hasMany(Jadwal::class, 'pengajuan_id');
     }
+
 }

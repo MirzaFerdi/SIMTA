@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pengusul1')->constrained('users')->onDelete('cascade');
             $table->foreignId('pengusul2')->constrained('users')->onDelete('cascade');
+            $table->foreignId('dospem_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('pengajuan_id')->constrained('pengajuan_juduls')->onDelete('cascade');
             $table->string('no_ta');
             $table->string('abstrak');

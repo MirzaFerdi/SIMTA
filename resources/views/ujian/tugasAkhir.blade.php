@@ -50,7 +50,7 @@
                                                         {{ $TA->pengusul2TugasAkhir->nama }}
                                                     </div>
                                                 </td>
-                                                <td>{{ $TA->pengajuan->judul }}</td>
+                                                <td>{{ $TA->pengajuanTugasAkhir->judul }}</td>
                                                 <td>
                                                     <div class="">
                                                         {{ $TA->laporan }}
@@ -67,11 +67,26 @@
                                                 </td>
                                                 <td style="text-align: center;">{{ $TA->status }}</td>
                                                 <td style="text-align: center;">
-                                                    <button type="button" class="btn btn-success btn-sm"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#detailModal{{ $TA->id }}">
-                                                        Detail
-                                                    </button>
+                                                    <form action="{{ route('tugas-akhir.updateStatus', $TA->id) }}" method="POST"
+                                                        enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="status" value="Disetujui">
+                                                        <button type="submit" class="btn btn-success btn-sm"
+                                                            onclick="return confirm('Apakah Anda yakin ingin menyetujui tugas akhir ini?')">
+                                                            Setujui
+                                                        </button>
+                                                    </form>
+                                                    <form action="{{ route('tugas-akhir.updateStatus', $TA->id) }}" method="POST"
+                                                        enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="status" value="Ditolak">
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Apakah Anda yakin ingin menolak tugas akhir ini?')">
+                                                            Tolak
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

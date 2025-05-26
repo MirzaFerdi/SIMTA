@@ -56,6 +56,18 @@ class TugasAkhirController extends Controller
         //
     }
 
+    public function updateStatus(Request $request, TugasAkhir $tugasAkhir)
+    {
+        $request->validate([
+            'status' => 'required|string|max:255',
+        ]);
+
+        $tugasAkhir->status = $request->status;
+        $tugasAkhir->save();
+
+        return redirect()->route('tugas-akhir')->with('success', 'Status Tugas Akhir berhasil diperbarui.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

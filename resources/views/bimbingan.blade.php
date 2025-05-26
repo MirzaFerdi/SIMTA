@@ -51,7 +51,9 @@
                                         <th style="text-align: center;">No</th>
                                         <th style="text-align: center;">Tanggal</th>
                                         <th>Topik Bimbingan</th>
-                                        <th>Mahasiswa</th>
+                                        @if (auth()->user()->role_id == 1)
+                                            <th>Mahasiswa</th>
+                                        @endif
                                         <th>Dosen Pembimbing</th>
                                         <th style="text-align: center;">Status</th>
                                         <th style="text-align: center;">Aksi</th>
@@ -63,18 +65,20 @@
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                                             <td style="text-align: center;">{{ $bim->tanggal }}</td>
                                             <td>{{ $bim->topik_bimbingan }}</td>
-                                            <td>
-                                                <div class="">
-                                                    <ul>
-                                                        <li>{{ $bim->pengusul1Bimbingan->nama }}</li>
-                                                        <li>{{ $bim->pengusul2Bimbingan->nama }}</li>
+                                            @if (auth()->user()->role_id == 1)
+                                                <td>
+                                                    <div class="">
+                                                        <ul>
+                                                            <li>{{ $bim->pengusul1Bimbingan->nama }}</li>
+                                                            <li>{{ $bim->pengusul2Bimbingan->nama }}</li>
 
-                                                    </ul>
-                                                </div>
-                                            </td>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            @endif
                                             <td>{{ $bim->dospemBimbingan->nama }}</td>
                                             <td style="text-align: center;">{{ $bim->status }}</td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#editModal{{ $bim->id }}">
                                                     Edit
@@ -120,7 +124,8 @@
                                                                     Pembimbing</label>
                                                                 <select class="form-select" id="dospem_id" name="dospem_id"
                                                                     required>
-                                                                    <option hidden value="">Pilih Dosen Pembimbing</option>
+                                                                    <option hidden value="">Pilih Dosen Pembimbing
+                                                                    </option>
                                                                     @foreach ($dospem as $dos)
                                                                         <option value="{{ $dos->id }}"
                                                                             {{ $bim->dospem_id == $dos->id ? 'selected' : '' }}>
@@ -142,6 +147,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="d-flex justify-content-end">
+                                <a href="#" class="btn btn-secondary mt-3" target="_blank">Cetak Form Bimbingan</a>
+                            </div>
                         </div>
                         {{-- Modal Tambah --}}
                         <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel"

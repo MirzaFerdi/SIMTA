@@ -49,6 +49,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
         Route::post('/user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
+
+        Route::put('/seminar-proposal/{sempro}', [SemproController::class, 'update'])->name('sempro.update');
+        Route::put('/seminar-proposal/status/{sempro}', [SemproController::class, 'updateStatus'])->name('sempro.updateStatus');
+
+        Route::put('/tugas-akhir/{tugasAkhir}', [TugasAkhirController::class, 'update'])->name('tugas-akhir.update');
+        Route::put('/tugas-akhir/status/{tugasAkhir}', [TugasAkhirController::class, 'updateStatus'])->name('tugas-akhir.updateStatus');
     });
 
     Route::middleware(['role:3'])->group(function () {

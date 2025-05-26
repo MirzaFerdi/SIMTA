@@ -15,6 +15,7 @@ class Sempro extends Model
     protected $fillable = [
         'pengusul1',
         'pengusul2',
+        'dospem_id',
         'pengajuan_id',
         'no_ta',
         'abstrak',
@@ -24,13 +25,20 @@ class Sempro extends Model
         'berita_acara'
     ];
 
-    public function pengusul1Sempro(){
+    public function pengusul1Sempro()
+    {
         return $this->belongsTo(User::class, 'pengusul1');
     }
-    public function pengusul2Sempro(){
+    public function pengusul2Sempro()
+    {
         return $this->belongsTo(User::class, 'pengusul2');
     }
-    public function pengajuan(){
+    public function dospemSempro()
+    {
+        return $this->belongsTo(User::class, 'dospem_id');
+    }
+    public function pengajuanSempro()
+    {
         return $this->belongsTo(PengajuanJudul::class, 'pengajuan_id');
     }
 }

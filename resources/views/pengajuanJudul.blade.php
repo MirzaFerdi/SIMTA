@@ -49,7 +49,7 @@
                             @endif
                         </h4>
                         @if (auth()->user()->role_id == 3)
-                            <div class="div">
+                            <div class="">
                                 <form method="POST" action="{{ route('pengajuan.store') }}">
                                     @csrf
                                     <input type="hidden" name="_method" id="form-method" value="POST">
@@ -95,44 +95,16 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="submit" class="btn btn-primary"
+                                            @if ($pengajuanUser->first()) disabled @endif>
+                                            Simpan
+                                        </button>
                                         <button type="button" class="btn btn-secondary" id="editBtn">Edit</button>
                                         @if ($pengajuanUser->first())
                                             @method('PUT')
                                         @endif
                                         <button type="submit" class="btn btn-success d-none" id="updateBtn"
                                             formaction="{{ route('pengajuan.update', $pengajuanUser->first()->id ?? 0) }}">Update</button>
-                                        <script>
-                                            document.addEventListener('DOMContentLoaded', function() {
-                                                const editBtn = document.getElementById('editBtn');
-                                                const updateBtn = document.getElementById('updateBtn');
-                                                const formMethodInput = document.getElementById('form-method');
-
-                                                editBtn?.addEventListener('click', function() {
-                                                    if (confirm('Edit akan mengubah status menjadi Diproses. Lanjutkan?')) {
-                                                        // Enable all disabled inputs
-                                                        document.getElementById('tahun')?.removeAttribute('disabled');
-                                                        document.getElementById('judul')?.removeAttribute('disabled');
-                                                        document.getElementById('pengusul1')?.removeAttribute('disabled');
-                                                        document.getElementById('pengusul2')?.removeAttribute('disabled');
-
-                                                        // Change status badge text and class
-                                                        const badge = document.querySelector('.badge');
-                                                        if (badge) {
-                                                            badge.textContent = 'Diproses';
-                                                            badge.className = 'badge text-bg-secondary';
-                                                        }
-
-                                                        // Set form method to PUT
-                                                        formMethodInput.value = 'PUT';
-
-                                                        // Hide Edit, show Update
-                                                        editBtn.classList.add('d-none');
-                                                        updateBtn.classList.remove('d-none');
-                                                    }
-                                                });
-                                            });
-                                        </script>
                                     </div>
                                 </form>
                             </div>
@@ -213,5 +185,33 @@
                 alert.remove();
             }
         }, 3000);
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editBtn = document.getElementById('editBtn');
+            const updateBtn = document.getElementById('updateBtn');
+            const formMethodInput = document.getElementById('form-method');
+
+            editBtn?.addEventListener('click', function() {
+                if (confirm('Edit akan mengubah status menjadi Diproses. Lanjutkan?')) {
+                    document.getElementById('tahun')?.removeAttribute('disabled');
+                    document.getElementById('judul')?.removeAttribute('disabled');
+                    document.getElementById('pengusul1')?.removeAttribute('disabled');
+                    document.getElementById('pengusul2')?.removeAttribute('disabled');
+
+                    const badge = document.querySelector('.badge');
+                    if (badge) {
+                        badge.textContent = 'Diproses';
+                        badge.className = 'badge text-bg-secondary';
+                    }
+
+                    formMethodInput.value = 'PUT';
+
+                    editBtn.classList.add('d-none');
+                    updateBtn.classList.remove('d-none');
+                }
+            });
+        });
     </script>
 @endsection

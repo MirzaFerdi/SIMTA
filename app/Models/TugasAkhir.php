@@ -15,6 +15,7 @@ class TugasAkhir extends Model
     protected $fillable = [
         'pengusul1',
         'pengusul2',
+        'dospem_id',
         'pengajuan_id',
         'no_ta',
         'abstrak',
@@ -30,7 +31,10 @@ class TugasAkhir extends Model
     public function pengusul2TugasAkhir(){
         return $this->belongsTo(User::class, 'pengusul2');
     }
-    public function pengajuan(){
+    public function dospemTugasAkhir(){
+        return $this->belongsTo(User::class, 'dospem_id');
+    }
+    public function pengajuanTugasAkhir(){
         return $this->belongsTo(PengajuanJudul::class, 'pengajuan_id');
     }
 }

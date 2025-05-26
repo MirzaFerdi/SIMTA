@@ -17,6 +17,7 @@ class SemproSeeder extends Seeder
             [
                 'pengusul1' => 3,
                 'pengusul2' => 4,
+                'dospem_id' => 2,
                 'pengajuan_id' => 1,
                 'no_ta' => 'AB2024',
                 'abstrak' => 'Skripsi ini membahas tentang pengembangan aplikasi berbasis web untuk manajemen data mahasiswa.',
