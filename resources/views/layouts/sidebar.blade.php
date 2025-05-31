@@ -7,6 +7,14 @@
                 href="/dashboard">
                 <i class="fas fa-home" style="width: 30px;"></i>Dashboard
             </a>
+
+            @if (auth()->user()->role_id == 1)
+            <a class="nav-link {{ Request::is('user') ? 'active fw-bold bg-light text-dark' : '' }}" href="/user">
+                <i class="fas fa-users" style="width: 30px;"></i>Data User
+            </a>
+            @endif
+
+            @if (auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
             <a class="nav-link {{ Request::is('pengajuan*') ? 'active fw-bold bg-light text-dark' : '' }}"
                 href="/pengajuan">
                 <i class="fas fa-book-reader" style="width: 30px;"></i>Pengajuan Judul
@@ -15,13 +23,14 @@
                 href="/bimbingan">
                 <i class="fas fa-chalkboard-teacher" style="width: 30px;"></i>Bimbingan
             </a>
+
             <a class="nav-link {{ Request::is('penjadwalan') ? 'active fw-bold bg-light text-dark' : '' }}"
                 href="/penjadwalan">
                 <i class="fas fa-calendar-alt" style="width: 30px;"></i>Penjadwalan
             </a>
 
             @php
-                $isUjian = Request::is('admin/ujian/*');
+            $isUjian = Request::is('admin/ujian/*');
             @endphp
 
             <div class="nav-item">
@@ -41,16 +50,21 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('tugas-akhir') ? 'active fw-bold text-white' : 'text-white' }}"
                             href="/tugas-akhir">
-                            - Sidang Tugas Akhir
+                            - Rekap Hasil Seminar
                         </a>
                     </li>
                 </ul>
             </div>
+            @endif
+
 
             @if (auth()->user()->role_id == 1)
-                <a class="nav-link {{ Request::is('user') ? 'active fw-bold bg-light text-dark' : '' }}" href="/user">
-                    <i class="fas fa-users" style="width: 30px;"></i>Data User
-                </a>
+            <a class="nav-link {{ Request::is('berita-acara') ? 'active fw-bold bg-light text-dark' : '' }}" href="/berita-acara">
+                <i class="fas fa-file" style="width: 30px;"></i>Berita Acara
+            </a>
+            <a class="nav-link {{ Request::is('rekap-hasil') ? 'active fw-bold bg-light text-dark' : '' }}" href="/rekap-hasil">
+                <i class="fab fa-readme" style="width: 30px;"></i>Rekap Hasil Seminar
+            </a>
             @endif
 
             <a class="nav-link {{ Request::is('profile') ? 'active fw-bold bg-light text-dark' : '' }}" href="/profile">

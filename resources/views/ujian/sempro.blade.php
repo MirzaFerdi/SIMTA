@@ -70,7 +70,7 @@
                                                         @method('PUT')
                                                         <input type="hidden" name="status" value="Disetujui">
                                                         <button type="submit" class="btn btn-success btn-sm"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menerima seminar proposal ini?')">Terima</button>
+                                                            onclick="return confirm('Apakah Anda yakin ingin menerima seminar proposal ini?')">Disetujui</button>
                                                     </form>
                                                     <form action="{{ route('sempro.updateStatus', $sempro->id) }}"
                                                         method="POST" enctype="multipart/form-data">
@@ -78,7 +78,7 @@
                                                         @method('PUT')
                                                         <input type="hidden" name="status" value="Ditolak">
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menolak seminar proposal ini?')">Tolak</button>
+                                                            onclick="return confirm('Apakah Anda yakin ingin menolak seminar proposal ini?')">Ditolak</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -87,18 +87,6 @@
                                 </table>
                             </div>
                         @else
-                            <div class="mb-2 d-flex align-items-center">
-                                <div style="width: 220px;">Template Laporan Proposal:</div>
-                                <a href="{{ asset('storage/template/Template_Laporan_Proposal.docx') }}"
-                                    class="btn btn-primary btn-sm" target="_blank">Download</a>
-                            </div>
-                            <div class="mb-2 d-flex align-items-center">
-                                <div style="width: 220px;">Berita Acara:</div>
-                                <a href="{{ asset('storage/template/Template_Berita_Acara_Seminar_Proposal.docx') }}"
-                                    class="btn btn-primary btn-sm" target="_blank">Download</a>
-                            </div>
-                            <hr>
-                            <h5>Detail Proposal</h5>
                             <div class="">
                                 <form action="" method="POST" enctype="multipart/form-data">
                                     @csrf
@@ -164,11 +152,6 @@
                                         <label for="ppt" class="form-label">PPT</label>
                                         <input type="file" class="form-control" id="ppt" name="ppt"
                                             accept=".ppt,.pptx" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="berita_acara" class="form-label">Berita Acara</label>
-                                        <input type="file" class="form-control" id="berita_acara" name="berita_acara"
-                                            accept=".docx,.pdf" required>
                                     </div>
                                     <div class="mb-3">
                                         <button type="submit" class="btn btn-primary">

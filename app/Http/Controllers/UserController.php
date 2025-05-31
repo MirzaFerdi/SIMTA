@@ -20,21 +20,30 @@ class UserController extends Controller
         $adminRole = Role::where('nama_role', 'admin')->first();
         $adminRoleId = $adminRole ? $adminRole->id : null;
 
-        $users = User::when($adminRoleId, function ($query) use ($adminRoleId) {
-                return $query->where('role_id', '!=', $adminRoleId);
-            })
+        $mahasiswas = User::where('role_id', 3)
             ->get()
             ->map(function ($user) {
-                try {
-                    $user->decrypted_password = Crypt::decryptString($user->encrypted_password);
-                } catch (\Exception $e) {
-                    $user->decrypted_password = 'Decryption failed';
-                }
-                return $user;
+            try {
+                $user->decrypted_password = Crypt::decryptString($user->encrypted_password);
+            } catch (\Exception $e) {
+                $user->decrypted_password = 'Decryption failed';
+            }
+            return $user;
+            });
+
+        $dosens = User::where('role_id', 2)
+            ->get()
+            ->map(function ($user) {
+            try {
+                $user->decrypted_password = Crypt::decryptString($user->encrypted_password);
+            } catch (\Exception $e) {
+                $user->decrypted_password = 'Decryption failed';
+            }
+            return $user;
             });
 
         $roles = Role::all();
-        return view('user', compact('users', 'roles'));
+        return view('user', compact('mahasiswas', 'dosens', 'roles'));
     }
 
     public function profile()

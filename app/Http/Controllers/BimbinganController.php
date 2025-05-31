@@ -113,6 +113,18 @@ class BimbinganController extends Controller
         return redirect()->route('bimbingan')->with('success', 'Bimbingan berhasil diperbarui.');
     }
 
+    public function updateStatus(Request $request, Bimbingan $bimbingan)
+    {
+        $request->validate([
+            'status' => 'required|string|max:50',
+        ]);
+
+        $bimbingan->status = $request->status;
+        $bimbingan->save();
+
+        return redirect()->route('bimbingan')->with('success', 'Status bimbingan berhasil diperbarui.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

@@ -74,7 +74,7 @@
                                                         <input type="hidden" name="status" value="Disetujui">
                                                         <button type="submit" class="btn btn-success btn-sm"
                                                             onclick="return confirm('Apakah Anda yakin ingin menyetujui tugas akhir ini?')">
-                                                            Setujui
+                                                            Disetujui
                                                         </button>
                                                     </form>
                                                     <form action="{{ route('tugas-akhir.updateStatus', $TA->id) }}" method="POST"
@@ -84,7 +84,7 @@
                                                         <input type="hidden" name="status" value="Ditolak">
                                                         <button type="submit" class="btn btn-danger btn-sm"
                                                             onclick="return confirm('Apakah Anda yakin ingin menolak tugas akhir ini?')">
-                                                            Tolak
+                                                            Ditolak
                                                         </button>
                                                     </form>
                                                 </td>

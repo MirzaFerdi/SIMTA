@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,9 +10,11 @@ class AuthController extends Controller
 {
     public function index(){
         if(Auth::check()){
-            return view('dashboard');
+            $jumlahMahasiswa = User::where('role_id', 3)->count();
+            $jumlahDosen = User::where('role_id', 2)->count();
+            return view('dashboard', compact('jumlahMahasiswa', 'jumlahDosen'));
         }
-        return redirect()->route('auth.login');
+        return redirect()->route('auth.login', );
     }
 
     public function login(Request $request){

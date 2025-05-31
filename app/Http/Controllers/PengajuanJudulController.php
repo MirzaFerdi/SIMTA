@@ -91,11 +91,22 @@ class PengajuanJudulController extends Controller
         return redirect()->route('pengajuan')->with('success', 'Pengajuan Judul Berhasil Diupdate');
     }
 
+    public function updateStatus(Request $request, PengajuanJudul $pengajuanJudul)
+    {
+        $request->validate([
+            'status' => 'required|in:Disetujui,Ditolak',
+        ]);
+        $pengajuanJudul->status = $request->status;
+        $pengajuanJudul->save();
+        return redirect()->route('pengajuan')->with('success', 'Status Pengajuan Judul Berhasil Diupdate');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(PengajuanJudul $pengajuanJudul)
     {
-        //
+        $pengajuanJudul->delete();
+        return redirect()->route('pengajuan')->with('success', 'Pengajuan Judul Berhasil Dihapus');
     }
 }

@@ -22,37 +22,35 @@
     @endif
 
     <div class="container p-4 mt-3 shadow">
-        <h4>Data User</h4>
+        <h4>Data Mahasiswa</h4>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered nowrap" style="width: 100%;" id="myTable">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>NIM</th>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Role</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
+                    @foreach ($mahasiswas as $mahasiswa)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->nama }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->role->nama_role }}</td>
+                            <td>{{ $mahasiswa->username }}</td>
+                            <td>{{ $mahasiswa->nama }}</td>
+                            <td>{{ $mahasiswa->email }}</td>
                             <td>
                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#detailModal{{ $user->id }}">
+                                    data-bs-target="#detailModal{{ $mahasiswa->id }}">
                                     Detail
                                 </button>
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#editModal{{ $user->id }}">
+                                    data-bs-target="#editModal{{ $mahasiswa->id }}">
                                     Edit
                                 </button>
-                                <form action="{{ route('user.delete', $user->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('user.delete', $mahasiswa->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Yakin ingin menghapus?')">
@@ -62,15 +60,15 @@
                         </tr>
 
                         <!-- Edit Modal -->
-                        <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1"
-                            aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
+                        <div class="modal fade" id="editModal{{ $mahasiswa->id }}" tabindex="-1"
+                            aria-labelledby="editModalLabel{{ $mahasiswa->id }}" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="{{ route('user.update', $user->id) }}" method="POST">
+                                    <form action="{{ route('user.update', $mahasiswa->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User</h5>
+                                            <h5 class="modal-title" id="editModalLabel{{ $mahasiswa->id }}">Edit User</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -78,17 +76,17 @@
                                             <div class="mb-3">
                                                 <label for="username" class="form-label">NIM</label>
                                                 <input type="text" class="form-control" id="username" name="username"
-                                                    value="{{ $user->username }}" required>
+                                                    value="{{ $mahasiswa->username }}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="nama" class="form-label">Nama</label>
                                                 <input type="text" class="form-control" id="nama" name="nama"
-                                                    value="{{ $user->nama }}" required>
+                                                    value="{{ $mahasiswa->nama }}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email</label>
                                                 <input type="email" class="form-control" id="email" name="email"
-                                                    value="{{ $user->email }}" required>
+                                                    value="{{ $mahasiswa->email }}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Password</label>
@@ -98,14 +96,14 @@
                                             <div class="mb-3">
                                                 <label for="prodi" class="form-label">Prodi</label>
                                                 <input type="text" class="form-control" id="prodi" name="prodi"
-                                                    value="{{ $user->prodi }}" required>
+                                                    value="{{ $mahasiswa->prodi }}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="role_id" class="form-label">Role</label>
                                                 <select class="form-select" id="role_id" name="role_id">
                                                     @foreach ($roles as $role)
                                                         <option value="{{ $role->id }}"
-                                                            {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                                                            {{ $mahasiswa->role_id == $role->id ? 'selected' : '' }}>
                                                             {{ $role->nama_role }}</option>
                                                     @endforeach
                                                 </select>
@@ -122,12 +120,12 @@
                         </div>
 
                         <!-- Detail Modal -->
-                        <div class="modal fade" id="detailModal{{ $user->id }}" tabindex="-1"
-                            aria-labelledby="detailModalLabel{{ $user->id }}" aria-hidden="true">
+                        <div class="modal fade" id="detailModal{{ $mahasiswa->id }}" tabindex="-1"
+                            aria-labelledby="detailModalLabel{{ $mahasiswa->id }}" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="detailModalLabel{{ $user->id }}">Detail User</h5>
+                                        <h5 class="modal-title" id="detailModalLabel{{ $mahasiswa->id }}">Detail User</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -135,39 +133,199 @@
                                         <div class="mb-3">
                                             <label for="username" class="form-label">NIM</label>
                                             <input type="text" class="form-control" id="username" name="username"
-                                                value="{{ $user->username }}" readonly>
+                                                value="{{ $mahasiswa->username }}" readonly>
                                         </div>
                                         <div class="mb-3">
                                             <label for="nama" class="form-label">Nama</label>
                                             <input type="text" class="form-control" id="nama" name="nama"
-                                                value="{{ $user->nama }}" readonly>
+                                                value="{{ $mahasiswa->nama }}" readonly>
                                         </div>
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email</label>
                                             <input type="email" class="form-control" id="email" name="email"
-                                                value="{{ $user->email }}" readonly>
+                                                value="{{ $mahasiswa->email }}" readonly>
                                         </div>
                                         <div class="mb-3">
                                             <label for="password" class="form-label">Password</label>
                                             <div class="input-group">
                                                 <input type="password" class="form-control"
-                                                    id="password{{ $user->id }}"
-                                                    value="{{ $user->decrypted_password }}" readonly>
+                                                    id="password{{ $mahasiswa->id }}"
+                                                    value="{{ $mahasiswa->decrypted_password }}" readonly>
                                                 <button class="btn btn-outline-secondary" type="button"
-                                                    onclick="togglePassword({{ $user->id }})">
-                                                    <i class="bi bi-eye" id="toggleIcon{{ $user->id }}"></i>
+                                                    onclick="togglePassword({{ $mahasiswa->id }})">
+                                                    <i class="bi bi-eye" id="toggleIcon{{ $mahasiswa->id }}"></i>
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="prodi" class="form-label">Prodi</label>
                                             <input type="text" class="form-control" id="prodi" name="prodi"
-                                                value="{{ $user->prodi }}" readonly>
+                                                value="{{ $mahasiswa->prodi }}" readonly>
                                         </div>
                                         <div class="mb-3">
                                             <label for="role_id" class="form-label">Role</label>
                                             <input type="text" class="form-control" id="role_id" name="role_id"
-                                                value="{{ $user->role->nama_role }}" readonly>
+                                                value="{{ $mahasiswa->role->nama_role }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container p-4 mt-3 shadow">
+        <h4>Data Dosen</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered nowrap" style="width: 100%;" id="myTable2">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>NIP</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($dosens as $dosen)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $dosen->username }}</td>
+                            <td>{{ $dosen->nama }}</td>
+                            <td>{{ $dosen->email }}</td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#detailModal{{ $dosen->id }}">
+                                    Detail
+                                </button>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#editModal{{ $dosen->id }}">
+                                    Edit
+                                </button>
+                                <form action="{{ route('user.delete', $dosen->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus?')">
+                                        Hapus
+                                    </button>
+                                </form>
+                        </tr>
+
+                        <!-- Edit Modal -->
+                        <div class="modal fade" id="editModal{{ $dosen->id }}" tabindex="-1"
+                            aria-labelledby="editModalLabel{{ $dosen->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('user.update', $dosen->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel{{ $dosen->id }}">Edit User</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body bg-light">
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">NIM</label>
+                                                <input type="text" class="form-control" id="username" name="username"
+                                                    value="{{ $dosen->username }}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="nama" class="form-label">Nama</label>
+                                                <input type="text" class="form-control" id="nama" name="nama"
+                                                    value="{{ $dosen->nama }}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    value="{{ $dosen->email }}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control" id="password" name="password"
+                                                    placeholder="Kosongkan jika tidak ingin mengubah password">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="prodi" class="form-label">Prodi</label>
+                                                <input type="text" class="form-control" id="prodi" name="prodi"
+                                                    value="{{ $dosen->prodi }}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="role_id" class="form-label">Role</label>
+                                                <select class="form-select" id="role_id" name="role_id">
+                                                    @foreach ($roles as $role)
+                                                        <option value="{{ $role->id }}"
+                                                            {{ $dosen->role_id == $role->id ? 'selected' : '' }}>
+                                                            {{ $role->nama_role }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detail Modal -->
+                        <div class="modal fade" id="detailModal{{ $dosen->id }}" tabindex="-1"
+                            aria-labelledby="detailModalLabel{{ $dosen->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="detailModalLabel{{ $dosen->id }}">Detail User</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body bg-light">
+                                        <div class="mb-3">
+                                            <label for="username" class="form-label">NIM</label>
+                                            <input type="text" class="form-control" id="username" name="username"
+                                                value="{{ $dosen->username }}" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nama" class="form-label">Nama</label>
+                                            <input type="text" class="form-control" id="nama" name="nama"
+                                                value="{{ $dosen->nama }}" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                value="{{ $dosen->email }}" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Password</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control"
+                                                    id="password{{ $dosen->id }}"
+                                                    value="{{ $dosen->decrypted_password }}" readonly>
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    onclick="togglePassword({{ $dosen->id }})">
+                                                    <i class="bi bi-eye" id="toggleIcon{{ $dosen->id }}"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="prodi" class="form-label">Prodi</label>
+                                            <input type="text" class="form-control" id="prodi" name="prodi"
+                                                value="{{ $dosen->prodi }}" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="role_id" class="form-label">Role</label>
+                                            <input type="text" class="form-control" id="role_id" name="role_id"
+                                                value="{{ $dosen->role->nama_role }}" readonly>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -212,5 +370,46 @@
                 alert.remove();
             }
         }, 5000);
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable(
+                {
+                    "language": {
+                        "search": "Cari:",
+                        "lengthMenu": "Tampilkan _MENU_ entri",
+                        "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                        "infoEmpty": "Tidak ada entri yang ditemukan",
+                        "zeroRecords": "Tidak ada entri yang cocok",
+                        "paginate": {
+                            "previous": "Sebelumnya",
+                            "next": "Selanjutnya"
+                        }
+                    },
+                    responsive: true,
+                    autoWidth: false,
+                }
+            );
+            
+        });
+        $(document).ready(function() {
+            $('#myTable2').DataTable(
+                {
+                    "language": {
+                        "search": "Cari:",
+                        "lengthMenu": "Tampilkan _MENU_ entri",
+                        "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                        "infoEmpty": "Tidak ada entri yang ditemukan",
+                        "zeroRecords": "Tidak ada entri yang cocok",
+                        "paginate": {
+                            "previous": "Sebelumnya",
+                            "next": "Selanjutnya"
+                        }
+                    },
+                    responsive: true,
+                    autoWidth: false,
+                }
+            );
+        });
     </script>
 @endsection

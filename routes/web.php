@@ -50,6 +50,10 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
         Route::post('/user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
 
+        Route::put('/bimbingan/status/{bimbingan}', [BimbinganController::class, 'updateStatus'])->name('bimbingan.updateStatus');
+
+        Route::put('/pengajuan/status/{pengajuanJudul}', [PengajuanJudulController::class, 'updateStatus'])->name('pengajuan.updateStatus');
+
         Route::put('/seminar-proposal/{sempro}', [SemproController::class, 'update'])->name('sempro.update');
         Route::put('/seminar-proposal/status/{sempro}', [SemproController::class, 'updateStatus'])->name('sempro.updateStatus');
 
@@ -60,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:3'])->group(function () {
         Route::post('/pengajuan/store', [PengajuanJudulController::class, 'store'])->name('pengajuan.store');
         Route::put('/pengajuan/{pengajuanJudul}', [PengajuanJudulController::class, 'update'])->name('pengajuan.update');
+        Route::delete('/pengajuan/delete/{pengajuanJudul}', [PengajuanJudulController::class, 'destroy'])->name('pengajuan.delete');
+
         Route::post('/bimbingan/store', [BimbinganController::class, 'store'])->name('bimbingan.store');
         Route::put('/bimbingan/{bimbingan}', [BimbinganController::class, 'update'])->name('bimbingan.update');
         Route::post('/bimbingan/delete/{bimbingan}', [BimbinganController::class, 'destroy'])->name('bimbingan.delete');
