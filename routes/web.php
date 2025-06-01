@@ -40,7 +40,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pengajuan', [PengajuanJudulController::class, 'index'])->name('pengajuan');
     Route::get('/penjadwalan', [JadwalController::class, 'index'])->name('penjadwalan');
     Route::get('/seminar-proposal', [SemproController::class, 'index'])->name('sempro');
-    Route::get('/tugas-akhir', [TugasAkhirController::class, 'index'])->name('tugas-akhir');
     Route::get('/bimbingan', [BimbinganController::class, 'index'])->name('bimbingan');
     Route::get('/rekap-seminar', [BeritaAcaraController::class, 'rekapSeminar'])->name('rekap-seminar');
 

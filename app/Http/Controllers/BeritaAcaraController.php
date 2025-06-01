@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BeritaAcara;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 use App\Models\PengajuanJudul;
 
 class BeritaAcaraController extends Controller
@@ -109,7 +109,32 @@ class BeritaAcaraController extends Controller
      */
     public function update(Request $request, BeritaAcara $beritaAcara)
     {
-        //
+        $request->validate([
+            'pengusul1' => 'required|exists:users,id',
+            'pengusul2' => 'nullable|exists:users,id',
+            'dosen' => 'required|exists:users,id',
+            'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
+            'berita_acara' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+        ]);
+
+        $beritaAcara->pengusul1 = $request->pengusul1;
+        $beritaAcara->pengusul2 = $request->pengusul2;
+        $beritaAcara->dosen = $request->dosen;
+        $beritaAcara->pengajuan_id = $request->pengajuan_id;
+
+        if ($request->hasFile('berita_acara')) {
+            // Hapus file lama jika ada
+            if ($beritaAcara->berita_acara) {
+                Storage::delete('public/file/berita-acara/' . $beritaAcara->berita_acara);
+            }
+            $filename = time() . '_' . $request->file('berita_acara')->getClientOriginalName();
+            $request->file('berita_acara')->storeAs('public/file/berita-acara', $filename);
+            $beritaAcara->berita_acara = $filename;
+        }
+
+        $beritaAcara->save();
+
+        return redirect()->route('berita-acara')->with('success', 'Berita Acara updated successfully.');
     }
 
     /**

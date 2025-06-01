@@ -13,20 +13,33 @@ class JadwalController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $jadwals = Jadwal::all();
+        $tahunAkademik = $request->query('tahun_akademik');
+
+        // Filter jika tahun akademik dipilih
+        $jadwals = Jadwal::when($tahunAkademik, function ($query, $tahunAkademik) {
+            return $query->where('tahun_akademik', $tahunAkademik);
+        })->get();
+
         $pengajuans = PengajuanJudul::where('status', 'Diterima')->get();
         $mahasiswas = User::where('role_id', 3)->get();
         $dosens = User::where('role_id', 2)->get();
+
         $userId = auth()->id();
         if (auth()->user()->role_id == 3) {
-            $jadwalUser = Jadwal::where('pengusul1', $userId)
-                ->orWhere('pengusul2', $userId)
+            $jadwalUser = Jadwal::where(function ($query) use ($userId) {
+                $query->where('pengusul1', $userId)
+                    ->orWhere('pengusul2', $userId);
+            })
+                ->when($tahunAkademik, function ($query, $tahunAkademik) {
+                    return $query->where('tahun_akademik', $tahunAkademik);
+                })
                 ->get();
         } else {
             $jadwalUser = collect();
         }
+
         return view('penjadwalan', compact('jadwals', 'jadwalUser', 'pengajuans', 'mahasiswas', 'dosens'));
     }
 
@@ -50,7 +63,7 @@ class JadwalController extends Controller
             'dosen_penguji' => 'required|exists:users,id',
             'tanggal' => 'required|date',
             'tahun_akademik' => 'required|string|max:10',
-            'jam' => 'required|date_format:H:i',
+            'jam' => 'required',
             'tempat' => 'required|string|max:255',
             'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
         ]);
@@ -92,7 +105,21 @@ class JadwalController extends Controller
      */
     public function update(Request $request, Jadwal $jadwal)
     {
-        //
+        $request->validate([
+            'pengusul1' => 'required|exists:users,id',
+            'pengusul2' => 'required|exists:users,id',
+            'dospem_id' => 'required|exists:users,id',
+            'dosen_penguji' => 'required|exists:users,id',
+            'tanggal' => 'required|date',
+            'tahun_akademik' => 'required|string|max:10',
+            'jam' => 'required',
+            'tempat' => 'required|string|max:255',
+            'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
+        ]);
+
+        $jadwal->update($request->all());
+
+        return redirect()->route('penjadwalan')->with('success', 'Jadwal berhasil diperbarui.');
     }
 
     /**

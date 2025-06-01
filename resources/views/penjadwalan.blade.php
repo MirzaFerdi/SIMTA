@@ -30,7 +30,7 @@
                                     </div>
                                 @else
                                     <div class="col-md-3 col-sm-12">
-                                        <h5>2024/2025</h5>
+                                        <h5>{{ $jadwalUser->first()->tahun_akademik ?? 'Tahun Akademik' }}</h5>
                                     </div>
                                 @endif
                             </div>
@@ -110,7 +110,7 @@
                                                                         Akademik</label>
                                                                     <input type="text" class="form-control"
                                                                         id="tahun_akademik" name="tahun_akademik"
-                                                                        value="{{ $jadwal->tahun_akademik }}" readonly>
+                                                                        value="{{ $jadwal->tahun_akademik }}" required>
                                                                     <div class="mb-3">
                                                                         <label for="tanggal"
                                                                             class="form-label">Tanggal</label>
@@ -136,7 +136,7 @@
                                                                             class="form-label">Pengajuan</label>
                                                                         <select class="form-select" id="pengajuan_id"
                                                                             name="pengajuan_id" required>
-                                                                            <option value="">Pilih Pengajuan</option>
+                                                                            <option hidden value="">Pilih Pengajuan</option>
                                                                             @foreach ($pengajuans as $pengajuan)
                                                                                 <option value="{{ $pengajuan->id }}"
                                                                                     {{ $jadwal->pengajuan_id == $pengajuan->id ? 'selected' : '' }}>
@@ -149,7 +149,7 @@
                                                                             1</label>
                                                                         <select class="form-select" id="pengusul1"
                                                                             name="pengusul1" required>
-                                                                            <option value="">Pilih Pengusul 1
+                                                                            <option hidden value="">Pilih Pengusul 1
                                                                             </option>
                                                                             @foreach ($mahasiswas as $mahasiswa)
                                                                                 <option value="{{ $mahasiswa->id }}"
@@ -163,7 +163,7 @@
                                                                             2</label>
                                                                         <select class="form-select" id="pengusul2"
                                                                             name="pengusul2">
-                                                                            <option value="">Pilih Pengusul 2
+                                                                            <option hidden value="">Pilih Pengusul 2
                                                                                 (Opsional)
                                                                             </option>
                                                                             @foreach ($mahasiswas as $mahasiswa)
@@ -178,7 +178,7 @@
                                                                             Pembimbing</label>
                                                                         <select class="form-select" id="dospem_id"
                                                                             name="dospem_id" required>
-                                                                            <option value="">Pilih Dosen Pembimbing
+                                                                            <option hidden value="">Pilih Dosen Pembimbing
                                                                             </option>
                                                                             @foreach ($dosens as $dosen)
                                                                                 <option value="{{ $dosen->id }}"
@@ -193,7 +193,7 @@
                                                                             Penguji</label>
                                                                         <select class="form-select" id="dosen_penguji"
                                                                             name="dosen_penguji" required>
-                                                                            <option value="">Pilih Dosen Penguji
+                                                                            <option hidden value="">Pilih Dosen Penguji
                                                                             </option>
                                                                             @foreach ($dosens as $dosen)
                                                                                 <option value="{{ $dosen->id }}"
@@ -259,7 +259,7 @@
                         <div class="mb-3">
                             <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
                             <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik"
-                                value="{{ date('Y') }}/{{ date('Y') + 1 }}" readonly>
+                                value="{{ date('Y') }}/{{ date('Y') + 1 }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="tanggal" class="form-label">Tanggal</label>
