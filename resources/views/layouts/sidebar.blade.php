@@ -14,6 +14,12 @@
             </a>
             @endif
 
+
+            <a class="nav-link {{ Request::is('penjadwalan') ? 'active fw-bold bg-light text-dark' : '' }}"
+                href="/penjadwalan">
+                <i class="fas fa-calendar-alt" style="width: 30px;"></i>Penjadwalan
+            </a>
+
             @if (auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
             <a class="nav-link {{ Request::is('pengajuan*') ? 'active fw-bold bg-light text-dark' : '' }}"
                 href="/pengajuan">
@@ -22,11 +28,6 @@
             <a class="nav-link {{ Request::is('bimbingan') ? 'active fw-bold bg-light text-dark' : '' }}"
                 href="/bimbingan">
                 <i class="fas fa-chalkboard-teacher" style="width: 30px;"></i>Bimbingan
-            </a>
-
-            <a class="nav-link {{ Request::is('penjadwalan') ? 'active fw-bold bg-light text-dark' : '' }}"
-                href="/penjadwalan">
-                <i class="fas fa-calendar-alt" style="width: 30px;"></i>Penjadwalan
             </a>
 
             @php
@@ -48,8 +49,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('tugas-akhir') ? 'active fw-bold text-white' : 'text-white' }}"
-                            href="/tugas-akhir">
+                        <a class="nav-link {{ Request::is('rekap-seminar') ? 'active fw-bold text-white' : 'text-white' }}"
+                            href="/rekap-seminar">
                             - Rekap Hasil Seminar
                         </a>
                     </li>
@@ -62,7 +63,7 @@
             <a class="nav-link {{ Request::is('berita-acara') ? 'active fw-bold bg-light text-dark' : '' }}" href="/berita-acara">
                 <i class="fas fa-file" style="width: 30px;"></i>Berita Acara
             </a>
-            <a class="nav-link {{ Request::is('rekap-hasil') ? 'active fw-bold bg-light text-dark' : '' }}" href="/rekap-hasil">
+            <a class="nav-link {{ Request::is('rekap-seminar') ? 'active fw-bold bg-light text-dark' : '' }}" href="/rekap-seminar">
                 <i class="fab fa-readme" style="width: 30px;"></i>Rekap Hasil Seminar
             </a>
             @endif

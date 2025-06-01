@@ -1,28 +1,44 @@
 @extends('layouts.main')
 
 @section('content')
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
-            <strong>Berhasil!</strong> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <!-- Upload Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{ route('user.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadModalLabel">Upload User (Excel)</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body bg-light">
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Pilih file Excel</label>
+                            <input type="file" name="file" class="form-control" accept=".xlsx,.xls" required>
+                            <small class="text-muted">Format: .xlsx atau .xls</small>
+                        </div>
+                        <div>
+                            <a href="{{ asset('Template Upload User.xlsx') }}" class="text-primary" download>📥 Download
+                                Template Excel</a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    @endif
+    </div>
 
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
-            <strong>Gagal!</strong> Silakan periksa inputan Anda.
-            <ul class="mt-2 mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
     <div class="container p-4 mt-3 shadow">
-        <h4>Data Mahasiswa</h4>
+        <div class="d-flex justify-content-between mb-3">
+            <h4>Data Mahasiswa</h4>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                Upload User (Excel)
+            </button>
+        </div>
         <div class="table-responsive">
             <table class="table table-bordered nowrap" style="width: 100%;" id="myTable">
                 <thead>
@@ -90,7 +106,8 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="password" name="password"
+                                                <input type="password" class="form-control" id="password"
+                                                    name="password"
                                                     placeholder="Kosongkan jika tidak ingin mengubah password">
                                             </div>
                                             <div class="mb-3">
@@ -125,7 +142,8 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="detailModalLabel{{ $mahasiswa->id }}">Detail User</h5>
+                                        <h5 class="modal-title" id="detailModalLabel{{ $mahasiswa->id }}">Detail User
+                                        </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -235,8 +253,8 @@
                                         <div class="modal-body bg-light">
                                             <div class="mb-3">
                                                 <label for="username" class="form-label">NIM</label>
-                                                <input type="text" class="form-control" id="username" name="username"
-                                                    value="{{ $dosen->username }}" required>
+                                                <input type="text" class="form-control" id="username"
+                                                    name="username" value="{{ $dosen->username }}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="nama" class="form-label">Nama</label>
@@ -250,7 +268,8 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="password" name="password"
+                                                <input type="password" class="form-control" id="password"
+                                                    name="password"
                                                     placeholder="Kosongkan jika tidak ingin mengubah password">
                                             </div>
                                             <div class="mb-3">
@@ -358,58 +377,42 @@
                 icon.classList.add('bi-eye');
             }
         }
-        setTimeout(() => {
-            var alert = document.getElementById('success-alert');
-            if (alert) {
-                alert.remove();
-            }
-        }, 3000);
-        setTimeout(() => {
-            var alert = document.getElementById('error-alert');
-            if (alert) {
-                alert.remove();
-            }
-        }, 5000);
     </script>
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable(
-                {
-                    "language": {
-                        "search": "Cari:",
-                        "lengthMenu": "Tampilkan _MENU_ entri",
-                        "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                        "infoEmpty": "Tidak ada entri yang ditemukan",
-                        "zeroRecords": "Tidak ada entri yang cocok",
-                        "paginate": {
-                            "previous": "Sebelumnya",
-                            "next": "Selanjutnya"
-                        }
-                    },
-                    responsive: true,
-                    autoWidth: false,
-                }
-            );
-            
+            $('#myTable').DataTable({
+                "language": {
+                    "search": "Cari:",
+                    "lengthMenu": "Tampilkan _MENU_ entri",
+                    "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                    "infoEmpty": "Tidak ada entri yang ditemukan",
+                    "zeroRecords": "Tidak ada entri yang cocok",
+                    "paginate": {
+                        "previous": "Sebelumnya",
+                        "next": "Selanjutnya"
+                    }
+                },
+                responsive: true,
+                autoWidth: false,
+            });
+
         });
         $(document).ready(function() {
-            $('#myTable2').DataTable(
-                {
-                    "language": {
-                        "search": "Cari:",
-                        "lengthMenu": "Tampilkan _MENU_ entri",
-                        "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                        "infoEmpty": "Tidak ada entri yang ditemukan",
-                        "zeroRecords": "Tidak ada entri yang cocok",
-                        "paginate": {
-                            "previous": "Sebelumnya",
-                            "next": "Selanjutnya"
-                        }
-                    },
-                    responsive: true,
-                    autoWidth: false,
-                }
-            );
+            $('#myTable2').DataTable({
+                "language": {
+                    "search": "Cari:",
+                    "lengthMenu": "Tampilkan _MENU_ entri",
+                    "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                    "infoEmpty": "Tidak ada entri yang ditemukan",
+                    "zeroRecords": "Tidak ada entri yang cocok",
+                    "paginate": {
+                        "previous": "Sebelumnya",
+                        "next": "Selanjutnya"
+                    }
+                },
+                responsive: true,
+                autoWidth: false,
+            });
         });
     </script>
 @endsection

@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email',
         'foto',
         'prodi',
+        'role_id',
     ];
 
     /**
@@ -101,6 +102,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Jadwal::class, 'pengusul1');
     }
+    public function dosenPengujiJadwal()
+    {
+        return $this->hasMany(Jadwal::class, 'dosen_penguji');
+    }
     public function pengusul2Jadwal()
     {
         return $this->hasMany(Jadwal::class, 'pengusul2');
@@ -108,5 +113,18 @@ class User extends Authenticatable
     public function dospemJadwal()
     {
         return $this->hasMany(Jadwal::class, 'dospem_id');
+    }
+
+    public function pengusul1BeritaAcara()
+    {
+        return $this->hasMany(BeritaAcara::class, 'pengusul1');
+    }
+    public function pengusul2BeritaAcara()
+    {
+        return $this->hasMany(BeritaAcara::class, 'pengusul2');
+    }
+    public function dosenBeritaAcara()
+    {
+        return $this->hasMany(BeritaAcara::class, 'dosen');
     }
 }

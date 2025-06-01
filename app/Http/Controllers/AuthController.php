@@ -18,9 +18,12 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        $credentials = $request->only('username', 'password');
+        $login = $request->input('username');
+        $password = $request->input('password');
 
-        if(Auth::attempt($credentials)){
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        if (Auth::attempt([$fieldType => $login, 'password' => $password])) {
             return redirect()->route('dashboard');
         }
 

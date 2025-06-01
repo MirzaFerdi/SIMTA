@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\SemproController;
 use App\Http\Controllers\TugasAkhirController;
+use App\Http\Controllers\BeritaAcaraController;
 use App\Models\Bimbingan;
 
 /*
@@ -24,7 +25,7 @@ use App\Models\Bimbingan;
 */
 
 Route::get('/', function () {
-    if(Auth::check()){
+    if (Auth::check()) {
         return redirect()->route('dashboard');
     }
     return view('auth.login');
@@ -41,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/seminar-proposal', [SemproController::class, 'index'])->name('sempro');
     Route::get('/tugas-akhir', [TugasAkhirController::class, 'index'])->name('tugas-akhir');
     Route::get('/bimbingan', [BimbinganController::class, 'index'])->name('bimbingan');
+    Route::get('/rekap-seminar', [BeritaAcaraController::class, 'rekapSeminar'])->name('rekap-seminar');
 
     Route::middleware(['role:1'])->group(function () {
         Route::get('/user', [UserController::class, 'index'])->name('user');
@@ -49,16 +51,24 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
         Route::post('/user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
+        Route::post('/users/import', [UserController::class, 'import'])->name('user.import');
 
         Route::put('/bimbingan/status/{bimbingan}', [BimbinganController::class, 'updateStatus'])->name('bimbingan.updateStatus');
 
         Route::put('/pengajuan/status/{pengajuanJudul}', [PengajuanJudulController::class, 'updateStatus'])->name('pengajuan.updateStatus');
 
+        Route::post('/penjadwalan/store', [JadwalController::class, 'store'])->name('penjadwalan.store');
+        Route::put('/penjadwalan/{jadwal}', [JadwalController::class, 'update'])->name('penjadwalan.update');
+        Route::delete('/penjadwalan/delete/{jadwal}', [JadwalController::class, 'destroy'])->name('penjadwalan.destroy');
+
         Route::put('/seminar-proposal/{sempro}', [SemproController::class, 'update'])->name('sempro.update');
         Route::put('/seminar-proposal/status/{sempro}', [SemproController::class, 'updateStatus'])->name('sempro.updateStatus');
 
-        Route::put('/tugas-akhir/{tugasAkhir}', [TugasAkhirController::class, 'update'])->name('tugas-akhir.update');
-        Route::put('/tugas-akhir/status/{tugasAkhir}', [TugasAkhirController::class, 'updateStatus'])->name('tugas-akhir.updateStatus');
+
+        Route::get('/berita-acara', [BeritaAcaraController::class, 'index'])->name('berita-acara');
+        Route::post('/berita-acara/store', [BeritaAcaraController::class, 'store'])->name('berita-acara.store');
+        Route::put('/berita-acara/{beritaAcara}', [BeritaAcaraController::class, 'update'])->name('berita-acara.update');
+        Route::delete('/berita-acara/delete/{beritaAcara}', [BeritaAcaraController::class, 'destroy'])->name('berita-acara.destroy');
     });
 
     Route::middleware(['role:3'])->group(function () {
@@ -69,7 +79,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/bimbingan/store', [BimbinganController::class, 'store'])->name('bimbingan.store');
         Route::put('/bimbingan/{bimbingan}', [BimbinganController::class, 'update'])->name('bimbingan.update');
         Route::post('/bimbingan/delete/{bimbingan}', [BimbinganController::class, 'destroy'])->name('bimbingan.delete');
-
     });
 });
 Route::get('/403', function () {

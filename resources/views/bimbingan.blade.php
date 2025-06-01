@@ -53,7 +53,7 @@
                                     <th style="text-align: center;">No</th>
                                     <th style="text-align: center;">Tanggal</th>
                                     <th>Topik Bimbingan</th>
-                                    @if (auth()->user()->role_id == 1)
+                                    @if (auth()->user()->role_id == 2)
                                     <th>Mahasiswa</th>
                                     @endif
                                     <th>Dosen Pembimbing</th>
@@ -138,7 +138,7 @@
                                     </div>
                                 </div>
                                 @endforeach
-                                @elseif(auth()->user()->role_id == 1)
+                                @elseif(auth()->user()->role_id == 2)
                                 @foreach ($bimbingan as $bim)
                                 <tr>
                                     <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -159,20 +159,20 @@
                                             method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
-                                            <input type="hidden" name="status" value="Disetujui">
+                                            <input type="hidden" name="status" value="Maju Sempro">
                                             <button type="submit" class="btn btn-success btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menyetujui bimbingan ini?')">
-                                                Disetujui
+                                                onclick="return confirm('Apakah Anda yakin ingin mengubah status bimbingan ini menjadi Maju Sempro?')">
+                                                Maju Sempro
                                             </button>
                                         </form>
                                         <form action="{{ route('bimbingan.updateStatus', $bim->id) }}"
                                             method="POST" enctype="multipart/form-data" class="d-inline">
                                             @csrf
                                             @method('PUT')
-                                            <input type="hidden" name="status" value="Ditolak">
+                                            <input type="hidden" name="status" value="Bimbingan Ulang">
                                             <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menolak bimbingan ini?')">
-                                                Ditolak
+                                                onclick="return confirm('Apakah Anda yakin ingin mengubah status bimbingan ini menjadi Bimbingan Ulang?')">
+                                                Bimbingan Ulang
                                             </button>
                                         </form>
                                     </td>

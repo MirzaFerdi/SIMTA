@@ -6,20 +6,20 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BimbinganSeeder extends Seeder
+class BeritaAcaraSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('bimbingans')->insert([
+        DB::table('berita_acaras')->insert([
             'pengusul1' => 6,
             'pengusul2' => 7,
-            'dospem_id' => 2,
-            'tanggal' => now(),
-            'topik_bimbingan' => 'Topik Bimbingan 1',
-            'status' => 'Diproses'
+            'dosen' => 2,
+            'pengajuan_id' => 1,
+            'berita_acara' => 'BeritaAcara_1.pdf',
+            'status' => 'Telah Diseminarkan'
         ]);
     }
 }

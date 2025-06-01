@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PenjadwalanSeeder::class,
             TugasAkhirSeeder::class,
             SemproSeeder::class,
+            // BeritaAcaraSeeder::class,
             // Add other seeders here if needed
         ]);
     }

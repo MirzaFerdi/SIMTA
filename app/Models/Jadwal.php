@@ -17,11 +17,11 @@ class Jadwal extends Model
         'pengusul2',
         'pengajuan_id',
         'dospem_id',
+        'dosen_penguji',
         'tanggal',
         'tahun_akademik',
         'jam',
         'tempat',
-        'jenis_ujian'
     ];
     public function pengusul1Jadwal(){
         return $this->belongsTo(User::class, 'pengusul1');
@@ -29,6 +29,11 @@ class Jadwal extends Model
     public function pengusul2Jadwal(){
         return $this->belongsTo(User::class, 'pengusul2');
     }
+
+    public function dosenPengujiJadwal(){
+        return $this->belongsTo(User::class, 'dosen_penguji');
+    }
+
     public function pengajuan(){
         return $this->belongsTo(PengajuanJudul::class, 'pengajuan_id');
     }

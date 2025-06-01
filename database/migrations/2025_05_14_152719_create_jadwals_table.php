@@ -17,11 +17,11 @@ return new class extends Migration
             $table->foreignId('pengusul2')->constrained('users')->onDelete('cascade');
             $table->foreignId('pengajuan_id')->constrained('pengajuan_juduls')->onDelete('cascade');
             $table->foreignId('dospem_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('dosen_penguji')->constrained('users')->onDelete('cascade');
             $table->date('tanggal');
             $table->string('tahun_akademik');
             $table->time('jam');
             $table->string('tempat');
-            $table->string('jenis_ujian');
         });
     }
 

@@ -1,24 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
-            <strong>Berhasil!</strong> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
-            <strong>Gagal!</strong> Silakan periksa inputan Anda.
-            <ul class="mt-2 mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     <div class="container mt-3">
         <div class="row">
             <div class="col-md-12">
@@ -54,7 +36,7 @@
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: 100%;" id="myTable">
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;">No</th>
@@ -64,62 +46,284 @@
                                         <th>Judul</th>
                                         <th>Mahasiswa</th>
                                         <th>Dosen Pembimbing</th>
-                                        @if (auth()->user()->role_id == 3)
-                                            <th style="text-align: center;">Ujian</th>
-                                        @else
+                                        <th>Dosen Penguji</th>
+                                        @if (auth()->user()->role_id == 1)
                                             <th style="text-align: center;">Aksi</th>
                                         @endif
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($jadwalUser as $jadwal)
-                                        <tr>
-                                            <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                            <td style="text-align: center;">{{ $jadwal->tanggal }}</td>
-                                            <td style="text-align: center;">{{ $jadwal->jam }}</td>
-                                            <td style="text-align: center;">{{ $jadwal->tempat }}</td>
-                                            <td>{{ $jadwal->pengajuan->judul }}</td>
-                                            <td>
-                                                <div class="">
-                                                    {{ $jadwal->pengusul1Jadwal->nama }}
-                                                </div>
-                                                <div class="">
-                                                    {{ $jadwal->pengusul2Jadwal->nama }}
-                                                </div>
-                                            </td>
-                                            <td>{{ $jadwal->dospemJadwal->nama }}</td>
-                                            @if (auth()->user()->role_id == 3)
-                                                <td style="text-align: center;">{{ $jadwal->jenis_ujian }}</td>
-                                            @else
+                                    @if (auth()->user()->role_id == 1)
+                                        @foreach ($jadwals as $jadwal)
+                                            <tr>
+                                                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                                                <td style="text-align: center;">{{ $jadwal->tanggal }}</td>
+                                                <td style="text-align: center;">{{ $jadwal->jam }}</td>
+                                                <td style="text-align: center;">{{ $jadwal->tempat }}</td>
+                                                <td>{{ $jadwal->pengajuan->judul }}</td>
                                                 <td>
-                                                    {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#detailModal{{ $user->id }}">
-                                                    Detail
-                                                </button>
-                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $user->id }}">
-                                                    Edit
-                                                </button> --}}
-                                                    {{-- <form action="{{ route('user.delete', $user->id) }}" method="POST"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Yakin ingin menghapus?')">
-                                                        Hapus
-                                                    </button>
-                                                </form> --}}
+                                                    <div class="">
+                                                        {{ $jadwal->pengusul1Jadwal->nama }}
+                                                    </div>
+                                                    <div class="">
+                                                        {{ $jadwal->pengusul2Jadwal->nama }}
+                                                    </div>
                                                 </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
+                                                <td>{{ $jadwal->dospemJadwal->nama }}</td>
+                                                <td>{{ $jadwal->dosenPengujiJadwal->nama }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#editModal{{ $jadwal->id }}">
+                                                        Edit
+                                                    </button>
+                                                    <form action="{{ route('penjadwalan.destroy', $jadwal->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Yakin ingin menghapus?')">
+                                                            Hapus
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            {{-- Edit Modal --}}
+                                            <div class="modal fade" id="editModal{{ $jadwal->id }}" tabindex="-1"
+                                                aria-labelledby="editModalLabel{{ $jadwal->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel{{ $jadwal->id }}">
+                                                                Edit
+                                                                Jadwal</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <form action="{{ route('penjadwalan.update', $jadwal->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="tahun_akademik" class="form-label">Tahun
+                                                                        Akademik</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="tahun_akademik" name="tahun_akademik"
+                                                                        value="{{ $jadwal->tahun_akademik }}" readonly>
+                                                                    <div class="mb-3">
+                                                                        <label for="tanggal"
+                                                                            class="form-label">Tanggal</label>
+                                                                        <input type="date" class="form-control"
+                                                                            id="tanggal" name="tanggal"
+                                                                            value="{{ $jadwal->tanggal }}" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="jam" class="form-label">Jam</label>
+                                                                        <input type="time" class="form-control"
+                                                                            id="jam" name="jam"
+                                                                            value="{{ $jadwal->jam }}" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="tempat"
+                                                                            class="form-label">Tempat</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="tempat" name="tempat"
+                                                                            value="{{ $jadwal->tempat }}" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="pengajuan_id"
+                                                                            class="form-label">Pengajuan</label>
+                                                                        <select class="form-select" id="pengajuan_id"
+                                                                            name="pengajuan_id" required>
+                                                                            <option value="">Pilih Pengajuan</option>
+                                                                            @foreach ($pengajuans as $pengajuan)
+                                                                                <option value="{{ $pengajuan->id }}"
+                                                                                    {{ $jadwal->pengajuan_id == $pengajuan->id ? 'selected' : '' }}>
+                                                                                    {{ $pengajuan->judul }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="pengusul1" class="form-label">Pengusul
+                                                                            1</label>
+                                                                        <select class="form-select" id="pengusul1"
+                                                                            name="pengusul1" required>
+                                                                            <option value="">Pilih Pengusul 1
+                                                                            </option>
+                                                                            @foreach ($mahasiswas as $mahasiswa)
+                                                                                <option value="{{ $mahasiswa->id }}"
+                                                                                    {{ $jadwal->pengusul1 == $mahasiswa->id ? 'selected' : '' }}>
+                                                                                    {{ $mahasiswa->nama }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="pengusul2" class="form-label">Pengusul
+                                                                            2</label>
+                                                                        <select class="form-select" id="pengusul2"
+                                                                            name="pengusul2">
+                                                                            <option value="">Pilih Pengusul 2
+                                                                                (Opsional)
+                                                                            </option>
+                                                                            @foreach ($mahasiswas as $mahasiswa)
+                                                                                <option value="{{ $mahasiswa->id }}"
+                                                                                    {{ $jadwal->pengusul2 == $mahasiswa->id ? 'selected' : '' }}>
+                                                                                    {{ $mahasiswa->nama }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="dospem_id" class="form-label">Dosen
+                                                                            Pembimbing</label>
+                                                                        <select class="form-select" id="dospem_id"
+                                                                            name="dospem_id" required>
+                                                                            <option value="">Pilih Dosen Pembimbing
+                                                                            </option>
+                                                                            @foreach ($dosens as $dosen)
+                                                                                <option value="{{ $dosen->id }}"
+                                                                                    {{ $jadwal->dospem_id == $dosen->id ? 'selected' : '' }}>
+                                                                                    {{ $dosen->nama }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="dosen_penguji"
+                                                                            class="form-label">Dosen
+                                                                            Penguji</label>
+                                                                        <select class="form-select" id="dosen_penguji"
+                                                                            name="dosen_penguji" required>
+                                                                            <option value="">Pilih Dosen Penguji
+                                                                            </option>
+                                                                            @foreach ($dosens as $dosen)
+                                                                                <option value="{{ $dosen->id }}"
+                                                                                    {{ $jadwal->dosen_penguji == $dosen->id ? 'selected' : '' }}>
+                                                                                    {{ $dosen->nama }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Tutup</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Simpan</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        @foreach ($jadwalUser as $jadwal)
+                                            <tr>
+                                                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                                                <td style="text-align: center;">{{ $jadwal->tanggal }}</td>
+                                                <td style="text-align: center;">{{ $jadwal->jam }}</td>
+                                                <td style="text-align: center;">{{ $jadwal->tempat }}</td>
+                                                <td>{{ $jadwal->pengajuan->judul }}</td>
+                                                <td>
+                                                    <div class="">
+                                                        {{ $jadwal->pengusul1Jadwal->nama }}
+                                                    </div>
+                                                    <div class="">
+                                                        {{ $jadwal->pengusul2Jadwal->nama }}
+                                                    </div>
+                                                </td>
+                                                <td>{{ $jadwal->dospemJadwal->nama }}</td>
+                                                <td>{{ $jadwal->dosenPengujiJadwal->nama }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
-                        <div class="text-center">
-                            {{-- <button type="submit" class="btn btn-primary">Jadwalkan</button> --}}
-                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Tambah Modal --}}
+    <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tambahModalLabel">Tambah Jadwal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('penjadwalan.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
+                            <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik"
+                                value="{{ date('Y') }}/{{ date('Y') + 1 }}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tanggal" class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jam" class="form-label">Jam</label>
+                            <input type="time" class="form-control" id="jam" name="jam" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tempat" class="form-label">Tempat</label>
+                            <input type="text" class="form-control" id="tempat" name="tempat" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pengajuan_id" class="form-label">Pengajuan</label>
+                            <select class="form-select" id="pengajuan_id" name="pengajuan_id" required>
+                                <option hidden value="">Pilih Pengajuan</option>
+                                @foreach ($pengajuans as $pengajuan)
+                                    <option value="{{ $pengajuan->id }}">{{ $pengajuan->judul }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pengusul1" class="form-label">Pengusul 1</label>
+                            <select class="form-select" id="pengusul1" name="pengusul1" required>
+                                <option hidden value="">Pilih Pengusul 1</option>
+                                @foreach ($mahasiswas as $mahasiswa)
+                                    <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pengusul2" class="form-label">Pengusul 2</label>
+                            <select class="form-select" id="pengusul2" name="pengusul2">
+                                <option hidden value="">Pilih Pengusul 2</option>
+                                @foreach ($mahasiswas as $mahasiswa)
+                                    <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dospem_id" class="form-label">Dosen Pembimbing</label>
+                            <select class="form-select" id="dospem_id" name="dospem_id" required>
+                                <option hidden value="">Pilih Dosen Pembimbing</option>
+                                @foreach ($dosens as $dosen)
+                                    <option value="{{ $dosen->id }}">{{ $dosen->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dosen_penguji" class="form-label">Dosen Penguji</label>
+                            <select class="form-select" id="dosen_penguji" name="dosen_penguji" required>
+                                <option hidden value="">Pilih Dosen Penguji</option>
+                                @foreach ($dosens as $dosen)
+                                    <option value="{{ $dosen->id }}">{{ $dosen->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -127,18 +331,30 @@
 
 @section('scripts')
     <script>
-        setTimeout(function() {
-            var alert = document.getElementById('success-alert');
-            if (alert) {
-                alert.remove();
-            }
-        }, 3000);
+        document.getElementById('tahun_akademik').addEventListener('change', function() {
+            const selectedYear = this.value;
+            window.location.href = `/penjadwalan?tahun_akademik=${selectedYear}`;
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                "language": {
+                    "search": "Cari:",
+                    "lengthMenu": "Tampilkan _MENU_ entri",
+                    "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                    "infoEmpty": "Tidak ada entri yang ditemukan",
+                    "zeroRecords": "Tidak ada entri yang cocok",
+                    "paginate": {
+                        "previous": "Sebelumnya",
+                        "next": "Selanjutnya"
+                    }
+                },
+                responsive: true,
+                autoWidth: false,
+                scrollX: true,
+            });
 
-        setTimeout(function() {
-            var alert = document.getElementById('error-alert');
-            if (alert) {
-                alert.remove();
-            }
-        }, 3000);
+        });
     </script>
 @endsection

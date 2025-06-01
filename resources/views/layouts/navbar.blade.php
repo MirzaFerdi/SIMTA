@@ -9,6 +9,8 @@
                 'dashboard' => 'Dashboard',
                 'profile' => 'Profil',
                 'user' => 'Daftar User',
+                'berita-acara' => 'Berita Acara',
+                'rekap-seminar' => 'Rekap Hasil Seminar',
             ];
         @endphp
         {{ $routeTitles[$currentRoute] ?? ucfirst(str_replace('.', ' ', $currentRoute)) }}

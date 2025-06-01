@@ -30,7 +30,7 @@ class SemproController extends Controller
         } else {
             $semproUser = collect();
         }
-        return view('ujian.sempro', compact('sempros', 'semproUser', 'mahasiswas', 'dospem', 'pengajuan'));
+        return view('sempro', compact('sempros', 'semproUser', 'mahasiswas', 'dospem', 'pengajuan'));
     }
 
     /**

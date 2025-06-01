@@ -35,5 +35,8 @@ class PengajuanJudul extends Model
     public function jadwal(){
         return $this->hasMany(Jadwal::class, 'pengajuan_id');
     }
+    public function beritaAcara(){
+        return $this->hasOne(BeritaAcara::class, 'pengajuan_id');
+    }
 
 }

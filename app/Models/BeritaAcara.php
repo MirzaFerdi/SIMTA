@@ -5,36 +5,40 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TugasAkhir extends Model
+class BeritaAcara extends Model
 {
+    use HasFactory;
 
-    public $timestamps = false;
-
-    protected $table = 'tugas_akhirs';
+    protected $table = 'berita_acaras';
 
     protected $fillable = [
         'pengusul1',
         'pengusul2',
-        'dospem_id',
+        'dosen',
         'pengajuan_id',
-        'no_ta',
-        'abstrak',
-        'status',
-        'laporan',
-        'ppt',
         'berita_acara',
-        'bimbingan'
+        'status'
     ];
-    public function pengusul1TugasAkhir(){
+
+    public $timestamps = false;
+
+    public function pengusul1BeritaAcara()
+    {
         return $this->belongsTo(User::class, 'pengusul1');
     }
-    public function pengusul2TugasAkhir(){
+
+    public function pengusul2BeritaAcara()
+    {
         return $this->belongsTo(User::class, 'pengusul2');
     }
-    public function dospemTugasAkhir(){
-        return $this->belongsTo(User::class, 'dospem_id');
+
+    public function dosenBeritaAcara()
+    {
+        return $this->belongsTo(User::class, 'dosen');
     }
-    public function pengajuanTugasAkhir(){
+
+    public function pengajuanBeritaAcara()
+    {
         return $this->belongsTo(PengajuanJudul::class, 'pengajuan_id');
     }
 }

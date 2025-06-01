@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Imports\UserImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,23 +25,23 @@ class UserController extends Controller
         $mahasiswas = User::where('role_id', 3)
             ->get()
             ->map(function ($user) {
-            try {
-                $user->decrypted_password = Crypt::decryptString($user->encrypted_password);
-            } catch (\Exception $e) {
-                $user->decrypted_password = 'Decryption failed';
-            }
-            return $user;
+                try {
+                    $user->decrypted_password = Crypt::decryptString($user->encrypted_password);
+                } catch (\Exception $e) {
+                    $user->decrypted_password = 'Decryption failed';
+                }
+                return $user;
             });
 
         $dosens = User::where('role_id', 2)
             ->get()
             ->map(function ($user) {
-            try {
-                $user->decrypted_password = Crypt::decryptString($user->encrypted_password);
-            } catch (\Exception $e) {
-                $user->decrypted_password = 'Decryption failed';
-            }
-            return $user;
+                try {
+                    $user->decrypted_password = Crypt::decryptString($user->encrypted_password);
+                } catch (\Exception $e) {
+                    $user->decrypted_password = 'Decryption failed';
+                }
+                return $user;
             });
 
         $roles = Role::all();
@@ -64,20 +66,22 @@ class UserController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email',
-            'password' => 'nullable|string|min:6',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png,heic|max:2048',
-        ],
-        [
-            'nama.required' => 'Nama tidak boleh kosong',
-            'email.required' => 'Email tidak boleh kosong',
-            'password.min' => 'Password minimal 6 karakter',
-            'foto.image' => 'File harus berupa gambar',
-            'foto.mimes' => 'Format gambar tidak valid',
-            'foto.max' => 'Ukuran gambar maksimal 2MB',
-        ]);
+        $request->validate(
+            [
+                'nama' => 'required|string|max:255',
+                'email' => 'required|email',
+                'password' => 'nullable|string|min:6',
+                'foto' => 'nullable|image|mimes:jpg,jpeg,png,heic|max:2048',
+            ],
+            [
+                'nama.required' => 'Nama tidak boleh kosong',
+                'email.required' => 'Email tidak boleh kosong',
+                'password.min' => 'Password minimal 6 karakter',
+                'foto.image' => 'File harus berupa gambar',
+                'foto.mimes' => 'Format gambar tidak valid',
+                'foto.max' => 'Ukuran gambar maksimal 2MB',
+            ]
+        );
 
 
         $user->nama = $request->nama;
@@ -119,6 +123,17 @@ class UserController extends Controller
         //
     }
 
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new UserImport, $request->file('file'));
+
+        return redirect()->back()->with('success', 'Data user berhasil diupload!');
+    }
+
     /**
      * Display the specified resource.
      */
@@ -140,20 +155,22 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-            'email' => 'required|email',
-            'password' => 'nullable|string|min:6',
-            'role_id' => 'required|exists:roles,id',
-        ],
-        [
-            'nama.required' => 'Nama tidak boleh kosong',
-            'username.required' => 'Username tidak boleh kosong',
-            'username.unique' => 'Username sudah digunakan.',
-            'email.required' => 'Email tidak boleh kosong',
-            'password.min' => 'Password minimal 6 karakter',
-        ]);
+        $request->validate(
+            [
+                'nama' => 'required|string|max:255',
+                'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+                'email' => 'required|email',
+                'password' => 'nullable|string|min:6',
+                'role_id' => 'required|exists:roles,id',
+            ],
+            [
+                'nama.required' => 'Nama tidak boleh kosong',
+                'username.required' => 'Username tidak boleh kosong',
+                'username.unique' => 'Username sudah digunakan.',
+                'email.required' => 'Email tidak boleh kosong',
+                'password.min' => 'Password minimal 6 karakter',
+            ]
+        );
 
         $user->nama = $request->nama;
         $user->email = $request->email;

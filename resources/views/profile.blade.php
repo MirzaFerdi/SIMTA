@@ -1,24 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
-            <strong>Berhasil!</strong> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
-            <strong>Gagal!</strong> Silakan periksa inputan Anda.
-            <ul class="mt-2 mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -117,8 +99,7 @@
                             </div>
 
                             <div class="col-md-4 text-center">
-                                <img src="{{ asset('storage/foto-profile/' . $user->foto) }}"
-                                    class="rounded mb-3"
+                                <img src="{{ asset('storage/foto-profile/' . $user->foto) }}" class="rounded mb-3"
                                     style="width: 150px; height: 225px; object-fit: cover;" alt="Foto Profil">
                             </div>
                         </div>
@@ -136,21 +117,6 @@
 
 
 @section('scripts')
-    <script>
-        setTimeout(function() {
-            var alert = document.getElementById('success-alert');
-            if (alert) {
-                alert.remove();
-            }
-        }, 3000);
-
-        setTimeout(function() {
-            var alert = document.getElementById('error-alert');
-            if (alert) {
-                alert.remove();
-            }
-        }, 5000);
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const passwordText = document.getElementById('password-text');

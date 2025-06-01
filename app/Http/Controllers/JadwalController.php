@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
+use App\Models\PengajuanJudul;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 
 class JadwalController extends Controller
@@ -14,6 +16,9 @@ class JadwalController extends Controller
     public function index()
     {
         $jadwals = Jadwal::all();
+        $pengajuans = PengajuanJudul::where('status', 'Diterima')->get();
+        $mahasiswas = User::where('role_id', 3)->get();
+        $dosens = User::where('role_id', 2)->get();
         $userId = auth()->id();
         if (auth()->user()->role_id == 3) {
             $jadwalUser = Jadwal::where('pengusul1', $userId)
@@ -22,7 +27,7 @@ class JadwalController extends Controller
         } else {
             $jadwalUser = collect();
         }
-        return view('penjadwalan', compact('jadwals', 'jadwalUser'));
+        return view('penjadwalan', compact('jadwals', 'jadwalUser', 'pengajuans', 'mahasiswas', 'dosens'));
     }
 
     /**
@@ -38,7 +43,32 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'pengusul1' => 'required|exists:users,id',
+            'pengusul2' => 'required|exists:users,id',
+            'dospem_id' => 'required|exists:users,id',
+            'dosen_penguji' => 'required|exists:users,id',
+            'tanggal' => 'required|date',
+            'tahun_akademik' => 'required|string|max:10',
+            'jam' => 'required|date_format:H:i',
+            'tempat' => 'required|string|max:255',
+            'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
+        ]);
+
+        $jadwal = new Jadwal();
+        $jadwal->pengusul1 = $request->pengusul1;
+        $jadwal->pengusul2 = $request->pengusul2;
+        $jadwal->dospem_id = $request->dospem_id;
+        $jadwal->dosen_penguji = $request->dosen_penguji;
+        $jadwal->tanggal = $request->tanggal;
+        $jadwal->tahun_akademik = $request->tahun_akademik;
+        $jadwal->jam = $request->jam;
+        $jadwal->tempat = $request->tempat;
+        $jadwal->pengajuan_id = $request->pengajuan_id;
+        $jadwal->save();
+
+
+        return redirect()->route('penjadwalan')->with('success', 'Jadwal berhasil dibuat.');
     }
 
     /**
@@ -70,6 +100,7 @@ class JadwalController extends Controller
      */
     public function destroy(Jadwal $jadwal)
     {
-        //
+        $jadwal->delete();
+        return redirect()->route('penjadwalan')->with('success', 'Jadwal berhasil dihapus.');
     }
 }
