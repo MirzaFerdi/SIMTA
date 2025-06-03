@@ -52,9 +52,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
         Route::post('/users/import', [UserController::class, 'import'])->name('user.import');
 
-        Route::put('/bimbingan/status/{bimbingan}', [BimbinganController::class, 'updateStatus'])->name('bimbingan.updateStatus');
-
-        Route::put('/pengajuan/status/{pengajuanJudul}', [PengajuanJudulController::class, 'updateStatus'])->name('pengajuan.updateStatus');
 
         Route::post('/penjadwalan/store', [JadwalController::class, 'store'])->name('penjadwalan.store');
         Route::put('/penjadwalan/{jadwal}', [JadwalController::class, 'update'])->name('penjadwalan.update');
@@ -68,6 +65,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/berita-acara/store', [BeritaAcaraController::class, 'store'])->name('berita-acara.store');
         Route::put('/berita-acara/{beritaAcara}', [BeritaAcaraController::class, 'update'])->name('berita-acara.update');
         Route::delete('/berita-acara/delete/{beritaAcara}', [BeritaAcaraController::class, 'destroy'])->name('berita-acara.destroy');
+    });
+
+    Route::middleware(['role:2'])->group(function () {
+
+        Route::put('/pengajuan/status/{pengajuanJudul}', [PengajuanJudulController::class, 'updateStatus'])->name('pengajuan.updateStatus');
+
+        Route::put('/bimbingan/status/{bimbingan}', [BimbinganController::class, 'updateStatus'])->name('bimbingan.updateStatus');
     });
 
     Route::middleware(['role:3'])->group(function () {

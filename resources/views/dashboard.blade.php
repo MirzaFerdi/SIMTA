@@ -65,7 +65,7 @@
                     </div>
                     <div>
                         <h5 class="card-title fw-semibold text-dark mb-1">Jumlah Mahasiswa Yang Belum Seminar</h5>
-                        <p class="card-text fs-5 text-muted mb-0">10</p>
+                        <p class="card-text fs-5 text-muted mb-0">{{ $mhsBelumSeminar}}</p>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                     </div>
                     <div>
                         <h5 class="card-title fw-semibold text-dark mb-1">Jumlah Mahasiswa Yang Sudah Seminar</h5>
-                        <p class="card-text fs-5 text-muted mb-0">3</p>
+                        <p class="card-text fs-5 text-muted mb-0">{{ $mhsSudahSeminar }}</p>
                     </div>
                 </div>
             </div>

@@ -30,7 +30,7 @@
                                     </div>
                                 @else
                                     <div class="col-md-3 col-sm-12">
-                                        <h5>{{ $jadwalUser->first()->tahun_akademik ?? 'Tahun Akademik' }}</h5>
+                                        <h5>{{ $jadwalUser->first()->tahun_akademik ?? '-' }}</h5>
                                     </div>
                                 @endif
                             </div>
@@ -62,12 +62,14 @@
                                                 <td style="text-align: center;">{{ $jadwal->tempat }}</td>
                                                 <td>{{ $jadwal->pengajuan->judul }}</td>
                                                 <td>
-                                                    <div class="">
-                                                        {{ $jadwal->pengusul1Jadwal->nama }}
-                                                    </div>
-                                                    <div class="">
-                                                        {{ $jadwal->pengusul2Jadwal->nama }}
-                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            {{ $jadwal->pengusul1Jadwal->nama }}
+                                                        </li>
+                                                        <li>
+                                                            {{ $jadwal->pengusul2Jadwal->nama }}
+                                                        </li>
+                                                    </ul>
                                                 </td>
                                                 <td>{{ $jadwal->dospemJadwal->nama }}</td>
                                                 <td>{{ $jadwal->dosenPengujiJadwal->nama }}</td>
@@ -136,7 +138,8 @@
                                                                             class="form-label">Pengajuan</label>
                                                                         <select class="form-select" id="pengajuan_id"
                                                                             name="pengajuan_id" required>
-                                                                            <option hidden value="">Pilih Pengajuan</option>
+                                                                            <option hidden value="">Pilih Pengajuan
+                                                                            </option>
                                                                             @foreach ($pengajuans as $pengajuan)
                                                                                 <option value="{{ $pengajuan->id }}"
                                                                                     {{ $jadwal->pengajuan_id == $pengajuan->id ? 'selected' : '' }}>
@@ -178,7 +181,8 @@
                                                                             Pembimbing</label>
                                                                         <select class="form-select" id="dospem_id"
                                                                             name="dospem_id" required>
-                                                                            <option hidden value="">Pilih Dosen Pembimbing
+                                                                            <option hidden value="">Pilih Dosen
+                                                                                Pembimbing
                                                                             </option>
                                                                             @foreach ($dosens as $dosen)
                                                                                 <option value="{{ $dosen->id }}"
@@ -193,7 +197,8 @@
                                                                             Penguji</label>
                                                                         <select class="form-select" id="dosen_penguji"
                                                                             name="dosen_penguji" required>
-                                                                            <option hidden value="">Pilih Dosen Penguji
+                                                                            <option hidden value="">Pilih Dosen
+                                                                                Penguji
                                                                             </option>
                                                                             @foreach ($dosens as $dosen)
                                                                                 <option value="{{ $dosen->id }}"
@@ -224,12 +229,14 @@
                                                 <td style="text-align: center;">{{ $jadwal->tempat }}</td>
                                                 <td>{{ $jadwal->pengajuan->judul }}</td>
                                                 <td>
-                                                    <div class="">
-                                                        {{ $jadwal->pengusul1Jadwal->nama }}
-                                                    </div>
-                                                    <div class="">
-                                                        {{ $jadwal->pengusul2Jadwal->nama }}
-                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            {{ $jadwal->pengusul1Jadwal->nama }}
+                                                        </li>
+                                                        <li>
+                                                            {{ $jadwal->pengusul2Jadwal->nama }}
+                                                        </li>
+                                                    </ul>
                                                 </td>
                                                 <td>{{ $jadwal->dospemJadwal->nama }}</td>
                                                 <td>{{ $jadwal->dosenPengujiJadwal->nama }}</td>

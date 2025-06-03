@@ -19,7 +19,9 @@ class BimbinganSeeder extends Seeder
             'dospem_id' => 2,
             'tanggal' => now(),
             'topik_bimbingan' => 'Topik Bimbingan 1',
-            'status' => 'Diproses'
+            'file' => 'bimbingan1.pdf',
+            'review' => 'Bimbingan pertama telah dilakukan.',
+            'status' => 'Menunggu'
         ]);
     }
 }

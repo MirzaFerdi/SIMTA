@@ -17,9 +17,10 @@ class BimbinganController extends Controller
         $bimbingan = Bimbingan::all();
         $dospem = User::where('role_id', 2)->get();
         $userId = auth()->id();
-        if (auth()->user()->role_id == 3) {
+        if (auth()->user()->role_id == 3 || auth()->user()->role_id == 2) {
             $bimbinganUser = Bimbingan::where('pengusul1', $userId)
                 ->orWhere('pengusul2', $userId)
+                ->orWhere('dospem_id', $userId)
                 ->get();
         } else {
             $bimbinganUser = collect();
@@ -44,10 +45,17 @@ class BimbinganController extends Controller
             'dospem_id' => 'required|exists:users,id',
             'tanggal' => 'required|date',
             'topik_bimbingan' => 'required|string|max:255',
+            'file' => 'sometimes|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
         $bimbingan = new Bimbingan();
         $bimbingan->dospem_id = $request->dospem_id;
+        if ($request->hasFile('file')){
+            $filename = time() . '_' . $request->file('file')->getClientOriginalName();
+            $request->file('file')->storeAs('public/file/bimbingan', $filename);
+            $bimbingan->file = $filename;
+        }
+
 
         $pengajuan = PengajuanJudul::where('pengusul1', auth()->id())
             ->orWhere('pengusul2', auth()->id())
@@ -108,6 +116,7 @@ class BimbinganController extends Controller
         }
         $bimbingan->tanggal = $request->tanggal;
         $bimbingan->topik_bimbingan = $request->topik_bimbingan;
+        $bimbingan->status = 'Diproses';
         $bimbingan->save();
 
         return redirect()->route('bimbingan')->with('success', 'Bimbingan berhasil diperbarui.');
@@ -117,9 +126,11 @@ class BimbinganController extends Controller
     {
         $request->validate([
             'status' => 'required|string|max:50',
+            'review' => 'nullable|string|max:500',
         ]);
 
         $bimbingan->status = $request->status;
+        $bimbingan->review = $request->review;
         $bimbingan->save();
 
         return redirect()->route('bimbingan')->with('success', 'Status bimbingan berhasil diperbarui.');

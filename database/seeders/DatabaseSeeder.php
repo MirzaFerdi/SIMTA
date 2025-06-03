@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             PengajuanSeeder::class,
             BimbinganSeeder::class,
             PenjadwalanSeeder::class,
-            TugasAkhirSeeder::class,
             SemproSeeder::class,
             // BeritaAcaraSeeder::class,
             // Add other seeders here if needed

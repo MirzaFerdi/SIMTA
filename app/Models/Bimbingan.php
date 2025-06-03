@@ -18,6 +18,8 @@ class Bimbingan extends Model
         'dospem_id',
         'tanggal',
         'topik_bimbingan',
+        'file',
+        'review',
         'status',
     ];
 

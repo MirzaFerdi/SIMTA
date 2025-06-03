@@ -18,7 +18,9 @@ return new class extends Migration
             $table->foreignId('dospem_id')->constrained('users')->onDelete('cascade');
             $table->date('tanggal');
             $table->string('topik_bimbingan');
-            $table->string('status')->default('diproses');
+            $table->string('file');
+            $table->text('review')->nullable();
+            $table->string('status')->default('Diproses');
         });
     }
 

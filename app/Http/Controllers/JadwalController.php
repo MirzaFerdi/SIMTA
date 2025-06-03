@@ -27,10 +27,12 @@ class JadwalController extends Controller
         $dosens = User::where('role_id', 2)->get();
 
         $userId = auth()->id();
-        if (auth()->user()->role_id == 3) {
+        if (auth()->user()->role_id == 3 || auth()->user()->role_id == 2) {
             $jadwalUser = Jadwal::where(function ($query) use ($userId) {
                 $query->where('pengusul1', $userId)
-                    ->orWhere('pengusul2', $userId);
+                    ->orWhere('pengusul2', $userId)
+                    ->orWhere('dospem_id', $userId)
+                    ->orWhere('dosen_penguji', $userId);
             })
                 ->when($tahunAkademik, function ($query, $tahunAkademik) {
                     return $query->where('tahun_akademik', $tahunAkademik);
@@ -39,7 +41,6 @@ class JadwalController extends Controller
         } else {
             $jadwalUser = collect();
         }
-
         return view('penjadwalan', compact('jadwals', 'jadwalUser', 'pengajuans', 'mahasiswas', 'dosens'));
     }
 
