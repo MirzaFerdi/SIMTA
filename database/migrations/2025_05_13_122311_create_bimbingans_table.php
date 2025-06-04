@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('topik_bimbingan');
             $table->string('file');
             $table->text('review')->nullable();
-            $table->string('status')->default('Diproses');
+            $table->string('status')->default('Menunggu');
         });
     }
 

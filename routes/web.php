@@ -82,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/bimbingan/store', [BimbinganController::class, 'store'])->name('bimbingan.store');
         Route::put('/bimbingan/{bimbingan}', [BimbinganController::class, 'update'])->name('bimbingan.update');
         Route::post('/bimbingan/delete/{bimbingan}', [BimbinganController::class, 'destroy'])->name('bimbingan.delete');
+
+        Route::post('/seminar-proposal/store', [SemproController::class, 'store'])->name('sempro.store');
+        Route::put('/seminar-proposal/{sempro}', [SemproController::class, 'update'])->name('sempro.update');
     });
 });
 Route::get('/403', function () {

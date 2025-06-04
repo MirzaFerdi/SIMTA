@@ -18,11 +18,14 @@ class SemproController extends Controller
         $mahasiswas = User::where('role_id', '3')->get();
         $dospem = User::where('role_id', '2')->get();
         $userId = auth()->id();
-        $pengajuan = PengajuanJudul::where('status', 'Diterima')
-            ->where(function ($query) use ($userId) {
-                $query->where('pengusul1', $userId)
-                    ->orWhere('pengusul2', $userId);
-            })->get();
+        // $pengajuan = PengajuanJudul::where('status', 'Diterima')
+        //     ->where(function ($query) use ($userId) {
+        //         $query->where('pengusul1', $userId)
+        //             ->orWhere('pengusul2', $userId);
+        //     })->get();
+        $pengajuan = PengajuanJudul::where('pengusul1', $userId)
+            ->orWhere('pengusul2', $userId)
+            ->get();
         if (auth()->user()->role_id == 3) {
             $semproUser = Sempro::where('pengusul1', $userId)
                 ->orWhere('pengusul2', $userId)
@@ -46,7 +49,44 @@ class SemproController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'pengusul1' => 'required|exists:users,id',
+            'pengusul2' => 'nullable|exists:users,id',
+            'dospem_id' => 'required|exists:users,id',
+            'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
+            'no_ta' => 'required|string|max:255',
+            'abstrak' => 'required|string|max:1000',
+            'laporan' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'ppt' => 'required|file|mimes:ppt,pptx|max:2048',
+        ]);
+
+        $sempro = new Sempro();
+        $sempro->pengusul1 = $request->pengusul1;
+        $sempro->pengusul2 = $request->pengusul2;
+        $sempro->dospem_id = $request->dospem_id;
+        $sempro->pengajuan_id = $request->pengajuan_id;
+        $sempro->no_ta = $request->no_ta;
+        $sempro->abstrak = $request->abstrak;
+
+        if ($request->hasFile('laporan')) {
+            $filename = time() . '_' . $request->file('laporan')->getClientOriginalName();
+            $request->file('laporan')->storeAs('public/file/laporan', $filename);
+            $sempro->laporan = $filename;
+        }
+
+        if ($request->hasFile('ppt')) {
+            $filename = time() . '_' . $request->file('ppt')->getClientOriginalName();
+            $request->file('ppt')->storeAs('public/file/ppt', $filename);
+            $sempro->ppt = $filename;
+        }
+
+
+        // Set default status
+        $sempro->status = 'Menunggu';
+
+        $sempro->save();
+
+        return redirect()->route('sempro')->with('success', 'Seminar Proposal berhasil diajukan.');
     }
 
     /**
@@ -70,8 +110,45 @@ class SemproController extends Controller
      */
     public function update(Request $request, Sempro $sempro)
     {
-        //
+        $request->validate([
+            'pengusul1' => 'required|exists:users,id',
+            'pengusul2' => 'nullable|exists:users,id',
+            'dospem_id' => 'required|exists:users,id',
+            'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
+            'no_ta' => 'required|string|max:255',
+            'abstrak' => 'required|string|max:1000',
+            'laporan' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'ppt' => 'nullable|file|mimes:ppt,pptx|max:2048',
+        ]);
+
+        $sempro->pengusul1 = $request->pengusul1;
+        $sempro->pengusul2 = $request->pengusul2;
+        $sempro->dospem_id = $request->dospem_id;
+        $sempro->pengajuan_id = $request->pengajuan_id;
+        $sempro->no_ta = $request->no_ta;
+        $sempro->abstrak = $request->abstrak;
+
+        if ($request->hasFile('laporan')) {
+            $filename = time() . '_' . $request->file('laporan')->getClientOriginalName();
+            $request->file('laporan')->storeAs('public/file/laporan', $filename);
+            $sempro->laporan = $filename;
+        }
+
+        if ($request->hasFile('ppt')) {
+            $filename = time() . '_' . $request->file('ppt')->getClientOriginalName();
+            $request->file('ppt')->storeAs('public/file/ppt', $filename);
+            $sempro->ppt = $filename;
+        }
+
+        if ($request->has('status')) {
+            $sempro->status = $request->status;
+        }
+
+        $sempro->save();
+
+        return redirect()->route('sempro')->with('success', 'Seminar Proposal berhasil diperbarui.');
     }
+
     public function updateStatus(Request $request, Sempro $sempro)
     {
         $request->validate([

@@ -25,7 +25,15 @@ class BimbinganController extends Controller
         } else {
             $bimbinganUser = collect();
         }
-        return view('bimbingan', compact('bimbingan', 'dospem', 'bimbinganUser'));
+
+        $bolehTambah = false;
+
+        if (auth()->user()->role_id == 3) {
+            $terakhir = $bimbinganUser->last();
+            $bolehTambah = $bimbinganUser->isEmpty() ||
+                ($terakhir && in_array($terakhir->status, ['Bimbingan Ulang', 'Menunggu']));
+        }
+        return view('bimbingan', compact('bimbingan', 'dospem', 'bimbinganUser', 'bolehTambah'));
     }
 
     /**
@@ -50,7 +58,7 @@ class BimbinganController extends Controller
 
         $bimbingan = new Bimbingan();
         $bimbingan->dospem_id = $request->dospem_id;
-        if ($request->hasFile('file')){
+        if ($request->hasFile('file')) {
             $filename = time() . '_' . $request->file('file')->getClientOriginalName();
             $request->file('file')->storeAs('public/file/bimbingan', $filename);
             $bimbingan->file = $filename;
@@ -116,7 +124,7 @@ class BimbinganController extends Controller
         }
         $bimbingan->tanggal = $request->tanggal;
         $bimbingan->topik_bimbingan = $request->topik_bimbingan;
-        $bimbingan->status = 'Diproses';
+        $bimbingan->status = 'Menunggu';
         $bimbingan->save();
 
         return redirect()->route('bimbingan')->with('success', 'Bimbingan berhasil diperbarui.');

@@ -10,7 +10,7 @@
                             <div class="col-md-6 col-sm-6 text-start">
                                 <h4>Bimbingan</h4>
                             </div>
-                            @if (auth()->user()->role_id == 3 && $bimbinganUser->last()->status == 'Bimbingan Ulang')
+                            @if ($bolehTambah)
                                 <div class="col-md-6 col-sm-6 text-end">
                                     <button type="button" class="btn btn-primary mt-md-0" data-bs-toggle="modal"
                                         data-bs-target="#tambahModal">
@@ -20,7 +20,7 @@
                             @endif
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: 100%" id="myTable">
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;">No</th>
@@ -28,7 +28,7 @@
                                         <th>Topik Bimbingan</th>
                                         <th>Mahasiswa</th>
                                         <th>Dosen Pembimbing</th>
-                                        <th>File</th>
+                                        <th style="text-align: center;">File</th>
                                         <th>Review</th>
                                         <th style="text-align: center;">Status</th>
                                         <th style="text-align: center;">Aksi</th>
@@ -64,7 +64,10 @@
                                             </td>
                                             <td style="text-align: center;">{{ $bim->status }}</td>
                                             <td style="text-align: center;">
-                                                @if (auth()->user()->role_id == 3 && $bimbinganUser->last()->status == 'Bimbingan Ulang')
+                                                @if (auth()->user()->role_id == 3 &&
+                                                        (($bimbinganUser->count() > 0 && $bimbinganUser->last()->status == 'Bimbingan Ulang') ||
+                                                            $bimbinganUser->last()->status == 'Menunggu' ||
+                                                            $bimbinganUser->isEmpty()))
                                                     <button type="button" class="btn btn-warning btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#editModal{{ $bim->id }}">
@@ -265,4 +268,23 @@
 @endsection
 
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                "language": {
+                    "search": "Cari:",
+                    "lengthMenu": "Tampilkan _MENU_ entri",
+                    "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                    "infoEmpty": "Tidak ada entri yang ditemukan",
+                    "zeroRecords": "Tidak ada entri yang cocok",
+                    "paginate": {
+                        "previous": "Sebelumnya",
+                        "next": "Selanjutnya"
+                    }
+                },
+                scrollX: true,
+            });
+
+        });
+    </script>
 @endsection

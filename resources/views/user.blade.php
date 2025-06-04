@@ -392,8 +392,7 @@
                         "next": "Selanjutnya"
                     }
                 },
-                responsive: true,
-                autoWidth: false,
+                scrollX: true,
             });
 
         });
@@ -410,8 +409,7 @@
                         "next": "Selanjutnya"
                     }
                 },
-                responsive: true,
-                autoWidth: false,
+                scrollX: true,
             });
         });
     </script>

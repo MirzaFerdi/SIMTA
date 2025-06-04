@@ -13,20 +13,20 @@ class SemproSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('sempros')->insert([
-            [
-                'pengusul1' => 6,
-                'pengusul2' => 7,
-                'dospem_id' => 2,
-                'pengajuan_id' => 1,
-                'no_ta' => 'AB2024',
-                'abstrak' => 'Skripsi ini membahas tentang pengembangan aplikasi berbasis web untuk manajemen data mahasiswa.',
-                'laporan' => 'laporan.pdf',
-                'ppt' => 'presentasi.pptx',
-                'berita_acara' => 'berita_acara.pdf',
-                'status' => 'Diproses',
+        // DB::table('sempros')->insert([
+        //     [
+        //         'pengusul1' => 6,
+        //         'pengusul2' => 7,
+        //         'dospem_id' => 2,
+        //         'pengajuan_id' => 1,
+        //         'no_ta' => 'AB2024',
+        //         'abstrak' => 'Skripsi ini membahas tentang pengembangan aplikasi berbasis web untuk manajemen data mahasiswa.',
+        //         'laporan' => 'laporan.pdf',
+        //         'ppt' => 'presentasi.pptx',
+        //         'berita_acara' => 'berita_acara.pdf',
+        //         'status' => 'Diproses',
 
-            ],
-        ]);
+        //     ],
+        // ]);
     }
 }

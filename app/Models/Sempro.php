@@ -22,7 +22,6 @@ class Sempro extends Model
         'status',
         'laporan',
         'ppt',
-        'berita_acara'
     ];
 
     public function pengusul1Sempro()

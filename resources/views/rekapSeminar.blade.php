@@ -62,8 +62,7 @@
                         "next": "Selanjutnya"
                     }
                 },
-                responsive: true,
-                autoWidth: false,
+                scrollX: true,
             });
 
         });

@@ -23,7 +23,15 @@ class PengajuanJudulController extends Controller
         } else {
             $pengajuanUser = collect();
         }
-        return view('pengajuanJudul', compact('pengajuanJudul', 'mahasiswa', 'pengajuanUser'));
+
+        $bolehTambah = false;
+        if (auth()->user()->role_id == 3) {
+            $terakhir = $pengajuanUser->last();
+            $bolehTambah = $pengajuanUser->isEmpty() ||
+                ($terakhir && in_array($terakhir->status, ['Diproses', 'Ditolak']));
+        }
+
+        return view('pengajuanJudul', compact('pengajuanJudul', 'mahasiswa', 'pengajuanUser', 'bolehTambah'));
     }
 
     /**
