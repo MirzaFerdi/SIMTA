@@ -35,13 +35,17 @@
                                                 <td>{{ $sempro->pengajuanSempro->judul }}</td>
                                                 <td>
                                                     <div class="">
-                                                        {{ $sempro->laporan }}
+                                                        <a href="{{ asset('storage/file/laporan/' . $sempro->laporan) }}"
+                                                            target="_blank"
+                                                            class="btn btn-link text-decoration-none">{{ $sempro->laporan }}</a>
                                                     </div>
-                                                    <div class="">
+                                                    {{-- <div class="">
                                                         {{ $sempro->berita_acara }}
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="">
-                                                        {{ $sempro->ppt }}
+                                                        <a href="{{ asset('storage/file/ppt/' . $sempro->ppt) }}"
+                                                            target="_blank"
+                                                            class="btn btn-link text-decoration-none">{{ $sempro->ppt }}</a>
                                                     </div>
                                                 </td>
                                                 <td style="text-align: center;">{{ $sempro->status }}</td>

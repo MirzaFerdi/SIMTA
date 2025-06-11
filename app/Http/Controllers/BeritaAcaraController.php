@@ -17,7 +17,7 @@ class BeritaAcaraController extends Controller
     {
         $mahasiswa = User::where('role_id', 3)->get();
         $dosen = User::where('role_id', 2)->get();
-        $pengajuan = PengajuanJudul::where('status', 'Diterima')->get();
+        $pengajuan = PengajuanJudul::where('status', 'Disetujui')->get();
         $beritaAcara = BeritaAcara::with(['pengusul1BeritaAcara', 'pengusul2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
             ->get();
 

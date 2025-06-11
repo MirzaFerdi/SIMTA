@@ -22,7 +22,7 @@ class JadwalController extends Controller
             return $query->where('tahun_akademik', $tahunAkademik);
         })->get();
 
-        $pengajuans = PengajuanJudul::where('status', 'Diterima')->get();
+        $pengajuans = PengajuanJudul::where('status', 'Disetujui')->get();
         $mahasiswas = User::where('role_id', 3)->get();
         $dosens = User::where('role_id', 2)->get();
 

@@ -103,14 +103,14 @@
                                 <div class="row gy-2">
                                     <div class="col-md-6 d-flex align-items-center">
                                         <div class="me-3 fw-medium" style="width: 200px;">Template Laporan Proposal:</div>
-                                        <a href="{{ asset('storage/template/Template_Laporan_Sempro.docx') }}"
+                                        <a href="{{ asset('Template_Laporan_Sempro.docx') }}"
                                             class="btn btn-outline-primary btn-sm" target="_blank">
                                             Download
                                         </a>
                                     </div>
                                     <div class="col-md-6 d-flex align-items-center">
                                         <div class="me-3 fw-medium" style="width: 200px;">Berita Acara SEMPRO:</div>
-                                        <a href="{{ asset('storage/template/Template_Berita_Acara.docx') }}"
+                                        <a href="{{ asset('Template_Berita_Acara.docx') }}"
                                             class="btn btn-outline-primary btn-sm" target="_blank">
                                             Download
                                         </a>
