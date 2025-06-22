@@ -33,7 +33,11 @@
                                             <td>{{ $rekap->dosenBeritaAcara->nama }}</td>
                                             <td>{{ $rekap->pengajuanBeritaAcara->judul }}</td>
                                             <td>
-                                                {{ $rekap->status }}
+                                                @if ($rekap->status === 'Telah Diseminarkan')
+                                                    <span class="badge bg-success">{{ $rekap->status }}</span>
+                                                @else
+                                                    {{ $rekap->status }}
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

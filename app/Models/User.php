@@ -54,18 +54,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
-    public function pengusul1TugasAkhir()
-    {
-        return $this->hasOne(TugasAkhir::class, 'pengusul1');
-    }
-    public function pengusul2TugasAkhir()
-    {
-        return $this->hasOne(TugasAkhir::class, 'pengusul2');
-    }
-    public function dospemTugasAkhir()
-    {
-        return $this->hasOne(TugasAkhir::class, 'dospem_id');
-    }
     public function pengusul1Sempro()
     {
         return $this->hasOne(Sempro::class, 'pengusul1');
@@ -78,6 +66,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Sempro::class, 'dospem_id');
     }
+
+
     public function pengusul1Pengajuan()
     {
         return $this->hasOne(PengajuanJudul::class, 'pengusul1');
@@ -86,34 +76,51 @@ class User extends Authenticatable
     {
         return $this->hasOne(PengajuanJudul::class, 'pengusul2');
     }
+
+
     public function pengusul1Bimbingan()
     {
         return $this->hasMany(Bimbingan::class, 'pengusul1');
-    }
-    public function dospemBimbingan()
-    {
-        return $this->hasMany(Bimbingan::class, 'dospem_id');
     }
     public function pengusul2Bimbingan()
     {
         return $this->hasMany(Bimbingan::class, 'pengusul2');
     }
+    public function dospem1Bimbingan()
+    {
+        return $this->hasMany(Bimbingan::class, 'dospem1');
+    }
+    public function dospem2Bimbingan()
+    {
+        return $this->hasMany(Bimbingan::class, 'dospem2');
+    }
+
+
     public function pengusul1Jadwal()
     {
         return $this->hasMany(Jadwal::class, 'pengusul1');
-    }
-    public function dosenPengujiJadwal()
-    {
-        return $this->hasMany(Jadwal::class, 'dosen_penguji');
     }
     public function pengusul2Jadwal()
     {
         return $this->hasMany(Jadwal::class, 'pengusul2');
     }
-    public function dospemJadwal()
+    public function dosenPenguji1Jadwal()
     {
-        return $this->hasMany(Jadwal::class, 'dospem_id');
+        return $this->hasMany(Jadwal::class, 'dosen_penguji1');
     }
+    public function dosenPenguji2Jadwal()
+    {
+        return $this->hasMany(Jadwal::class, 'dosen_penguji2');
+    }
+    public function dospem1Jadwal()
+    {
+        return $this->hasMany(Jadwal::class, 'dospem1');
+    }
+    public function dospem2Jadwal()
+    {
+        return $this->hasMany(Jadwal::class, 'dospem2');
+    }
+
 
     public function pengusul1BeritaAcara()
     {

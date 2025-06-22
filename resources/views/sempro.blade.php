@@ -48,7 +48,15 @@
                                                             class="btn btn-link text-decoration-none">{{ $sempro->ppt }}</a>
                                                     </div>
                                                 </td>
-                                                <td style="text-align: center;">{{ $sempro->status }}</td>
+                                                <td style="text-align: center;">
+                                                    @if ($sempro->status == 'Disetujui')
+                                                        <span class="badge bg-success">{{ $sempro->status }}</span>
+                                                    @elseif ($sempro->status == 'Ditolak')
+                                                        <span class="badge bg-danger">{{ $sempro->status }}</span>
+                                                    @else
+                                                        <span class="badge bg-secondary">{{ $sempro->status }}</span>
+                                                    @endif
+                                                </td>
                                                 <td style="text-align: center;">
                                                     <form action="{{ route('sempro.updateStatus', $sempro->id) }}"
                                                         method="POST" enctype="multipart/form-data">
@@ -73,137 +81,147 @@
                                 </table>
                             </div>
                         @else
-                            <div class="">
-                                @php
-                                    $sempro = $semproUser->first();
-                                    $isEdit = $sempro ? true : false;
-                                @endphp
+                            @if ($statusBimbinganTerakhir == 'Maju Sempro')
+                                <div class="">
+                                    @php
+                                        $sempro = $semproUser->first();
+                                        $isEdit = $sempro ? true : false;
+                                    @endphp
 
-                                <form id="formSempro"
-                                    action="{{ $isEdit ? route('sempro.update', $sempro->id) : route('sempro.store') }}"
-                                    method="POST" enctype="multipart/form-data">
+                                    <form id="formSempro"
+                                        action="{{ $isEdit ? route('sempro.update', $sempro->id) : route('sempro.store') }}"
+                                        method="POST" enctype="multipart/form-data">
 
-                                    @csrf
-                                    @if ($isEdit)
-                                        @method('PUT')
-                                    @endif
-
-                                    {{-- No. TA --}}
-                                    <div class="mb-3">
-                                        <label for="no_ta" class="form-label">No. TA</label>
-                                        <input type="text" class="form-control" id="no_ta" name="no_ta"
-                                            value="{{ old('no_ta', $sempro->no_ta ?? '') }}"
-                                            {{ $isEdit ? 'disabled' : 'required' }}>
-                                    </div>
-
-                                    {{-- Pengusul 1 --}}
-                                    <div class="mb-3">
-                                        <label for="pengusul1" class="form-label">Pengusul 1</label>
-                                        <select class="form-select" id="pengusul1" name="pengusul1"
-                                            {{ $isEdit ? 'disabled' : 'required' }}>
-                                            <option hidden value="">Pilih Pengusul 1</option>
-                                            @foreach ($mahasiswas as $mahasiswa)
-                                                <option value="{{ $mahasiswa->id }}"
-                                                    {{ old('pengusul1', $sempro->pengusul1 ?? '') == $mahasiswa->id ? 'selected' : '' }}>
-                                                    {{ $mahasiswa->nama }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    {{-- Pengusul 2 --}}
-                                    <div class="mb-3">
-                                        <label for="pengusul2" class="form-label">Pengusul 2</label>
-                                        <select class="form-select" id="pengusul2" name="pengusul2"
-                                            {{ $isEdit ? 'disabled' : '' }}>
-                                            <option hidden value="">Pilih Pengusul 2</option>
-                                            @foreach ($mahasiswas as $mahasiswa)
-                                                <option value="{{ $mahasiswa->id }}"
-                                                    {{ old('pengusul2', $sempro->pengusul2 ?? '') == $mahasiswa->id ? 'selected' : '' }}>
-                                                    {{ $mahasiswa->nama }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    {{-- Dosen Pembimbing --}}
-                                    <div class="mb-3">
-                                        <label for="dospem_id" class="form-label">Dosen Pembimbing</label>
-                                        <select class="form-select" id="dospem_id" name="dospem_id"
-                                            {{ $isEdit ? 'disabled' : 'required' }}>
-                                            <option hidden value="">Pilih Dosen Pembimbing</option>
-                                            @foreach ($dospem as $d)
-                                                <option value="{{ $d->id }}"
-                                                    {{ old('dospem_id', $sempro->dospem_id ?? '') == $d->id ? 'selected' : '' }}>
-                                                    {{ $d->nama }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    {{-- Judul --}}
-                                    <div class="mb-3">
-                                        <label for="pengajuan_id" class="form-label">Judul</label>
-                                        <select class="form-select" id="pengajuan_id" name="pengajuan_id"
-                                            {{ $isEdit ? 'disabled' : 'required' }}>
-                                            <option hidden value="">Pilih Judul</option>
-                                            @foreach ($pengajuan as $p)
-                                                <option value="{{ $p->id }}"
-                                                    {{ old('pengajuan_id', $sempro->pengajuan_id ?? $p->id) == $p->id ? 'selected' : '' }}>
-                                                    {{ $p->judul }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        @csrf
                                         @if ($isEdit)
-                                            <input type="hidden" name="pengajuan_id" value="{{ $sempro->pengajuan_id }}">
+                                            @method('PUT')
                                         @endif
-                                    </div>
 
-                                    {{-- Abstrak --}}
-                                    <div class="mb-3">
-                                        <label for="abstrak" class="form-label">Abstrak/Deskripsi</label>
-                                        <textarea class="form-control" id="abstrak" name="abstrak" rows="5" {{ $isEdit ? 'disabled' : 'required' }}>{{ old('abstrak', $sempro->abstrak ?? '') }}</textarea>
-                                    </div>
+                                        {{-- No. TA --}}
+                                        <div class="mb-3">
+                                            <label for="no_ta" class="form-label">No. TA</label>
+                                            <input type="text" class="form-control" id="no_ta" name="no_ta"
+                                                value="{{ old('no_ta', $sempro->no_ta ?? '') }}"
+                                                {{ $isEdit ? 'disabled' : 'required' }}>
+                                        </div>
 
-                                    {{-- Laporan --}}
-                                    <div class="mb-3">
-                                        <label for="laporan" class="form-label">Laporan</label>
-                                        <input type="file" class="form-control" id="laporan" name="laporan"
-                                            accept=".doc,.docx,.pdf"
-                                            {{ $isEdit && $sempro->laporan ? 'disabled' : 'required' }}>
+                                        {{-- Pengusul 1 --}}
+                                        <div class="mb-3">
+                                            <label for="pengusul1" class="form-label">Pengusul 1</label>
+                                            <select class="form-select" id="pengusul1" name="pengusul1"
+                                                {{ $isEdit ? 'disabled' : 'required' }}>
+                                                <option hidden value="">Pilih Pengusul 1</option>
+                                                @foreach ($mahasiswas as $mahasiswa)
+                                                    <option value="{{ $mahasiswa->id }}"
+                                                        {{ old('pengusul1', $sempro->pengusul1 ?? '') == $mahasiswa->id ? 'selected' : '' }}>
+                                                        {{ $mahasiswa->nama }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
-                                        @if ($isEdit && $sempro->laporan)
-                                            <div class="mt-2">
-                                                <a href="{{ asset('storage/file/laporan/' . $sempro->laporan) }}"
-                                                    target="_blank" class="btn btn-link text-decoration-none">Lihat
-                                                    File</a>
-                                            </div>
-                                        @endif
-                                    </div>
+                                        {{-- Pengusul 2 --}}
+                                        <div class="mb-3">
+                                            <label for="pengusul2" class="form-label">Pengusul 2</label>
+                                            <select class="form-select" id="pengusul2" name="pengusul2"
+                                                {{ $isEdit ? 'disabled' : '' }}>
+                                                <option hidden value="">Pilih Pengusul 2</option>
+                                                @foreach ($mahasiswas as $mahasiswa)
+                                                    <option value="{{ $mahasiswa->id }}"
+                                                        {{ old('pengusul2', $sempro->pengusul2 ?? '') == $mahasiswa->id ? 'selected' : '' }}>
+                                                        {{ $mahasiswa->nama }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
-                                    {{-- PPT --}}
-                                    <div class="mb-3">
-                                        <label for="ppt" class="form-label">PPT</label>
-                                        <input type="file" class="form-control" id="ppt" name="ppt"
-                                            accept=".ppt,.pptx" {{ $isEdit && $sempro->ppt ? 'disabled' : 'required' }}>
+                                        {{-- Dosen Pembimbing --}}
+                                        <div class="mb-3">
+                                            <label for="dospem_id" class="form-label">Dosen Pembimbing</label>
+                                            <select class="form-select" id="dospem_id" name="dospem_id"
+                                                {{ $isEdit ? 'disabled' : 'required' }}>
+                                                <option hidden value="">Pilih Dosen Pembimbing</option>
+                                                @foreach ($dospem as $d)
+                                                    <option value="{{ $d->id }}"
+                                                        {{ old('dospem_id', $sempro->dospem_id ?? '') == $d->id ? 'selected' : '' }}>
+                                                        {{ $d->nama }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
-                                        @if ($isEdit && $sempro->ppt)
-                                            <div class="mt-2">
-                                                <a href="{{ asset('storage/file/ppt/' . $sempro->ppt) }}" target="_blank"
-                                                    class="btn btn-link text-decoration-none">Lihat File</a>
-                                            </div>
-                                        @endif
-                                    </div>
+                                        {{-- Judul --}}
+                                        <div class="mb-3">
+                                            <label for="pengajuan_id" class="form-label">Judul</label>
+                                            <select class="form-select" id="pengajuan_id" name="pengajuan_id"
+                                                {{ $isEdit ? 'disabled' : 'required' }}>
+                                                <option hidden value="">Pilih Judul</option>
+                                                @foreach ($pengajuan as $p)
+                                                    <option value="{{ $p->id }}"
+                                                        {{ old('pengajuan_id', $sempro->pengajuan_id ?? $p->id) == $p->id ? 'selected' : '' }}>
+                                                        {{ $p->judul }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @if ($isEdit)
+                                                <input type="hidden" name="pengajuan_id" value="{{ $sempro->pengajuan_id }}">
+                                            @endif
+                                        </div>
 
-                                    {{-- Tombol Aksi --}}
-                                    <div class="mb-3">
-                                        <button type="submit" id="btnSubmit"
-                                            class="btn btn-primary {{ $isEdit ? 'd-none' : '' }}">Simpan</button>
-                                        <button type="button" id="btnEdit"
-                                            class="btn btn-secondary {{ $isEdit ? '' : 'd-none' }}">Edit</button>
-                                    </div>
-                                </form>
-                            </div>
+                                        {{-- Abstrak --}}
+                                        <div class="mb-3">
+                                            <label for="abstrak" class="form-label">Abstrak/Deskripsi</label>
+                                            <textarea class="form-control" id="abstrak" name="abstrak" rows="5" {{ $isEdit ? 'disabled' : 'required' }}>{{ old('abstrak', $sempro->abstrak ?? '') }}</textarea>
+                                        </div>
+
+                                        {{-- Laporan --}}
+                                        <div class="mb-3">
+                                            <label for="laporan" class="form-label">Laporan</label>
+                                            <input type="file" class="form-control" id="laporan" name="laporan"
+                                                accept=".doc,.docx,.pdf"
+                                                {{ $isEdit && $sempro->laporan ? 'disabled' : 'required' }}>
+                                            <small class="form-text text-muted">
+                                                Unggah file laporan dalam format .doc, .docx, atau .pdf. Maksimal ukuran file 10 MB.
+                                            </small>
+                                            @if ($isEdit && $sempro->laporan)
+                                                <div class="mt-2">
+                                                    <a href="{{ asset('storage/file/laporan/' . $sempro->laporan) }}"
+                                                        target="_blank" class="btn btn-link text-decoration-none">Lihat
+                                                        File</a>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- PPT --}}
+                                        <div class="mb-3">
+                                            <label for="ppt" class="form-label">PPT</label>
+                                            <input type="file" class="form-control" id="ppt" name="ppt"
+                                                accept=".ppt,.pptx" {{ $isEdit && $sempro->ppt ? 'disabled' : 'required' }}>
+                                            <small class="form-text text-muted">
+                                                Unggah file presentasi dalam format .ppt atau .pptx. Maksimal ukuran file 10 MB.
+                                            </small>
+                                            @if ($isEdit && $sempro->ppt)
+                                                <div class="mt-2">
+                                                    <a href="{{ asset('storage/file/ppt/' . $sempro->ppt) }}" target="_blank"
+                                                        class="btn btn-link text-decoration-none">Lihat File</a>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- Tombol Aksi --}}
+                                        <div class="mb-3">
+                                            <button type="submit" id="btnSubmit"
+                                                class="btn btn-primary {{ $isEdit ? 'd-none' : '' }}">Simpan</button>
+                                            <button type="button" id="btnEdit"
+                                                class="btn btn-secondary {{ $isEdit ? '' : 'd-none' }}">Edit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            @else
+                                <div class="alert alert-warning">
+                                    Anda belum dapat mengisi form Seminar Proposal karena status bimbingan terakhir Anda belum <strong>Maju Sempro</strong>.
+                                </div>
+                            @endif
                         @endif
                     </div>
                 </div>

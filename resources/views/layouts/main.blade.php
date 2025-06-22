@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
     @yield('styles')
 
     <style>
@@ -122,7 +123,7 @@
 
     <div id="overlay"></div>
 
-    <div class="d-flex flex-grow-1">
+    <div class="d-flex">
         @include('layouts.sidebar')
 
         <div id="content" class="d-flex flex-column w-100">
@@ -156,7 +157,7 @@
             @endif
 
 
-            <main class="flex-grow-1 p-4">
+            <main class=" p-4">
 
                 @yield('content')
             </main>
@@ -226,6 +227,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js"
         integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D" crossorigin="anonymous">
     </script>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
 </body>
 
 </html>

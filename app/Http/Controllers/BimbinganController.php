@@ -12,29 +12,70 @@ class BimbinganController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     $bimbingan = Bimbingan::all();
+    //     $dospem = User::where('role_id', 2)->get();
+    //     $userId = auth()->id();
+    //     if (auth()->user()->role_id == 3 || auth()->user()->role_id == 2) {
+    //         $bimbinganUser = Bimbingan::where('pengusul1', $userId)
+    //             ->orWhere('pengusul2', $userId)
+    //             ->orWhere('dospem1', $userId)
+    //             ->orWhere('dospem2', $userId)
+    //             ->get();
+    //     } else {
+    //         $bimbinganUser = collect();
+    //     }
+
+    //     $bolehTambah = false;
+
+    //     if (auth()->user()->role_id == 3) {
+    //         $terakhir = $bimbinganUser->last();
+    //         $bolehTambah = $bimbinganUser->isEmpty() ||
+    //             ($terakhir && in_array($terakhir->status, ['Bimbingan Ulang', 'Menunggu']));
+    //     }
+    //     return view('bimbingan', compact('bimbingan', 'dospem', 'bimbinganUser', 'bolehTambah'));
+    // }
+
+
     public function index()
     {
-        $bimbingan = Bimbingan::all();
         $dospem = User::where('role_id', 2)->get();
         $userId = auth()->id();
+
         if (auth()->user()->role_id == 3 || auth()->user()->role_id == 2) {
-            $bimbinganUser = Bimbingan::where('pengusul1', $userId)
-                ->orWhere('pengusul2', $userId)
-                ->orWhere('dospem_id', $userId)
+            // Bimbingan sebagai mahasiswa atau dosen pembimbing
+            $bimbinganDospem1 = Bimbingan::where('dospem1', $userId)
+                ->orWhere(function ($query) use ($userId) {
+                    $query->where('pengusul1', $userId)
+                        ->orWhere('pengusul2', $userId);
+                })
+                ->whereNotNull('dospem1')
+                ->get();
+
+            $bimbinganDospem2 = Bimbingan::where('dospem2', $userId)
+                ->orWhere(function ($query) use ($userId) {
+                    $query->where('pengusul1', $userId)
+                        ->orWhere('pengusul2', $userId);
+                })
+                ->whereNotNull('dospem2')
                 ->get();
         } else {
-            $bimbinganUser = collect();
+            $bimbinganDospem1 = collect();
+            $bimbinganDospem2 = collect();
         }
 
         $bolehTambah = false;
 
         if (auth()->user()->role_id == 3) {
-            $terakhir = $bimbinganUser->last();
-            $bolehTambah = $bimbinganUser->isEmpty() ||
+            $terakhir = $bimbinganDospem1->isEmpty() ? null : $bimbinganDospem1->last();
+            $bolehTambah = $bimbinganDospem1->isEmpty() ||
                 ($terakhir && in_array($terakhir->status, ['Bimbingan Ulang', 'Menunggu']));
         }
-        return view('bimbingan', compact('bimbingan', 'dospem', 'bimbinganUser', 'bolehTambah'));
+
+        return view('bimbingan', compact('dospem', 'bimbinganDospem1', 'bimbinganDospem2', 'bolehTambah'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -49,22 +90,39 @@ class BimbinganController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'dospem_id' => 'required|exists:users,id',
+        $rules = [
+            'dospem_type' => 'required|in:dospem1,dospem2',
             'tanggal' => 'required|date',
             'topik_bimbingan' => 'required|string|max:255',
-            'file' => 'sometimes|file|mimes:pdf,doc,docx|max:2048',
-        ]);
+            'file' => 'sometimes|file|mimes:pdf,doc,docx|max:10240',
+        ];
+
+        // Conditional validation
+        if ($request->dospem_type === 'dospem1') {
+            $rules['dospem1'] = 'required|exists:users,id';
+        } else {
+            $rules['dospem2'] = 'required|exists:users,id';
+        }
+
+        $request->validate($rules);
 
         $bimbingan = new Bimbingan();
-        $bimbingan->dospem_id = $request->dospem_id;
+
+        // Set pembimbing berdasarkan jenis yang dipilih
+        if ($request->dospem_type === 'dospem1') {
+            $bimbingan->dospem1 = $request->dospem1;
+        } else {
+            $bimbingan->dospem2 = $request->dospem2;
+        }
+
+        // Handle file upload
         if ($request->hasFile('file')) {
             $filename = time() . '_' . $request->file('file')->getClientOriginalName();
             $request->file('file')->storeAs('public/file/bimbingan', $filename);
             $bimbingan->file = $filename;
         }
 
-
+        // Set pengusul dari pengajuan judul
         $pengajuan = PengajuanJudul::where('pengusul1', auth()->id())
             ->orWhere('pengusul2', auth()->id())
             ->first();
@@ -75,6 +133,7 @@ class BimbinganController extends Controller
         } else {
             return redirect()->route('bimbingan')->with('error', 'Lengkapi Pengajuan Judul Terlebih Dahulu');
         }
+
         $bimbingan->tanggal = $request->tanggal;
         $bimbingan->topik_bimbingan = $request->topik_bimbingan;
         $bimbingan->save();

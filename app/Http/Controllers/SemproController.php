@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bimbingan;
 use App\Models\Sempro;
 use App\Models\User;
 use App\Models\PengajuanJudul;
@@ -18,6 +19,18 @@ class SemproController extends Controller
         $mahasiswas = User::where('role_id', '3')->get();
         $dospem = User::where('role_id', '2')->get();
         $userId = auth()->id();
+
+        $statusBimbinganTerakhir = null;
+        $pengajuanTerakhir = Bimbingan::where(function ($query) use ($userId) {
+            $query->where('pengusul1', $userId)
+                  ->orWhere('pengusul2', $userId);
+            })
+            ->orderByDesc('tanggal')
+            ->first();
+
+        if ($pengajuanTerakhir) {
+            $statusBimbinganTerakhir = $pengajuanTerakhir->status;
+        }
         // $pengajuan = PengajuanJudul::where('status', 'Diterima')
         //     ->where(function ($query) use ($userId) {
         //         $query->where('pengusul1', $userId)
@@ -33,7 +46,7 @@ class SemproController extends Controller
         } else {
             $semproUser = collect();
         }
-        return view('sempro', compact('sempros', 'semproUser', 'mahasiswas', 'dospem', 'pengajuan'));
+        return view('sempro', compact('sempros', 'semproUser', 'mahasiswas', 'dospem', 'pengajuan', 'statusBimbinganTerakhir'));
     }
 
     /**
@@ -56,8 +69,8 @@ class SemproController extends Controller
             'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
             'no_ta' => 'required|string|max:255',
             'abstrak' => 'required|string|max:1000',
-            'laporan' => 'required|file|mimes:pdf,doc,docx|max:2048',
-            'ppt' => 'required|file|mimes:ppt,pptx|max:2048',
+            'laporan' => 'required|file|mimes:pdf,doc,docx|max:10240',
+            'ppt' => 'required|file|mimes:ppt,pptx|max:10240',
         ]);
 
         $sempro = new Sempro();
@@ -117,8 +130,8 @@ class SemproController extends Controller
             'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
             'no_ta' => 'required|string|max:255',
             'abstrak' => 'required|string|max:1000',
-            'laporan' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-            'ppt' => 'nullable|file|mimes:ppt,pptx|max:2048',
+            'laporan' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
+            'ppt' => 'nullable|file|mimes:ppt,pptx|max:10240',
         ]);
 
         $sempro->pengusul1 = $request->pengusul1;

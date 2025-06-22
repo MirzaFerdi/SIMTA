@@ -47,6 +47,7 @@
                                         <th>Mahasiswa</th>
                                         <th>Dosen Pembimbing</th>
                                         <th>Dosen Penguji</th>
+                                        <th style="text-align: center;">Status</th>
                                         @if (auth()->user()->role_id == 1)
                                             <th style="text-align: center;">Aksi</th>
                                         @endif
@@ -71,8 +72,33 @@
                                                         </li>
                                                     </ul>
                                                 </td>
-                                                <td>{{ $jadwal->dospemJadwal->nama }}</td>
-                                                <td>{{ $jadwal->dosenPengujiJadwal->nama }}</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            {{ $jadwal->dospem1Jadwal->nama }}
+                                                        </li>
+                                                        <li>
+                                                            {{ $jadwal->dospem2Jadwal->nama }}
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            {{ $jadwal->dosenPenguji1Jadwal->nama }}
+                                                        </li>
+                                                        <li>
+                                                            {{ $jadwal->dosenPenguji2Jadwal->nama }}
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    @if ($jadwal->status == 'Belum Diseminarkan')
+                                                        <span class="badge bg-secondary">{{ $jadwal->status }}</span>
+                                                    @elseif ($jadwal->status == 'Telah Diseminarkan')
+                                                        <span class="badge bg-success">{{ $jadwal->status }}</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <button type="button" class="btn btn-warning btn-sm"
                                                         data-bs-toggle="modal"
@@ -177,36 +203,73 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="dospem_id" class="form-label">Dosen
-                                                                            Pembimbing</label>
-                                                                        <select class="form-select" id="dospem_id"
-                                                                            name="dospem_id" required>
+                                                                        <label for="dospem1" class="form-label">Dosen
+                                                                            Pembimbing 1</label>
+                                                                        <select class="form-select" id="dospem1"
+                                                                            name="dospem1" required>
                                                                             <option hidden value="">Pilih Dosen
-                                                                                Pembimbing
-                                                                            </option>
+                                                                                Pembimbing</option>
                                                                             @foreach ($dosens as $dosen)
                                                                                 <option value="{{ $dosen->id }}"
-                                                                                    {{ $jadwal->dospem_id == $dosen->id ? 'selected' : '' }}>
+                                                                                    {{ $jadwal->dospem1 == $dosen->id ? 'selected' : '' }}>
                                                                                     {{ $dosen->nama }}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="dosen_penguji"
-                                                                            class="form-label">Dosen
-                                                                            Penguji</label>
-                                                                        <select class="form-select" id="dosen_penguji"
-                                                                            name="dosen_penguji" required>
+                                                                        <label for="dospem2" class="form-label">Dosen
+                                                                            Pembimbing 2</label>
+                                                                        <select class="form-select" id="dospem2"
+                                                                            name="dospem2">
                                                                             <option hidden value="">Pilih Dosen
-                                                                                Penguji
-                                                                            </option>
+                                                                                Pembimbing 2 (Opsional)</option>
                                                                             @foreach ($dosens as $dosen)
                                                                                 <option value="{{ $dosen->id }}"
-                                                                                    {{ $jadwal->dosen_penguji == $dosen->id ? 'selected' : '' }}>
+                                                                                    {{ $jadwal->dospem2 == $dosen->id ? 'selected' : '' }}>
                                                                                     {{ $dosen->nama }}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="dosen_penguji1"
+                                                                            class="form-label">Dosen Penguji 1</label>
+                                                                        <select class="form-select" id="dosen_penguji1"
+                                                                            name="dosen_penguji1" required>
+                                                                            <option hidden value="">Pilih Dosen
+                                                                                Penguji</option>
+                                                                            @foreach ($dosens as $dosen)
+                                                                                <option value="{{ $dosen->id }}"
+                                                                                    {{ $jadwal->dosen_penguji1 == $dosen->id ? 'selected' : '' }}>
+                                                                                    {{ $dosen->nama }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="dosen_penguji2"
+                                                                            class="form-label">Dosen Penguji 2</label>
+                                                                        <select class="form-select" id="dosen_penguji2"
+                                                                            name="dosen_penguji2">
+                                                                            <option hidden value="">Pilih Dosen
+                                                                                Penguji 2 (Opsional)</option>
+                                                                            @foreach ($dosens as $dosen)
+                                                                                <option value="{{ $dosen->id }}"
+                                                                                    {{ $jadwal->dosen_penguji2 == $dosen->id ? 'selected' : '' }}>
+                                                                                    {{ $dosen->nama }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="status" class="form-label">Status</label>
+                                                                    <select class="form-select" id="status"
+                                                                        name="status" required>
+                                                                        <option value="Belum Diseminarkan"
+                                                                            {{ $jadwal->status == 'Belum Diseminarkan' ? 'selected' : '' }}>
+                                                                            Belum Diseminarkan</option>
+                                                                        <option value="Telah Diseminarkan"
+                                                                            {{ $jadwal->status == 'Telah Diseminarkan' ? 'selected' : '' }}>
+                                                                            Telah Diseminarkan</option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
@@ -238,8 +301,33 @@
                                                         </li>
                                                     </ul>
                                                 </td>
-                                                <td>{{ $jadwal->dospemJadwal->nama }}</td>
-                                                <td>{{ $jadwal->dosenPengujiJadwal->nama }}</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            {{ $jadwal->dospem1Jadwal->nama }}
+                                                        </li>
+                                                        <li>
+                                                            {{ $jadwal->dospem2Jadwal->nama }}
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            {{ $jadwal->dosenPenguji1Jadwal->nama }}
+                                                        </li>
+                                                        <li>
+                                                            {{ $jadwal->dosenPenguji2Jadwal->nama }}
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    @if ($jadwal->status == 'Belum Diseminarkan')
+                                                        <span class="badge bg-secondary">{{ $jadwal->status }}</span>
+                                                    @elseif ($jadwal->status == 'Telah Diseminarkan')
+                                                        <span class="badge bg-success">{{ $jadwal->status }}</span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endif
@@ -308,8 +396,8 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="dospem_id" class="form-label">Dosen Pembimbing</label>
-                            <select class="form-select" id="dospem_id" name="dospem_id" required>
+                            <label for="dospem1" class="form-label">Dosen Pembimbing 1</label>
+                            <select class="form-select" id="dospem1" name="dospem1" required>
                                 <option hidden value="">Pilih Dosen Pembimbing</option>
                                 @foreach ($dosens as $dosen)
                                     <option value="{{ $dosen->id }}">{{ $dosen->nama }}</option>
@@ -317,12 +405,37 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="dosen_penguji" class="form-label">Dosen Penguji</label>
-                            <select class="form-select" id="dosen_penguji" name="dosen_penguji" required>
+                            <label for="dospem2" class="form-label">Dosen Pembimbing 2</label>
+                            <select class="form-select" id="dospem2" name="dospem2">
+                                <option hidden value="">Pilih Dosen Pembimbing 2</option>
+                                @foreach ($dosens as $dosen)
+                                    <option value="{{ $dosen->id }}">{{ $dosen->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dosen_penguji1" class="form-label">Dosen Penguji 1</label>
+                            <select class="form-select" id="dosen_penguji1" name="dosen_penguji1" required>
                                 <option hidden value="">Pilih Dosen Penguji</option>
                                 @foreach ($dosens as $dosen)
                                     <option value="{{ $dosen->id }}">{{ $dosen->nama }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dosen_penguji2" class="form-label">Dosen Penguji 2</label>
+                            <select class="form-select" id="dosen_penguji2" name="dosen_penguji2">
+                                <option hidden value="">Pilih Dosen Penguji 2</option>
+                                @foreach ($dosens as $dosen)
+                                    <option value="{{ $dosen->id }}">{{ $dosen->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="Belum Diseminarkan">Belum Diseminarkan</option>
+                                <option value="Telah Diseminarkan">Telah Diseminarkan</option>
                             </select>
                         </div>
                     </div>

@@ -15,7 +15,8 @@ class Bimbingan extends Model
     protected $fillable = [
         'pengusul1',
         'pengusul2',
-        'dospem_id',
+        'dospem1',
+        'dospem2',
         'tanggal',
         'topik_bimbingan',
         'file',
@@ -31,7 +32,10 @@ class Bimbingan extends Model
         return $this->belongsTo(User::class, 'pengusul2');
     }
 
-    public function dospemBimbingan(){
-        return $this->belongsTo(User::class, 'dospem_id');
+    public function dospem1Bimbingan(){
+        return $this->belongsTo(User::class, 'dospem1');
+    }
+    public function dospem2Bimbingan(){
+        return $this->belongsTo(User::class, 'dospem2');
     }
 }

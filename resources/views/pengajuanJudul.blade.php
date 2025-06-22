@@ -43,19 +43,21 @@
                                                 </td>
                                                 <td style="text-align: center;">
                                                     @if ($pJ->status == 'Disetujui')
-                                                        <span class="badge text-bg-success">{{ $pJ->status }}</span>
+                                                        <span class="badge bg-success">{{ $pJ->status }}</span>
                                                     @elseif ($pJ->status == 'Ditolak')
-                                                        <span class="badge text-bg-danger">{{ $pJ->status }}</span>
-                                                    @elseif ($pJ->status == 'Diproses')
-                                                        <span class="badge text-bg-secondary">{{ $pJ->status }}</span>
+                                                        <span class="badge bg-danger">{{ $pJ->status }}</span>
                                                     @else
-                                                        <span class="badge text-bg-warning">{{ $pJ->status }}</span>
+                                                        <span class="badge bg-secondary">{{ $pJ->status }}</span>
                                                     @endif
                                                 </td>
                                                 <td style="text-align: center;">
-                                                    @if (auth()->user()->role_id == 3 && $pJ->status !== 'Disetujui')
-                                                        <button class="btn btn-primary btn-sm" id="editBtn"
-                                                            data-bs-toggle="modal" data-bs-target="#editModal">
+                                                    @if (
+                                                        auth()->user()->role_id == 3 &&
+                                                        $pJ->status !== 'Disetujui' &&
+                                                        (auth()->user()->id == $pJ->pengusul1 || auth()->user()->id == $pJ->pengusul2)
+                                                    )
+                                                        <button class="btn btn-primary btn-sm" id="editBtn-{{ $pJ->id }}"
+                                                            data-bs-toggle="modal" data-bs-target="#editModal-{{ $pJ->id }}">
                                                             Edit
                                                         </button>
                                                         <form action="{{ route('pengajuan.delete', $pJ->id) }}"
@@ -65,18 +67,17 @@
                                                             @method('DELETE')
                                                             <button type="submit"
                                                                 class="btn btn-danger btn-sm">Hapus</button>
+                                                        </form>
                                                     @endif
                                                 </td>
                                             </tr>
                                             {{-- Modal Edit Pengajuan --}}
-                                            <div class="modal fade" id="editModal" tabindex="-1"
-                                                aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="editModal-{{ $pJ->id }}" tabindex="-1"
+                                                aria-labelledby="editModalLabel-{{ $pJ->id }}" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel">Edit Pengajuan
-                                                                Judul
-                                                            </h5>
+                                                            <h5 class="modal-title" id="editModalLabel-{{ $pJ->id }}">Edit Pengajuan Judul</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
@@ -84,25 +85,23 @@
                                                             method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
-                                                            <input type="hidden" name="_method" id="form-method"
-                                                                value="">
+                                                            <input type="hidden" name="_method" id="form-method-{{ $pJ->id }}" value="">
                                                             <div class="modal-body">
                                                                 <div class="mb-3">
-                                                                    <label for="tahun" class="form-label">Tahun</label>
+                                                                    <label for="tahun-{{ $pJ->id }}" class="form-label">Tahun</label>
                                                                     <input type="text" class="form-control"
-                                                                        id="tahun" name="tahun"
+                                                                        id="tahun-{{ $pJ->id }}" name="tahun"
                                                                         value="{{ $pJ->tahun }}" disabled>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="judul" class="form-label">Judul</label>
+                                                                    <label for="judul-{{ $pJ->id }}" class="form-label">Judul</label>
                                                                     <input type="text" class="form-control"
-                                                                        id="judul" name="judul"
+                                                                        id="judul-{{ $pJ->id }}" name="judul"
                                                                         value="{{ $pJ->judul }}" disabled>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="pengusul1" class="form-label">Pengusul
-                                                                        1</label>
-                                                                    <select class="form-select" id="pengusul1"
+                                                                    <label for="pengusul1-{{ $pJ->id }}" class="form-label">Pengusul 1</label>
+                                                                    <select class="form-select" id="pengusul1-{{ $pJ->id }}"
                                                                         name="pengusul1" disabled>
                                                                         <option value="">Pilih Pengusul 1</option>
                                                                         @foreach ($mahasiswa as $mhs)
@@ -114,9 +113,8 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="pengusul2" class="form-label">Pengusul
-                                                                        2</label>
-                                                                    <select class="form-select" id="pengusul2"
+                                                                    <label for="pengusul2-{{ $pJ->id }}" class="form-label">Pengusul 2</label>
+                                                                    <select class="form-select" id="pengusul2-{{ $pJ->id }}"
                                                                         name="pengusul2" disabled>
                                                                         <option value="">Pilih Pengusul 2</option>
                                                                         @foreach ($mahasiswa as $mhs)
@@ -132,9 +130,9 @@
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-bs-dismiss="modal">Tutup</button>
                                                                 <button type="button" class="btn btn-primary"
-                                                                    id="editBtn">Edit</button>
+                                                                    id="editBtn-{{ $pJ->id }}">Edit</button>
                                                                 <button type="submit" class="btn btn-success d-none"
-                                                                    id="updateBtn">Update</button>
+                                                                    id="updateBtn-{{ $pJ->id }}">Update</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -225,7 +223,15 @@
                                                         </ul>
                                                     </div>
                                                 </td>
-                                                <td style="text-align: center;">{{ $pJ->status }}</td>
+                                                <td style="text-align: center;">
+                                                    @if ($pJ->status == 'Disetujui')
+                                                        <span class="badge bg-success">{{ $pJ->status }}</span>
+                                                    @elseif ($pJ->status == 'Ditolak')
+                                                        <span class="badge bg-danger">{{ $pJ->status }}</span>
+                                                    @else
+                                                        <span class="badge bg-secondary">{{ $pJ->status }}</span>
+                                                    @endif
+                                                </td>
                                                 <td style="text-align: center;">
                                                     <form action="{{ route('pengajuan.updateStatus', $pJ->id) }}"
                                                         method="POST" enctype="multipart/form-data">
@@ -267,29 +273,40 @@
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const editBtn = document.getElementById('editBtn');
-            const updateBtn = document.getElementById('updateBtn');
-            const formMethodInput = document.getElementById('form-method');
+            // Untuk setiap tombol edit pada modal
+            @foreach ($pengajuanJudul as $pJ)
+                const editBtn{{ $pJ->id }} = document.getElementById('editBtn-{{ $pJ->id }}');
+                const updateBtn{{ $pJ->id }} = document.getElementById('updateBtn-{{ $pJ->id }}');
+                const formMethodInput{{ $pJ->id }} = document.getElementById('form-method-{{ $pJ->id }}');
 
-            editBtn?.addEventListener('click', function() {
-                if (confirm('Edit akan mengubah status menjadi Diproses. Lanjutkan?')) {
-                    document.getElementById('tahun')?.removeAttribute('disabled');
-                    document.getElementById('judul')?.removeAttribute('disabled');
-                    document.getElementById('pengusul1')?.removeAttribute('disabled');
-                    document.getElementById('pengusul2')?.removeAttribute('disabled');
+                if (editBtn{{ $pJ->id }}) {
+                    editBtn{{ $pJ->id }}.addEventListener('click', function() {
+                        if (confirm('Edit akan mengubah status menjadi Diproses. Lanjutkan?')) {
+                            document.getElementById('tahun-{{ $pJ->id }}')?.removeAttribute('disabled');
+                            document.getElementById('judul-{{ $pJ->id }}')?.removeAttribute('disabled');
+                            document.getElementById('pengusul1-{{ $pJ->id }}')?.removeAttribute('disabled');
+                            document.getElementById('pengusul2-{{ $pJ->id }}')?.removeAttribute('disabled');
 
-                    const badge = document.querySelector('.badge');
-                    if (badge) {
-                        badge.textContent = 'Diproses';
-                        badge.className = 'badge text-bg-secondary';
-                    }
+                            // Ubah badge status pada modal jika ada
+                            const modal = document.getElementById('editModal-{{ $pJ->id }}');
+                            if (modal) {
+                                const badge = modal.querySelector('.badge');
+                                if (badge) {
+                                    badge.textContent = 'Diproses';
+                                    badge.className = 'badge text-bg-secondary';
+                                }
+                            }
 
-                    formMethodInput.value = 'PUT';
+                            if (formMethodInput{{ $pJ->id }}) {
+                                formMethodInput{{ $pJ->id }}.value = 'PUT';
+                            }
 
-                    editBtn.classList.add('d-none');
-                    updateBtn.classList.remove('d-none');
+                            editBtn{{ $pJ->id }}.classList.add('d-none');
+                            updateBtn{{ $pJ->id }}.classList.remove('d-none');
+                        }
+                    });
                 }
-            });
+            @endforeach
         });
 
         $(document).ready(function() {

@@ -18,12 +18,15 @@ class PenjadwalanSeeder extends Seeder
                 'pengusul1' => 6,
                 'pengusul2' => 7,
                 'pengajuan_id' => 1,
-                'dospem_id' => 2,
-                'dosen_penguji' => 4,
+                'dospem1' => 2,
+                'dospem2' => 3,
+                'dosen_penguji1' => 4,
+                'dosen_penguji2' => 5,
                 'tanggal' => '2023-10-01',
                 'tahun_akademik' => '2023/2024',
                 'jam' => '09:00:00',
                 'tempat' => 'Ruang A',
+                'status' => 'Belum Diseminarkan',
             ],
 
         ]);
