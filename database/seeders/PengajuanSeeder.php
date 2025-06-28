@@ -16,6 +16,8 @@ class PengajuanSeeder extends Seeder
         DB::table('pengajuan_juduls')->insert([
             'pengusul1' => 6,
             'pengusul2' => 7,
+            'dospem1' => 2,
+            'dospem2' => 3,
             'tahun' => 2025,
             'judul' => 'Judul Pengajuan 1',
             'status' => 'Disetujui',

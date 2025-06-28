@@ -91,6 +91,79 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-12">
+                <div class="table-responsive mt-4">
+                    <h5 class="fw-semibold text-secondary mb-3">Rekap Mahasiswa Bimbingan (Pembimbing 1)
+                    </h5>
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Judul TA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($mahasiswaBimbingan1 as $index => $mhs)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>
+                                        <ul class="mb-0 ps-3">
+                                            <li class="fw-semibold">{{ $mhs->pengusul1Bimbingan->nama }}</li>
+                                            @if($mhs->pengusul2Bimbingan)
+                                                <li class="text-muted">{{ $mhs->pengusul2Bimbingan->nama }}</li>
+                                            @endif
+                                        </ul>
+                                    </td>
+                                    <td>{{ $mhs->pengajuanJudul1->judul }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Belum ada data
+                                        mahasiswa bimbingan.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive mt-4">
+                    <h5 class="fw-semibold text-secondary mb-3">Rekap Mahasiswa Bimbingan (Pembimbing 2)
+                    </h5>
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Judul TA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($mahasiswaBimbingan2 as $index => $mhs)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>
+                                        <ul class="mb-0 ps-3">
+                                            <li class="fw-semibold">{{ $mhs->pengusul1Bimbingan->nama }}</li>
+                                            @if($mhs->pengusul2Bimbingan)
+                                                <li class="text-muted">{{ $mhs->pengusul2Bimbingan->nama }}</li>
+                                            @endif
+                                        </ul>
+                                    </td>
+                                    <td>{{ $mhs->pengajuanJudul2->judul }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Belum ada data
+                                        mahasiswa bimbingan.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         @elseif(auth()->user()->role_id == 3)
             <div class="row g-4">
                 <div class="col-12">

@@ -15,6 +15,8 @@ class PengajuanJudul extends Model
     protected $fillable = [
         'pengusul1',
         'pengusul2',
+        'dospem1',
+        'dospem2',
         'tahun',
         'judul',
         'status'
@@ -26,8 +28,11 @@ class PengajuanJudul extends Model
     public function pengusul2Pengajuan(){
         return $this->belongsTo(User::class, 'pengusul2');
     }
-    public function tugasAkhir(){
-        return $this->hasOne(TugasAkhir::class, 'pengajuan_id');
+    public function dospem1Pengajuan(){
+        return $this->belongsTo(User::class, 'dospem1');
+    }
+    public function dospem2Pengajuan(){
+        return $this->belongsTo(User::class, 'dospem2');
     }
     public function pengajuanSempro(){
         return $this->hasOne(Sempro::class, 'pengajuan_id');

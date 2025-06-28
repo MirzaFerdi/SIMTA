@@ -76,6 +76,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(PengajuanJudul::class, 'pengusul2');
     }
+    public function dospem1Pengajuan()
+    {
+        return $this->hasOne(PengajuanJudul::class, 'dospem1');
+    }
+    public function dospem2Pengajuan()
+    {
+        return $this->hasOne(PengajuanJudul::class, 'dospem2');
+    }
 
 
     public function pengusul1Bimbingan()

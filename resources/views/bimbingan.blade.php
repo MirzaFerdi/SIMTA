@@ -40,8 +40,9 @@
                                     @endif
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" style="width: 100%" id="dospem1Table">
-                                        <thead>
+                                    <table class="table table-bordered align-middle" style="width: 100%"
+                                        id="dospem1Table">
+                                        <thead class="table-primary">
                                             <tr>
                                                 <th style="text-align: center;">No</th>
                                                 <th style="text-align: center;">Tanggal</th>
@@ -55,7 +56,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($bimbinganDospem1 as $bim)
+                                            @forelse ($bimbinganDospem1 as $bim)
                                                 <tr>
                                                     <td style="text-align: center;">{{ $loop->iteration }}</td>
                                                     <td style="text-align: center;">{{ $bim->tanggal }}</td>
@@ -119,10 +120,13 @@
                                                         @endif
                                                     </td>
                                                 </tr>
-
                                                 {{-- Modal Edit --}}
                                                 @include('bimbingan.modal-edit', ['bim' => $bim])
-                                            @endforeach
+                                            @empty
+                                                <tr>
+                                                    <td colspan="9" class="text-center">Tidak ada bimbingan</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                     @if (auth()->user()->role_id == 3)
@@ -146,8 +150,9 @@
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" style="width: 100%" id="dospem2Table">
-                                        <thead>
+                                    <table class="table table-bordered align-middle" style="width: 100%"
+                                        id="dospem2Table">
+                                        <thead class="table-primary">
                                             <tr>
                                                 <th style="text-align: center;">No</th>
                                                 <th style="text-align: center;">Tanggal</th>
@@ -161,7 +166,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($bimbinganDospem2 as $bim)
+                                            @forelse ($bimbinganDospem2 as $bim)
                                                 <tr>
                                                     <td style="text-align: center;">{{ $loop->iteration }}</td>
                                                     <td style="text-align: center;">{{ $bim->tanggal }}</td>
@@ -228,7 +233,11 @@
 
                                                 {{-- Modal Edit --}}
                                                 @include('bimbingan.modal-edit', ['bim' => $bim])
-                                            @endforeach
+                                            @empty
+                                                <tr>
+                                                    <td colspan="9" class="text-center">Tidak ada bimbingan</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
@@ -314,39 +323,6 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('#dospem1Table').DataTable({
-                "language": {
-                    "search": "Cari:",
-                    "lengthMenu": "Tampilkan _MENU_ entri",
-                    "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                    "infoEmpty": "Tidak ada entri yang ditemukan",
-                    "zeroRecords": "Tidak ada entri yang cocok",
-                    "paginate": {
-                        "previous": "Sebelumnya",
-                        "next": "Selanjutnya"
-                    }
-                },
-                scrollX: true,
-            });
-
-            $('#dospem2Table').DataTable({
-                "language": {
-                    "search": "Cari:",
-                    "lengthMenu": "Tampilkan _MENU_ entri",
-                    "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                    "infoEmpty": "Tidak ada entri yang ditemukan",
-                    "zeroRecords": "Tidak ada entri yang cocok",
-                    "paginate": {
-                        "previous": "Sebelumnya",
-                        "next": "Selanjutnya"
-                    }
-                },
-                scrollX: true,
-                width: "100%"
-            });
-        });
-
         document.getElementById('dospem_type').addEventListener('change', function() {
             const type = this.value;
             const dospem1Container = document.getElementById('dospem1-container');

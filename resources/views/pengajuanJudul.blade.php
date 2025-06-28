@@ -23,6 +23,7 @@
                                             <th style="text-align: center;">Tahun</th>
                                             <th>Judul</th>
                                             <th>Pengusul</th>
+                                            <th>Dospem</th>
                                             <th style="text-align: center;">Status</th>
                                             <th style="text-align: center;">Aksi</th>
                                         </tr>
@@ -41,6 +42,18 @@
                                                         </ul>
                                                     </div>
                                                 </td>
+                                                <td>
+                                                    @if ($pJ->dospem1)
+                                                        {{ $pJ->dospem1Pengajuan->nama }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                    <br>
+                                                    @if ($pJ->dospem2)
+                                                        {{ $pJ->dospem2Pengajuan->nama }}
+                                                    @else
+                                                        -
+                                                    @endif
                                                 <td style="text-align: center;">
                                                     @if ($pJ->status == 'Disetujui')
                                                         <span class="badge bg-success">{{ $pJ->status }}</span>
@@ -51,13 +64,12 @@
                                                     @endif
                                                 </td>
                                                 <td style="text-align: center;">
-                                                    @if (
-                                                        auth()->user()->role_id == 3 &&
-                                                        $pJ->status !== 'Disetujui' &&
-                                                        (auth()->user()->id == $pJ->pengusul1 || auth()->user()->id == $pJ->pengusul2)
-                                                    )
-                                                        <button class="btn btn-primary btn-sm" id="editBtn-{{ $pJ->id }}"
-                                                            data-bs-toggle="modal" data-bs-target="#editModal-{{ $pJ->id }}">
+                                                    @if (auth()->user()->role_id == 3 &&
+                                                            $pJ->status !== 'Disetujui' &&
+                                                            (auth()->user()->id == $pJ->pengusul1 || auth()->user()->id == $pJ->pengusul2))
+                                                        <button class="btn btn-primary btn-sm"
+                                                            id="editBtn-{{ $pJ->id }}" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal-{{ $pJ->id }}">
                                                             Edit
                                                         </button>
                                                         <form action="{{ route('pengajuan.delete', $pJ->id) }}"
@@ -77,7 +89,9 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel-{{ $pJ->id }}">Edit Pengajuan Judul</h5>
+                                                            <h5 class="modal-title"
+                                                                id="editModalLabel-{{ $pJ->id }}">Edit Pengajuan
+                                                                Judul</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
@@ -85,24 +99,29 @@
                                                             method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
-                                                            <input type="hidden" name="_method" id="form-method-{{ $pJ->id }}" value="">
+                                                            <input type="hidden" name="_method"
+                                                                id="form-method-{{ $pJ->id }}" value="">
                                                             <div class="modal-body">
                                                                 <div class="mb-3">
-                                                                    <label for="tahun-{{ $pJ->id }}" class="form-label">Tahun</label>
+                                                                    <label for="tahun-{{ $pJ->id }}"
+                                                                        class="form-label">Tahun</label>
                                                                     <input type="text" class="form-control"
                                                                         id="tahun-{{ $pJ->id }}" name="tahun"
                                                                         value="{{ $pJ->tahun }}" disabled>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="judul-{{ $pJ->id }}" class="form-label">Judul</label>
+                                                                    <label for="judul-{{ $pJ->id }}"
+                                                                        class="form-label">Judul</label>
                                                                     <input type="text" class="form-control"
                                                                         id="judul-{{ $pJ->id }}" name="judul"
                                                                         value="{{ $pJ->judul }}" disabled>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="pengusul1-{{ $pJ->id }}" class="form-label">Pengusul 1</label>
-                                                                    <select class="form-select" id="pengusul1-{{ $pJ->id }}"
-                                                                        name="pengusul1" disabled>
+                                                                    <label for="pengusul1-{{ $pJ->id }}"
+                                                                        class="form-label">Pengusul 1</label>
+                                                                    <select class="form-select"
+                                                                        id="pengusul1-{{ $pJ->id }}" name="pengusul1"
+                                                                        disabled>
                                                                         <option value="">Pilih Pengusul 1</option>
                                                                         @foreach ($mahasiswa as $mhs)
                                                                             <option value="{{ $mhs->id }}"
@@ -113,14 +132,46 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="pengusul2-{{ $pJ->id }}" class="form-label">Pengusul 2</label>
-                                                                    <select class="form-select" id="pengusul2-{{ $pJ->id }}"
-                                                                        name="pengusul2" disabled>
+                                                                    <label for="pengusul2-{{ $pJ->id }}"
+                                                                        class="form-label">Pengusul 2</label>
+                                                                    <select class="form-select"
+                                                                        id="pengusul2-{{ $pJ->id }}" name="pengusul2"
+                                                                        disabled>
                                                                         <option value="">Pilih Pengusul 2</option>
                                                                         @foreach ($mahasiswa as $mhs)
                                                                             <option value="{{ $mhs->id }}"
                                                                                 {{ $mhs->id == $pJ->pengusul2 ? 'selected' : '' }}>
                                                                                 {{ $mhs->nama }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="dospem1-{{ $pJ->id }}"
+                                                                        class="form-label">Dosen Pembimbing 1</label>
+                                                                    <select class="form-select"
+                                                                        id="dospem1-{{ $pJ->id }}" name="dospem1">
+                                                                        <option value="">Pilih Dosen Pembimbing 1
+                                                                        </option>
+                                                                        @foreach ($dosen as $dsn)
+                                                                            <option value="{{ $dsn->id }}"
+                                                                                {{ $dsn->id == $pJ->dospem1 ? 'selected' : '' }}>
+                                                                                {{ $dsn->nama }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="dospem2-{{ $pJ->id }}"
+                                                                        class="form-label">Dosen Pembimbing 2</label>
+                                                                    <select class="form-select"
+                                                                        id="dospem2-{{ $pJ->id }}" name="dospem2">
+                                                                        <option value="">Pilih Dosen Pembimbing 2
+                                                                        </option>
+                                                                        @foreach ($dosen as $dsn)
+                                                                            <option value="{{ $dsn->id }}"
+                                                                                {{ $dsn->id == $pJ->dospem2 ? 'selected' : '' }}>
+                                                                                {{ $dsn->nama }}
                                                                             </option>
                                                                         @endforeach
                                                                     </select>
@@ -186,6 +237,26 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="dospem1" class="form-label">Dosen Pembimbing 1</label>
+                                                    <select class="form-select" id="dospem1" name="dospem1" required>
+                                                        <option hidden value="">Pilih Dosen Pembimbing 1</option>
+                                                        @foreach ($dosen as $dsn)
+                                                            <option value="{{ $dsn->id }}">{{ $dsn->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="dospem2" class="form-label">Dosen Pembimbing 2</label>
+                                                    <select class="form-select" id="dospem2" name="dospem2">
+                                                        <option hidden value="">Pilih Dosen Pembimbing 2</option>
+                                                        @foreach ($dosen as $dsn)
+                                                            <option value="{{ $dsn->id }}">{{ $dsn->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
@@ -222,6 +293,19 @@
                                                             <li>{{ $pJ->pengusul2Pengajuan->nama }}</li>
                                                         </ul>
                                                     </div>
+                                                </td>
+                                                <td>
+                                                    @if ($pJ->dospem1)
+                                                        {{ $pJ->dospem1Pengajuan->nama }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                    <br>
+                                                    @if ($pJ->dospem2)
+                                                        {{ $pJ->dospem2Pengajuan->nama }}
+                                                    @else
+                                                        -
+                                                    @endif
                                                 </td>
                                                 <td style="text-align: center;">
                                                     @if ($pJ->status == 'Disetujui')
@@ -275,37 +359,39 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Untuk setiap tombol edit pada modal
             @foreach ($pengajuanJudul as $pJ)
-                const editBtn{{ $pJ->id }} = document.getElementById('editBtn-{{ $pJ->id }}');
-                const updateBtn{{ $pJ->id }} = document.getElementById('updateBtn-{{ $pJ->id }}');
-                const formMethodInput{{ $pJ->id }} = document.getElementById('form-method-{{ $pJ->id }}');
+            const editBtn{{ $pJ->id }} = document.getElementById('editBtn-{{ $pJ->id }}');
+            const updateBtn{{ $pJ->id }} = document.getElementById('updateBtn-{{ $pJ->id }}');
+            const formMethodInput{{ $pJ->id }} = document.getElementById('form-method-{{ $pJ->id }}');
 
-                if (editBtn{{ $pJ->id }}) {
-                    editBtn{{ $pJ->id }}.addEventListener('click', function() {
-                        if (confirm('Edit akan mengubah status menjadi Diproses. Lanjutkan?')) {
-                            document.getElementById('tahun-{{ $pJ->id }}')?.removeAttribute('disabled');
-                            document.getElementById('judul-{{ $pJ->id }}')?.removeAttribute('disabled');
-                            document.getElementById('pengusul1-{{ $pJ->id }}')?.removeAttribute('disabled');
-                            document.getElementById('pengusul2-{{ $pJ->id }}')?.removeAttribute('disabled');
+            if (editBtn{{ $pJ->id }}) {
+                editBtn{{ $pJ->id }}.addEventListener('click', function() {
+                if (confirm('Edit akan mengubah status menjadi Diproses. Lanjutkan?')) {
+                    document.getElementById('tahun-{{ $pJ->id }}')?.removeAttribute('disabled');
+                    document.getElementById('judul-{{ $pJ->id }}')?.removeAttribute('disabled');
+                    document.getElementById('pengusul1-{{ $pJ->id }}')?.removeAttribute('disabled');
+                    document.getElementById('pengusul2-{{ $pJ->id }}')?.removeAttribute('disabled');
+                    document.getElementById('dospem1-{{ $pJ->id }}')?.removeAttribute('disabled');
+                    document.getElementById('dospem2-{{ $pJ->id }}')?.removeAttribute('disabled');
 
-                            // Ubah badge status pada modal jika ada
-                            const modal = document.getElementById('editModal-{{ $pJ->id }}');
-                            if (modal) {
-                                const badge = modal.querySelector('.badge');
-                                if (badge) {
-                                    badge.textContent = 'Diproses';
-                                    badge.className = 'badge text-bg-secondary';
-                                }
-                            }
+                    // Ubah badge status pada modal jika ada
+                    const modal = document.getElementById('editModal-{{ $pJ->id }}');
+                    if (modal) {
+                    const badge = modal.querySelector('.badge');
+                    if (badge) {
+                        badge.textContent = 'Diproses';
+                        badge.className = 'badge text-bg-secondary';
+                    }
+                    }
 
-                            if (formMethodInput{{ $pJ->id }}) {
-                                formMethodInput{{ $pJ->id }}.value = 'PUT';
-                            }
+                    if (formMethodInput{{ $pJ->id }}) {
+                    formMethodInput{{ $pJ->id }}.value = 'PUT';
+                    }
 
-                            editBtn{{ $pJ->id }}.classList.add('d-none');
-                            updateBtn{{ $pJ->id }}.classList.remove('d-none');
-                        }
-                    });
+                    editBtn{{ $pJ->id }}.classList.add('d-none');
+                    updateBtn{{ $pJ->id }}.classList.remove('d-none');
                 }
+                });
+            }
             @endforeach
         });
 

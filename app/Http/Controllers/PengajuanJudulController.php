@@ -15,6 +15,7 @@ class PengajuanJudulController extends Controller
     {
         $pengajuanJudul = PengajuanJudul::all();
         $mahasiswa = User::where('role_id', '3')->get();
+        $dosen = User::where('role_id', '2')->get();
         $userId = auth()->id();
         if (auth()->user()->role_id == 3) {
             $pengajuanUser = PengajuanJudul::where('pengusul1', $userId)
@@ -31,7 +32,7 @@ class PengajuanJudulController extends Controller
                 ($terakhir && in_array($terakhir->status, ['Diproses', 'Ditolak']));
         }
 
-        return view('pengajuanJudul', compact('pengajuanJudul', 'mahasiswa', 'pengajuanUser', 'bolehTambah'));
+        return view('pengajuanJudul', compact('pengajuanJudul', 'mahasiswa', 'pengajuanUser', 'bolehTambah', 'dosen'));
     }
 
     /**

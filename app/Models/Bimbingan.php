@@ -32,6 +32,13 @@ class Bimbingan extends Model
         return $this->belongsTo(User::class, 'pengusul2');
     }
 
+    public function pengajuanJudul1(){
+        return $this->belongsTo(PengajuanJudul::class, 'pengusul1', 'pengusul1');
+    }
+    public function pengajuanJudul2(){
+        return $this->belongsTo(PengajuanJudul::class, 'pengusul2', 'pengusul2');
+    }
+
     public function dospem1Bimbingan(){
         return $this->belongsTo(User::class, 'dospem1');
     }
