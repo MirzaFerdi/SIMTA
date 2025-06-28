@@ -160,16 +160,20 @@
                                                                             value="{{ $jadwal->tempat }}" required>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="pengajuan_id"
-                                                                            class="form-label">Pengajuan</label>
-                                                                        <select class="form-select" id="pengajuan_id"
-                                                                            name="pengajuan_id" required>
-                                                                            <option hidden value="">Pilih Pengajuan
-                                                                            </option>
+                                                                        <label for="pengajuan_id" class="form-label">Pengajuan</label>
+                                                                        <select class="form-select" id="pengajuan_id_edit_{{ $jadwal->id }}" name="pengajuan_id" required>
+                                                                            <option hidden value="">Pilih Pengajuan</option>
                                                                             @foreach ($pengajuans as $pengajuan)
-                                                                                <option value="{{ $pengajuan->id }}"
-                                                                                    {{ $jadwal->pengajuan_id == $pengajuan->id ? 'selected' : '' }}>
-                                                                                    {{ $pengajuan->judul }}</option>
+                                                                                <option
+                                                                                    value="{{ $pengajuan->id }}"
+                                                                                    data-pengusul1="{{ $pengajuan->pengusul1Pengajuan->id ?? '' }}"
+                                                                                    data-pengusul2="{{ $pengajuan->pengusul2Pengajuan->id ?? '' }}"
+                                                                                    data-dospem1="{{ $pengajuan->dospem1Pengajuan->id ?? '' }}"
+                                                                                    data-dospem2="{{ $pengajuan->dospem2Pengajuan->id ?? '' }}"
+                                                                                    {{ $jadwal->pengajuan_id == $pengajuan->id ? 'selected' : '' }}
+                                                                                >
+                                                                                    {{ $pengajuan->judul }}
+                                                                                </option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -370,10 +374,18 @@
                         </div>
                         <div class="mb-3">
                             <label for="pengajuan_id" class="form-label">Pengajuan</label>
-                            <select class="form-select" id="pengajuan_id" name="pengajuan_id" required>
+                            <select class="form-select" id="pengajuan_id_tambah" name="pengajuan_id" required>
                                 <option hidden value="">Pilih Pengajuan</option>
                                 @foreach ($pengajuans as $pengajuan)
-                                    <option value="{{ $pengajuan->id }}">{{ $pengajuan->judul }}</option>
+                                    <option
+                                        value="{{ $pengajuan->id }}"
+                                        data-pengusul1="{{ $pengajuan->pengusul1Pengajuan->id ?? '' }}"
+                                        data-pengusul2="{{ $pengajuan->pengusul2Pengajuan->id ?? '' }}"
+                                        data-dospem1="{{ $pengajuan->dospem1Pengajuan->id ?? '' }}"
+                                        data-dospem2="{{ $pengajuan->dospem2Pengajuan->id ?? '' }}"
+                                    >
+                                        {{ $pengajuan->judul }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -473,6 +485,46 @@
                 scrollX: true,
             });
 
+            // Fungsi untuk mengisi form pengusul dan dospem
+            function fillPengusulDospem(pengajuanSelectElement) {
+                var selectedOption = $(pengajuanSelectElement).find('option:selected');
+                var modalContainer = $(pengajuanSelectElement).closest('.modal-body');
+
+                var pengusul1Id = selectedOption.data('pengusul1');
+                var pengusul2Id = selectedOption.data('pengusul2');
+                var dospem1Id = selectedOption.data('dospem1');
+                var dospem2Id = selectedOption.data('dospem2');
+
+                modalContainer.find('select[name="pengusul1"]').val(pengusul1Id).trigger('change');
+                modalContainer.find('select[name="pengusul2"]').val(pengusul2Id).trigger('change');
+                modalContainer.find('select[name="dospem1"]').val(dospem1Id).trigger('change');
+                modalContainer.find('select[name="dospem2"]').val(dospem2Id).trigger('change');
+            }
+
+            // Event listener untuk Modal Tambah Jadwal
+            $('#pengajuan_id_tambah').on('change', function() {
+                fillPengusulDospem(this);
+            });
+
+            // Event listener untuk Modal Edit Jadwal (menggunakan event delegation)
+            $(document).on('change', 'select[id^="pengajuan_id_edit_"]', function() {
+                fillPengusulDospem(this);
+            });
+
+            // PENTING: Panggil fungsi ini saat modal dibuka agar data terisi awal
+            $('#tambahModal').on('shown.bs.modal', function () {
+                // Panggil hanya jika ada pengajuan_id yang sudah terpilih secara default
+                if ($(this).find('#pengajuan_id_tambah').val()) {
+                    fillPengusulDospem($(this).find('#pengajuan_id_tambah'));
+                }
+            });
+
+            $('[id^="editModal"]').on('shown.bs.modal', function () {
+                var modalId = $(this).attr('id');
+                var pengajuanSelect = $('#' + modalId).find('select[name="pengajuan_id"]');
+                fillPengusulDospem(pengajuanSelect);
+            });
         });
     </script>
 @endsection
+

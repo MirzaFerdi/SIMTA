@@ -53,12 +53,16 @@ class PengajuanJudulController extends Controller
             'judul' => 'required',
             'pengusul1' => 'required',
             'pengusul2' => 'required',
+            'dospem1' => 'exists:users,id',
+            'dospem2' => 'exists:users,id',
         ]);
         $pengajuanJudul = new PengajuanJudul();
         $pengajuanJudul->tahun = $request->tahun;
         $pengajuanJudul->judul = $request->judul;
         $pengajuanJudul->pengusul1 = $request->pengusul1;
         $pengajuanJudul->pengusul2 = $request->pengusul2;
+        $pengajuanJudul->dospem1 = $request->dospem1;
+        $pengajuanJudul->dospem2 = $request->dospem2;
         $pengajuanJudul->status = 'Diproses';
         $pengajuanJudul->save();
         return redirect()->route('pengajuan')->with('success', 'Pengajuan Judul Berhasil Ditambahkan');
@@ -90,11 +94,15 @@ class PengajuanJudulController extends Controller
             'judul' => 'required',
             'pengusul1' => 'required',
             'pengusul2' => 'required',
+            'dospem1' => 'exists:users,id',
+            'dospem2' => 'exists:users,id',
         ]);
         $pengajuanJudul->tahun = $request->tahun;
         $pengajuanJudul->judul = $request->judul;
         $pengajuanJudul->pengusul1 = $request->pengusul1;
         $pengajuanJudul->pengusul2 = $request->pengusul2;
+        $pengajuanJudul->dospem1 = $request->dospem1;
+        $pengajuanJudul->dospem2 = $request->dospem2;
         $pengajuanJudul->status = 'Diproses';
         $pengajuanJudul->save();
         return redirect()->route('pengajuan')->with('success', 'Pengajuan Judul Berhasil Diupdate');

@@ -276,6 +276,7 @@
                                             <th style="text-align: center;">Tahun</th>
                                             <th>Judul</th>
                                             <th>Pengusul</th>
+                                            <th>Dospem</th>
                                             <th style="text-align: center;">Status</th>
                                             <th style="text-align: center;">Aksi</th>
                                         </tr>
@@ -317,26 +318,28 @@
                                                     @endif
                                                 </td>
                                                 <td style="text-align: center;">
-                                                    <form action="{{ route('pengajuan.updateStatus', $pJ->id) }}"
-                                                        method="POST" enctype="multipart/form-data">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <input type="hidden" name="status" value="Disetujui">
-                                                        <button type="submit" class="btn btn-success btn-sm"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menyetujui Judul ini?')">
-                                                            Disetujui
-                                                        </button>
-                                                    </form>
-                                                    <form action="{{ route('pengajuan.updateStatus', $pJ->id) }}"
-                                                        method="POST" enctype="multipart/form-data">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <input type="hidden" name="status" value="Ditolak">
-                                                        <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menolak Judul ini?')">
-                                                            Ditolak
-                                                        </button>
-                                                    </form>
+                                                    @if ($pJ->dospem1 == auth()->user()->id || $pJ->dospem2 == auth()->user()->id)
+                                                        <form action="{{ route('pengajuan.updateStatus', $pJ->id) }}"
+                                                            method="POST" enctype="multipart/form-data" class="d-inline">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <input type="hidden" name="status" value="Disetujui">
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menyetujui Judul ini?')">
+                                                                Disetujui
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('pengajuan.updateStatus', $pJ->id) }}"
+                                                            method="POST" enctype="multipart/form-data" class="d-inline">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <input type="hidden" name="status" value="Ditolak">
+                                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menolak Judul ini?')">
+                                                                Ditolak
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -17,12 +17,21 @@ class JadwalController extends Controller
     {
         $tahunAkademik = $request->query('tahun_akademik');
 
-        // Filter jika tahun akademik dipilih
         $jadwals = Jadwal::when($tahunAkademik, function ($query, $tahunAkademik) {
             return $query->where('tahun_akademik', $tahunAkademik);
         })->get();
 
-        $pengajuans = PengajuanJudul::where('status', 'Disetujui')->get();
+        // PENTING: Eager load relasi menggunakan NAMA FUNGSI RELASI dari model PengajuanJudul
+        // Yaitu: pengusul1Pengajuan, pengusul2Pengajuan, dospem1Pengajuan, dospem2Pengajuan
+        $pengajuans = PengajuanJudul::where('status', 'Disetujui')
+                                    ->with([
+                                        'pengusul1Pengajuan',
+                                        'pengusul2Pengajuan',
+                                        'dospem1Pengajuan',
+                                        'dospem2Pengajuan'
+                                    ])
+                                    ->get();
+
         $mahasiswas = User::where('role_id', 3)->get();
         $dosens = User::where('role_id', 2)->get();
 
