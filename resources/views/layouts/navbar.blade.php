@@ -11,6 +11,11 @@
                 'user' => 'Daftar User',
                 'berita-acara' => 'Berita Acara',
                 'rekap-seminar' => 'Rekap Hasil Seminar',
+                'seminar-proposal' => 'Seminar Proposal',
+                'penjadwalan' => 'Penjadwalan',
+                'pengajuan' => 'Pengajuan Judul',
+                'bimbingan' => 'Bimbingan',
+                'dospem' => 'Dosen Pembimbing',
             ];
         @endphp
         {{ $routeTitles[$currentRoute] ?? ucfirst(str_replace('.', ' ', $currentRoute)) }}

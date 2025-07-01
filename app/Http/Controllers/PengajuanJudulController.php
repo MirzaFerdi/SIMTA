@@ -35,6 +35,26 @@ class PengajuanJudulController extends Controller
         return view('pengajuanJudul', compact('pengajuanJudul', 'mahasiswa', 'pengajuanUser', 'bolehTambah', 'dosen'));
     }
 
+    public function indexDospem(){
+        $dospems = PengajuanJudul::with(['pengusul1Pengajuan', 'pengusul2Pengajuan', 'dospem1Pengajuan', 'dospem2Pengajuan'])
+            ->where('status', 'Disetujui')
+            ->get();
+        $dosen = User::where('role_id', '2')->get();
+        return view('dospem', compact('dospems', 'dosen'));
+    }
+
+    public function updateDospem(Request $request, PengajuanJudul $pengajuanJudul)
+    {
+        $request->validate([
+            'dospem1' => 'exists:users,id',
+            'dospem2' => 'nullable|exists:users,id',
+        ]);
+        $pengajuanJudul->dospem1 = $request->dospem1;
+        $pengajuanJudul->dospem2 = $request->dospem2;
+        $pengajuanJudul->save();
+        return redirect()->route('dospem')->with('success', 'Dosen Pembimbing Berhasil Diupdate');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -54,7 +74,7 @@ class PengajuanJudulController extends Controller
             'pengusul1' => 'required',
             'pengusul2' => 'required',
             'dospem1' => 'exists:users,id',
-            'dospem2' => 'exists:users,id',
+            'dospem2' => 'nullable|exists:users,id',
         ]);
         $pengajuanJudul = new PengajuanJudul();
         $pengajuanJudul->tahun = $request->tahun;
@@ -95,7 +115,7 @@ class PengajuanJudulController extends Controller
             'pengusul1' => 'required',
             'pengusul2' => 'required',
             'dospem1' => 'exists:users,id',
-            'dospem2' => 'exists:users,id',
+            'dospem2' => 'nullable|exists:users,id',
         ]);
         $pengajuanJudul->tahun = $request->tahun;
         $pengajuanJudul->judul = $request->judul;

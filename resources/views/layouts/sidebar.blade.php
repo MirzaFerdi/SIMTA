@@ -12,6 +12,9 @@
             <a class="nav-link {{ Request::is('user') ? 'active fw-bold bg-light text-dark' : '' }}" href="/user">
                 <i class="fas fa-users" style="width: 30px;"></i>Data User
             </a>
+            <a class="nav-link {{ Request::is('dospem') ? 'active fw-bold bg-light text-dark' : '' }}" href="/dospem">
+                <i class="fas fa-user-tie" style="width: 30px;"></i>Dosen Pembimbing
+            </a>
             @endif
 
 

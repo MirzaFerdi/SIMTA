@@ -54,6 +54,7 @@
                                                     @else
                                                         -
                                                     @endif
+                                                </td>   
                                                 <td style="text-align: center;">
                                                     @if ($pJ->status == 'Disetujui')
                                                         <span class="badge bg-success">{{ $pJ->status }}</span>

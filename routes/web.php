@@ -52,18 +52,19 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
         Route::post('/users/import', [UserController::class, 'import'])->name('user.import');
 
-
         Route::post('/penjadwalan/store', [JadwalController::class, 'store'])->name('penjadwalan.store');
         Route::put('/penjadwalan/{jadwal}', [JadwalController::class, 'update'])->name('penjadwalan.update');
         Route::delete('/penjadwalan/delete/{jadwal}', [JadwalController::class, 'destroy'])->name('penjadwalan.destroy');
 
         Route::put('/seminar-proposal/{sempro}', [SemproController::class, 'update'])->name('sempro.update');
 
-
         Route::get('/berita-acara', [BeritaAcaraController::class, 'index'])->name('berita-acara');
         Route::post('/berita-acara/store', [BeritaAcaraController::class, 'store'])->name('berita-acara.store');
         Route::put('/berita-acara/{beritaAcara}', [BeritaAcaraController::class, 'update'])->name('berita-acara.update');
         Route::delete('/berita-acara/delete/{beritaAcara}', [BeritaAcaraController::class, 'destroy'])->name('berita-acara.destroy');
+
+        Route::get('/dospem', [PengajuanJudulController::class, 'indexDospem'])->name('dospem');
+        Route::put('/dospem/update/{pengajuanJudul}', [PengajuanJudulController::class, 'updateDospem'])->name('dospem.update');
     });
 
     Route::middleware(['role:2'])->group(function () {
