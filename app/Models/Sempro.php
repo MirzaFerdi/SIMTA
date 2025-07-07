@@ -13,9 +13,10 @@ class Sempro extends Model
     protected $table = 'sempros';
 
     protected $fillable = [
-        'pengusul1',
-        'pengusul2',
-        'dospem_id',
+        'mahasiswa1',
+        'mahasiswa2',
+        'dospem1',
+        'dospem2',
         'pengajuan_id',
         'no_ta',
         'abstrak',
@@ -24,17 +25,21 @@ class Sempro extends Model
         'ppt',
     ];
 
-    public function pengusul1Sempro()
+    public function mahasiswa1Sempro()
     {
-        return $this->belongsTo(User::class, 'pengusul1');
+        return $this->belongsTo(User::class, 'mahasiswa1');
     }
-    public function pengusul2Sempro()
+    public function mahasiswa2Sempro()
     {
-        return $this->belongsTo(User::class, 'pengusul2');
+        return $this->belongsTo(User::class, 'mahasiswa2');
     }
-    public function dospemSempro()
+    public function dospem1Sempro()
     {
-        return $this->belongsTo(User::class, 'dospem_id');
+        return $this->belongsTo(User::class, 'dospem1');
+    }
+    public function dospem2Sempro()
+    {
+        return $this->belongsTo(User::class, 'dospem2');
     }
     public function pengajuanSempro()
     {

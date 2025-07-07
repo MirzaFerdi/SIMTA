@@ -15,8 +15,8 @@ class PenjadwalanSeeder extends Seeder
     {
         DB::table('jadwals')->insert([
             [
-                'pengusul1' => 6,
-                'pengusul2' => 7,
+                'mahasiswa1' => 6,
+                'mahasiswa2' => 7,
                 'pengajuan_id' => 1,
                 'dospem1' => 2,
                 'dospem2' => 3,

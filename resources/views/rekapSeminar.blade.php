@@ -24,10 +24,10 @@
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                                             <td>
                                                 <div class="">
-                                                    {{ $rekap->pengusul1BeritaAcara->nama }}
+                                                    {{ $rekap->mahasiswa1BeritaAcara->nama }}
                                                 </div>
                                                 <div class="">
-                                                    {{ $rekap->pengusul2BeritaAcara->nama }}
+                                                    {{ $rekap->mahasiswa2BeritaAcara->nama }}
                                                 </div>
                                             </td>
                                             <td>{{ $rekap->dosenBeritaAcara->nama }}</td>
@@ -67,6 +67,7 @@
                     }
                 },
                 scrollX: true,
+                stripeClasses: ['table-primary', 'table-light'],
             });
 
         });

@@ -110,9 +110,9 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>
                                         <ul class="mb-0 ps-3">
-                                            <li class="fw-semibold">{{ $mhs->pengusul1Bimbingan->nama }}</li>
-                                            @if($mhs->pengusul2Bimbingan)
-                                                <li class="text-muted">{{ $mhs->pengusul2Bimbingan->nama }}</li>
+                                            <li class="fw-semibold">{{ $mhs->mahasiswa1Bimbingan->nama }}</li>
+                                            @if($mhs->mahasiswa2Bimbingan)
+                                                <li class="text-muted">{{ $mhs->mahasiswa2Bimbingan->nama }}</li>
                                             @endif
                                         </ul>
                                     </td>
@@ -146,9 +146,9 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>
                                         <ul class="mb-0 ps-3">
-                                            <li class="fw-semibold">{{ $mhs->pengusul1Bimbingan->nama }}</li>
-                                            @if($mhs->pengusul2Bimbingan)
-                                                <li class="text-muted">{{ $mhs->pengusul2Bimbingan->nama }}</li>
+                                            <li class="fw-semibold">{{ $mhs->mahasiswa1Bimbingan->nama }}</li>
+                                            @if($mhs->mahasiswa2Bimbingan)
+                                                <li class="text-muted">{{ $mhs->mahasiswa2Bimbingan->nama }}</li>
                                             @endif
                                         </ul>
                                     </td>

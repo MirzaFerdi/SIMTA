@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengusul1')->constrained('users')->onDelete('cascade');
-            $table->foreignId('pengusul2')->constrained('users')->onDelete('cascade');
+            $table->foreignId('mahasiswa1')->constrained('users')->onDelete('cascade');
+            $table->foreignId('mahasiswa2')->constrained('users')->onDelete('cascade');
             $table->foreignId('pengajuan_id')->constrained('pengajuan_juduls')->onDelete('cascade');
             $table->foreignId('dospem1')->constrained('users')->onDelete('cascade');
             $table->foreignId('dospem2')->constrained('users')->onDelete('cascade');

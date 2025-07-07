@@ -39,21 +39,21 @@
             z-index: 1030;
             min-width: 250px;
             max-width: 250px;
-            background-color: #29146B;
+            background-color: #004AAD;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            /* ini bisa juga */
             transition: all 0.3s ease;
         }
 
         #sidebar .nav-link {
             color: #fff;
+            padding: 15px 20px;
         }
 
         #sidebar .nav-link:hover {
-            background-color: #462aa4;
+            background-color: #053b81;
         }
 
         .alert-fixed {
@@ -135,6 +135,17 @@
                     <i class="bi bi-check-circle-fill me-2 fs-5"></i>
                     <div>
                         <strong>Berhasil!</strong> {{ session('success') }}
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-fixed d-flex align-items-start alert-dismissible fade show shadow"
+                    role="alert" id="error-alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5 mt-1"></i>
+                    <div>
+                        <strong>Gagal!</strong> {{ session('error') }}
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
                 </div>

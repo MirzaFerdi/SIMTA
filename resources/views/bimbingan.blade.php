@@ -32,16 +32,15 @@
                                     </div>
                                     @if ($bolehTambah)
                                         <div class="col-md-6 col-sm-6 text-end">
-                                            <button type="button" class="btn btn-primary mt-md-0" data-bs-toggle="modal"
-                                                data-bs-target="#tambahModal">
-                                                Tambah
+                                            <button type="button" class="btn btn-primary btn-lg mt-md-0"
+                                                data-bs-toggle="modal" data-bs-target="#tambahModal">
+                                                + Tambah
                                             </button>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered align-middle" style="width: 100%"
-                                        id="dospem1Table">
+                                    <table class="table table-bordered align-middle" style="width: 100%" id="dospem1Table">
                                         <thead class="table-primary">
                                             <tr>
                                                 <th style="text-align: center;">No</th>
@@ -63,8 +62,8 @@
                                                     <td>{{ $bim->topik_bimbingan }}</td>
                                                     <td>
                                                         <ul>
-                                                            <li>{{ $bim->pengusul1Bimbingan->nama }}</li>
-                                                            <li>{{ $bim->pengusul2Bimbingan->nama }}</li>
+                                                            <li>{{ $bim->mahasiswa1Bimbingan->nama }}</li>
+                                                            <li>{{ $bim->mahasiswa2Bimbingan->nama }}</li>
                                                         </ul>
                                                     </td>
                                                     <td>{{ $bim->dospem1Bimbingan->nama ?? '' }}</td>
@@ -101,21 +100,21 @@
                                                             <button type="button" class="btn btn-warning btn-sm"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#editModal{{ $bim->id }}">
-                                                                Edit
+                                                                <i class="fa-solid fa-pen-to-square"></i>
                                                             </button>
                                                             <form action="{{ route('bimbingan.delete', $bim->id) }}"
                                                                 method="POST" class="d-inline">
                                                                 @csrf
                                                                 <button type="submit" class="btn btn-danger btn-sm"
                                                                     onclick="return confirm('Apakah Anda yakin ingin menghapus bimbingan ini?')">
-                                                                    Hapus
+                                                                    <i class="fa-solid fa-trash-can"></i>
                                                                 </button>
                                                             </form>
                                                         @elseif(auth()->user()->role_id == 2)
                                                             <button type="button" class="btn btn-success btn-sm"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#editModal{{ $bim->id }}">
-                                                                Detail
+                                                                <i class="fa-solid fa-eye"></i>
                                                             </button>
                                                         @endif
                                                     </td>
@@ -150,8 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered align-middle" style="width: 100%"
-                                        id="dospem2Table">
+                                    <table class="table table-bordered align-middle" style="width: 100%" id="dospem2Table">
                                         <thead class="table-primary">
                                             <tr>
                                                 <th style="text-align: center;">No</th>
@@ -173,8 +171,8 @@
                                                     <td>{{ $bim->topik_bimbingan }}</td>
                                                     <td>
                                                         <ul>
-                                                            <li>{{ $bim->pengusul1Bimbingan->nama }}</li>
-                                                            <li>{{ $bim->pengusul2Bimbingan->nama }}</li>
+                                                            <li>{{ $bim->mahasiswa1Bimbingan->nama }}</li>
+                                                            <li>{{ $bim->mahasiswa2Bimbingan->nama }}</li>
                                                         </ul>
                                                     </td>
                                                     <td>{{ $bim->dospem2Bimbingan->nama ?? '' }}</td>
@@ -211,21 +209,21 @@
                                                             <button type="button" class="btn btn-warning btn-sm"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#editModal{{ $bim->id }}">
-                                                                Edit
+                                                                <i class="fa-solid fa-pen-to-square"></i>
                                                             </button>
                                                             <form action="{{ route('bimbingan.delete', $bim->id) }}"
                                                                 method="POST" class="d-inline">
                                                                 @csrf
                                                                 <button type="submit" class="btn btn-danger btn-sm"
                                                                     onclick="return confirm('Apakah Anda yakin ingin menghapus bimbingan ini?')">
-                                                                    Hapus
+                                                                    <i class="fa-solid fa-trash-can"></i>
                                                                 </button>
                                                             </form>
                                                         @elseif(auth()->user()->role_id == 2)
                                                             <button type="button" class="btn btn-success btn-sm"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#editModal{{ $bim->id }}">
-                                                                Detail
+                                                                <i class="fa-solid fa-eye"></i>
                                                             </button>
                                                         @endif
                                                     </td>

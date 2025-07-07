@@ -13,8 +13,8 @@ class Jadwal extends Model
     protected $table = 'jadwals';
 
     protected $fillable = [
-        'pengusul1',
-        'pengusul2',
+        'mahasiswa1',
+        'mahasiswa2',
         'pengajuan_id',
         'dospem1',
         'dospem2',
@@ -26,11 +26,11 @@ class Jadwal extends Model
         'tempat',
         'status',
     ];
-    public function pengusul1Jadwal(){
-        return $this->belongsTo(User::class, 'pengusul1');
+    public function mahasiswa1Jadwal(){
+        return $this->belongsTo(User::class, 'mahasiswa1');
     }
-    public function pengusul2Jadwal(){
-        return $this->belongsTo(User::class, 'pengusul2');
+    public function mahasiswa2Jadwal(){
+        return $this->belongsTo(User::class, 'mahasiswa2');
     }
     public function dosenPenguji1Jadwal(){
         return $this->belongsTo(User::class, 'dosen_penguji1');

@@ -22,8 +22,8 @@ class SemproController extends Controller
 
         $statusBimbinganTerakhir = null;
         $pengajuanTerakhir = Bimbingan::where(function ($query) use ($userId) {
-            $query->where('pengusul1', $userId)
-                  ->orWhere('pengusul2', $userId);
+            $query->where('mahasiswa1', $userId)
+                  ->orWhere('mahasiswa2', $userId);
             })
             ->orderByDesc('tanggal')
             ->first();
@@ -33,15 +33,15 @@ class SemproController extends Controller
         }
         // $pengajuan = PengajuanJudul::where('status', 'Diterima')
         //     ->where(function ($query) use ($userId) {
-        //         $query->where('pengusul1', $userId)
-        //             ->orWhere('pengusul2', $userId);
+        //         $query->where('mahasiswa1', $userId)
+        //             ->orWhere('mahasiswa2', $userId);
         //     })->get();
-        $pengajuan = PengajuanJudul::where('pengusul1', $userId)
-            ->orWhere('pengusul2', $userId)
+        $pengajuan = PengajuanJudul::where('mahasiswa1', $userId)
+            ->orWhere('mahasiswa2', $userId)
             ->get();
         if (auth()->user()->role_id == 3) {
-            $semproUser = Sempro::where('pengusul1', $userId)
-                ->orWhere('pengusul2', $userId)
+            $semproUser = Sempro::where('mahasiswa1', $userId)
+                ->orWhere('mahasiswa2', $userId)
                 ->get();
         } else {
             $semproUser = collect();
@@ -63,20 +63,22 @@ class SemproController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pengusul1' => 'required|exists:users,id',
-            'pengusul2' => 'nullable|exists:users,id',
-            'dospem_id' => 'required|exists:users,id',
+            'mahasiswa1' => 'required|exists:users,id',
+            'mahasiswa2' => 'nullable|exists:users,id',
+            'dospem1' => 'required|exists:users,id',
+            'dospem2' => 'required|exists:users,id',
             'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
             'no_ta' => 'required|string|max:255',
             'abstrak' => 'required|string|max:1000',
             'laporan' => 'required|file|mimes:pdf,doc,docx|max:10240',
-            'ppt' => 'required|file|mimes:ppt,pptx|max:10240',
+            'ppt' => 'required|file|max:10240',
         ]);
 
         $sempro = new Sempro();
-        $sempro->pengusul1 = $request->pengusul1;
-        $sempro->pengusul2 = $request->pengusul2;
-        $sempro->dospem_id = $request->dospem_id;
+        $sempro->mahasiswa1 = $request->mahasiswa1;
+        $sempro->mahasiswa2 = $request->mahasiswa2;
+        $sempro->dospem1 = $request->dospem1;
+        $sempro->dospem2 = $request->dospem2;
         $sempro->pengajuan_id = $request->pengajuan_id;
         $sempro->no_ta = $request->no_ta;
         $sempro->abstrak = $request->abstrak;
@@ -124,9 +126,10 @@ class SemproController extends Controller
     public function update(Request $request, Sempro $sempro)
     {
         $request->validate([
-            'pengusul1' => 'required|exists:users,id',
-            'pengusul2' => 'nullable|exists:users,id',
-            'dospem_id' => 'required|exists:users,id',
+            'mahasiswa1' => 'required|exists:users,id',
+            'mahasiswa2' => 'nullable|exists:users,id',
+            'dospem1' => 'required|exists:users,id',
+            'dospem2' => 'required|exists:users,id',
             'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
             'no_ta' => 'required|string|max:255',
             'abstrak' => 'required|string|max:1000',
@@ -134,9 +137,10 @@ class SemproController extends Controller
             'ppt' => 'nullable|file|mimes:ppt,pptx|max:10240',
         ]);
 
-        $sempro->pengusul1 = $request->pengusul1;
-        $sempro->pengusul2 = $request->pengusul2;
-        $sempro->dospem_id = $request->dospem_id;
+        $sempro->mahasiswa1 = $request->mahasiswa1;
+        $sempro->mahasiswa2 = $request->mahasiswa2;
+        $sempro->dospem1 = $request->dospem1;
+        $sempro->dospem2 = $request->dospem2;
         $sempro->pengajuan_id = $request->pengajuan_id;
         $sempro->no_ta = $request->no_ta;
         $sempro->abstrak = $request->abstrak;

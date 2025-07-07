@@ -13,8 +13,8 @@ class PengajuanJudul extends Model
     protected $table = 'pengajuan_juduls';
 
     protected $fillable = [
-        'pengusul1',
-        'pengusul2',
+        'mahasiswa1',
+        'mahasiswa2',
         'dospem1',
         'dospem2',
         'tahun',
@@ -22,11 +22,11 @@ class PengajuanJudul extends Model
         'status'
     ];
 
-    public function pengusul1Pengajuan(){
-        return $this->belongsTo(User::class, 'pengusul1');
+    public function mahasiswa1Pengajuan(){
+        return $this->belongsTo(User::class, 'mahasiswa1');
     }
-    public function pengusul2Pengajuan(){
-        return $this->belongsTo(User::class, 'pengusul2');
+    public function mahasiswa2Pengajuan(){
+        return $this->belongsTo(User::class, 'mahasiswa2');
     }
     public function dospem1Pengajuan(){
         return $this->belongsTo(User::class, 'dospem1');

@@ -22,7 +22,7 @@
                                             <th style="text-align: center;">No</th>
                                             <th style="text-align: center;">Tahun</th>
                                             <th>Judul</th>
-                                            <th>Pengusul</th>
+                                            <th>mahasiswa</th>
                                             <th>Dospem</th>
                                             <th style="text-align: center;">Status</th>
                                             <th style="text-align: center;">Aksi</th>
@@ -37,8 +37,8 @@
                                                 <td>
                                                     <div class="">
                                                         <ul>
-                                                            <li>{{ $pJ->pengusul1Pengajuan->nama }}</li>
-                                                            <li>{{ $pJ->pengusul2Pengajuan->nama }}</li>
+                                                            <li>{{ $pJ->mahasiswa1Pengajuan->nama }}</li>
+                                                            <li>{{ $pJ->mahasiswa2Pengajuan->nama }}</li>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -54,7 +54,7 @@
                                                     @else
                                                         -
                                                     @endif
-                                                </td>   
+                                                </td>
                                                 <td style="text-align: center;">
                                                     @if ($pJ->status == 'Disetujui')
                                                         <span class="badge bg-success">{{ $pJ->status }}</span>
@@ -67,19 +67,19 @@
                                                 <td style="text-align: center;">
                                                     @if (auth()->user()->role_id == 3 &&
                                                             $pJ->status !== 'Disetujui' &&
-                                                            (auth()->user()->id == $pJ->pengusul1 || auth()->user()->id == $pJ->pengusul2))
+                                                            (auth()->user()->id == $pJ->mahasiswa1 || auth()->user()->id == $pJ->mahasiswa2))
                                                         <button class="btn btn-primary btn-sm"
                                                             id="editBtn-{{ $pJ->id }}" data-bs-toggle="modal"
                                                             data-bs-target="#editModal-{{ $pJ->id }}">
-                                                            Edit
+                                                            <i class="fa-solid fa-pen-to-square"></i>
                                                         </button>
                                                         <form action="{{ route('pengajuan.delete', $pJ->id) }}"
                                                             method="POST" class="d-inline"
                                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus Judul ini?')">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-danger btn-sm">Hapus</button>
+                                                            <button type="submit" class="btn btn-danger btn-sm"><i
+                                                                    class="fa-solid fa-trash-can"></i></button>
                                                         </form>
                                                     @endif
                                                 </td>
@@ -118,30 +118,30 @@
                                                                         value="{{ $pJ->judul }}" disabled>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="pengusul1-{{ $pJ->id }}"
-                                                                        class="form-label">Pengusul 1</label>
+                                                                    <label for="mahasiswa1-{{ $pJ->id }}"
+                                                                        class="form-label">mahasiswa 1</label>
                                                                     <select class="form-select"
-                                                                        id="pengusul1-{{ $pJ->id }}" name="pengusul1"
-                                                                        disabled>
-                                                                        <option value="">Pilih Pengusul 1</option>
+                                                                        id="mahasiswa1-{{ $pJ->id }}"
+                                                                        name="mahasiswa1" disabled>
+                                                                        <option value="">Pilih mahasiswa 1</option>
                                                                         @foreach ($mahasiswa as $mhs)
                                                                             <option value="{{ $mhs->id }}"
-                                                                                {{ $mhs->id == $pJ->pengusul1 ? 'selected' : '' }}>
+                                                                                {{ $mhs->id == $pJ->mahasiswa1 ? 'selected' : '' }}>
                                                                                 {{ $mhs->nama }}
                                                                             </option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="pengusul2-{{ $pJ->id }}"
-                                                                        class="form-label">Pengusul 2</label>
+                                                                    <label for="mahasiswa2-{{ $pJ->id }}"
+                                                                        class="form-label">mahasiswa 2</label>
                                                                     <select class="form-select"
-                                                                        id="pengusul2-{{ $pJ->id }}" name="pengusul2"
-                                                                        disabled>
-                                                                        <option value="">Pilih Pengusul 2</option>
+                                                                        id="mahasiswa2-{{ $pJ->id }}"
+                                                                        name="mahasiswa2" disabled>
+                                                                        <option value="">Pilih mahasiswa 2</option>
                                                                         @foreach ($mahasiswa as $mhs)
                                                                             <option value="{{ $mhs->id }}"
-                                                                                {{ $mhs->id == $pJ->pengusul2 ? 'selected' : '' }}>
+                                                                                {{ $mhs->id == $pJ->mahasiswa2 ? 'selected' : '' }}>
                                                                                 {{ $mhs->nama }}
                                                                             </option>
                                                                         @endforeach
@@ -176,6 +176,10 @@
                                                                             </option>
                                                                         @endforeach
                                                                     </select>
+                                                                    <small class="text-muted">
+                                                                        Jika tidak ada Dosen Pembimbing 2, biarkan
+                                                                        kosong.
+                                                                    </small>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -219,9 +223,10 @@
                                                         name="judul" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="pengusul1" class="form-label">Pengusul 1</label>
-                                                    <select class="form-select" id="pengusul1" name="pengusul1" required>
-                                                        <option hidden value="">Pilih Pengusul 1</option>
+                                                    <label for="mahasiswa1" class="form-label">mahasiswa 1</label>
+                                                    <select class="form-select" id="mahasiswa1" name="mahasiswa1"
+                                                        required>
+                                                        <option hidden value="">Pilih mahasiswa 1</option>
                                                         @foreach ($mahasiswa as $mhs)
                                                             <option value="{{ $mhs->id }}">{{ $mhs->nama }}
                                                             </option>
@@ -229,9 +234,10 @@
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="pengusul2" class="form-label">Pengusul 2</label>
-                                                    <select class="form-select" id="pengusul2" name="pengusul2" required>
-                                                        <option hidden value="">Pilih Pengusul 2</option>
+                                                    <label for="mahasiswa2" class="form-label">mahasiswa 2</label>
+                                                    <select class="form-select" id="mahasiswa2" name="mahasiswa2"
+                                                        required>
+                                                        <option hidden value="">Pilih mahasiswa 2</option>
                                                         @foreach ($mahasiswa as $mhs)
                                                             <option value="{{ $mhs->id }}">{{ $mhs->nama }}
                                                             </option>
@@ -257,6 +263,10 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <small class="text-muted">
+                                                        Jika tidak ada Dosen Pembimbing 2, biarkan
+                                                        kosong.
+                                                    </small>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -276,7 +286,7 @@
                                             <th style="text-align: center;">No</th>
                                             <th style="text-align: center;">Tahun</th>
                                             <th>Judul</th>
-                                            <th>Pengusul</th>
+                                            <th>mahasiswa</th>
                                             <th>Dospem</th>
                                             <th style="text-align: center;">Status</th>
                                             <th style="text-align: center;">Aksi</th>
@@ -291,8 +301,8 @@
                                                 <td>
                                                     <div class="">
                                                         <ul>
-                                                            <li>{{ $pJ->pengusul1Pengajuan->nama }}</li>
-                                                            <li>{{ $pJ->pengusul2Pengajuan->nama }}</li>
+                                                            <li>{{ $pJ->mahasiswa1Pengajuan->nama }}</li>
+                                                            <li>{{ $pJ->mahasiswa2Pengajuan->nama }}</li>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -321,7 +331,8 @@
                                                 <td style="text-align: center;">
                                                     @if ($pJ->dospem1 == auth()->user()->id || $pJ->dospem2 == auth()->user()->id)
                                                         <form action="{{ route('pengajuan.updateStatus', $pJ->id) }}"
-                                                            method="POST" enctype="multipart/form-data" class="d-inline">
+                                                            method="POST" enctype="multipart/form-data"
+                                                            class="d-inline">
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="status" value="Disetujui">
@@ -331,7 +342,8 @@
                                                             </button>
                                                         </form>
                                                         <form action="{{ route('pengajuan.updateStatus', $pJ->id) }}"
-                                                            method="POST" enctype="multipart/form-data" class="d-inline">
+                                                            method="POST" enctype="multipart/form-data"
+                                                            class="d-inline">
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="status" value="Ditolak">
@@ -363,39 +375,46 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Untuk setiap tombol edit pada modal
             @foreach ($pengajuanJudul as $pJ)
-            const editBtn{{ $pJ->id }} = document.getElementById('editBtn-{{ $pJ->id }}');
-            const updateBtn{{ $pJ->id }} = document.getElementById('updateBtn-{{ $pJ->id }}');
-            const formMethodInput{{ $pJ->id }} = document.getElementById('form-method-{{ $pJ->id }}');
+                const editBtn{{ $pJ->id }} = document.getElementById('editBtn-{{ $pJ->id }}');
+                const updateBtn{{ $pJ->id }} = document.getElementById('updateBtn-{{ $pJ->id }}');
+                const formMethodInput{{ $pJ->id }} = document.getElementById(
+                    'form-method-{{ $pJ->id }}');
 
-            if (editBtn{{ $pJ->id }}) {
-                editBtn{{ $pJ->id }}.addEventListener('click', function() {
-                if (confirm('Edit akan mengubah status menjadi Diproses. Lanjutkan?')) {
-                    document.getElementById('tahun-{{ $pJ->id }}')?.removeAttribute('disabled');
-                    document.getElementById('judul-{{ $pJ->id }}')?.removeAttribute('disabled');
-                    document.getElementById('pengusul1-{{ $pJ->id }}')?.removeAttribute('disabled');
-                    document.getElementById('pengusul2-{{ $pJ->id }}')?.removeAttribute('disabled');
-                    document.getElementById('dospem1-{{ $pJ->id }}')?.removeAttribute('disabled');
-                    document.getElementById('dospem2-{{ $pJ->id }}')?.removeAttribute('disabled');
+                if (editBtn{{ $pJ->id }}) {
+                    editBtn{{ $pJ->id }}.addEventListener('click', function() {
+                        if (confirm('Edit akan mengubah status menjadi Diproses. Lanjutkan?')) {
+                            document.getElementById('tahun-{{ $pJ->id }}')?.removeAttribute(
+                                'disabled');
+                            document.getElementById('judul-{{ $pJ->id }}')?.removeAttribute(
+                                'disabled');
+                            document.getElementById('mahasiswa1-{{ $pJ->id }}')?.removeAttribute(
+                                'disabled');
+                            document.getElementById('mahasiswa2-{{ $pJ->id }}')?.removeAttribute(
+                                'disabled');
+                            document.getElementById('dospem1-{{ $pJ->id }}')?.removeAttribute(
+                                'disabled');
+                            document.getElementById('dospem2-{{ $pJ->id }}')?.removeAttribute(
+                                'disabled');
 
-                    // Ubah badge status pada modal jika ada
-                    const modal = document.getElementById('editModal-{{ $pJ->id }}');
-                    if (modal) {
-                    const badge = modal.querySelector('.badge');
-                    if (badge) {
-                        badge.textContent = 'Diproses';
-                        badge.className = 'badge text-bg-secondary';
-                    }
-                    }
+                            // Ubah badge status pada modal jika ada
+                            const modal = document.getElementById('editModal-{{ $pJ->id }}');
+                            if (modal) {
+                                const badge = modal.querySelector('.badge');
+                                if (badge) {
+                                    badge.textContent = 'Diproses';
+                                    badge.className = 'badge text-bg-secondary';
+                                }
+                            }
 
-                    if (formMethodInput{{ $pJ->id }}) {
-                    formMethodInput{{ $pJ->id }}.value = 'PUT';
-                    }
+                            if (formMethodInput{{ $pJ->id }}) {
+                                formMethodInput{{ $pJ->id }}.value = 'PUT';
+                            }
 
-                    editBtn{{ $pJ->id }}.classList.add('d-none');
-                    updateBtn{{ $pJ->id }}.classList.remove('d-none');
+                            editBtn{{ $pJ->id }}.classList.add('d-none');
+                            updateBtn{{ $pJ->id }}.classList.remove('d-none');
+                        }
+                    });
                 }
-                });
-            }
             @endforeach
         });
 
@@ -413,6 +432,7 @@
                     }
                 },
                 scrollX: true,
+                stripeClasses: ['table-primary', 'table-light'],
             });
 
         });

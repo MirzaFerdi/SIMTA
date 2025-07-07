@@ -26,10 +26,10 @@
                                                 <td style="text-align: center;">{{ $loop->iteration }}</td>
                                                 <td>
                                                     <div class="">
-                                                        {{ $sempro->pengusul1Sempro->nama }}
+                                                        {{ $sempro->mahasiswa1Sempro->nama }}
                                                     </div>
                                                     <div class="">
-                                                        {{ $sempro->pengusul2Sempro->nama }}
+                                                        {{ $sempro->mahasiswa2Sempro->nama }}
                                                     </div>
                                                 </td>
                                                 <td>{{ $sempro->pengajuanSempro->judul }}</td>
@@ -58,22 +58,29 @@
                                                     @endif
                                                 </td>
                                                 <td style="text-align: center;">
-                                                    <form action="{{ route('sempro.updateStatus', $sempro->id) }}"
-                                                        method="POST" enctype="multipart/form-data">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <input type="hidden" name="status" value="Disetujui">
-                                                        <button type="submit" class="btn btn-success btn-sm"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menerima seminar proposal ini?')">Disetujui</button>
-                                                    </form>
-                                                    <form action="{{ route('sempro.updateStatus', $sempro->id) }}"
-                                                        method="POST" enctype="multipart/form-data">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <input type="hidden" name="status" value="Ditolak">
-                                                        <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menolak seminar proposal ini?')">Ditolak</button>
-                                                    </form>
+                                                    @if (
+                                                        auth()->user()->id == $sempro->dospem1 ||
+                                                        auth()->user()->id == $sempro->dospem2
+                                                    )
+                                                        <form action="{{ route('sempro.updateStatus', $sempro->id) }}"
+                                                            method="POST" enctype="multipart/form-data" class="d-inline">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <input type="hidden" name="status" value="Disetujui">
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menerima seminar proposal ini?')">Disetujui</button>
+                                                        </form>
+                                                        <form action="{{ route('sempro.updateStatus', $sempro->id) }}"
+                                                            method="POST" enctype="multipart/form-data" class="d-inline">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <input type="hidden" name="status" value="Ditolak">
+                                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menolak seminar proposal ini?')">Ditolak</button>
+                                                        </form>
+                                                    @else
+                                                        <span class="text-muted">-</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -105,30 +112,30 @@
                                                 {{ $isEdit ? 'disabled' : 'required' }}>
                                         </div>
 
-                                        {{-- Pengusul 1 --}}
+                                        {{-- mahasiswa 1 --}}
                                         <div class="mb-3">
-                                            <label for="pengusul1" class="form-label">Pengusul 1</label>
-                                            <select class="form-select" id="pengusul1" name="pengusul1"
+                                            <label for="mahasiswa1" class="form-label">Mahasiswa 1</label>
+                                            <select class="form-select" id="mahasiswa1" name="mahasiswa1"
                                                 {{ $isEdit ? 'disabled' : 'required' }}>
-                                                <option hidden value="">Pilih Pengusul 1</option>
+                                                <option hidden value="">Pilih mahasiswa 1</option>
                                                 @foreach ($mahasiswas as $mahasiswa)
                                                     <option value="{{ $mahasiswa->id }}"
-                                                        {{ old('pengusul1', $sempro->pengusul1 ?? '') == $mahasiswa->id ? 'selected' : '' }}>
+                                                        {{ old('mahasiswa1', $sempro->mahasiswa1 ?? '') == $mahasiswa->id ? 'selected' : '' }}>
                                                         {{ $mahasiswa->nama }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        {{-- Pengusul 2 --}}
+                                        {{-- mahasiswa 2 --}}
                                         <div class="mb-3">
-                                            <label for="pengusul2" class="form-label">Pengusul 2</label>
-                                            <select class="form-select" id="pengusul2" name="pengusul2"
+                                            <label for="mahasiswa2" class="form-label">Mahasiswa 2</label>
+                                            <select class="form-select" id="mahasiswa2" name="mahasiswa2"
                                                 {{ $isEdit ? 'disabled' : '' }}>
-                                                <option hidden value="">Pilih Pengusul 2</option>
+                                                <option hidden value="">Pilih mahasiswa 2</option>
                                                 @foreach ($mahasiswas as $mahasiswa)
                                                     <option value="{{ $mahasiswa->id }}"
-                                                        {{ old('pengusul2', $sempro->pengusul2 ?? '') == $mahasiswa->id ? 'selected' : '' }}>
+                                                        {{ old('mahasiswa2', $sempro->mahasiswa2 ?? '') == $mahasiswa->id ? 'selected' : '' }}>
                                                         {{ $mahasiswa->nama }}
                                                     </option>
                                                 @endforeach
@@ -137,18 +144,33 @@
 
                                         {{-- Dosen Pembimbing --}}
                                         <div class="mb-3">
-                                            <label for="dospem_id" class="form-label">Dosen Pembimbing</label>
-                                            <select class="form-select" id="dospem_id" name="dospem_id"
+                                            <label for="dospem1" class="form-label">Dosen Pembimbing 1</label>
+                                            <select class="form-select" id="dospem1" name="dospem1"
                                                 {{ $isEdit ? 'disabled' : 'required' }}>
                                                 <option hidden value="">Pilih Dosen Pembimbing</option>
                                                 @foreach ($dospem as $d)
                                                     <option value="{{ $d->id }}"
-                                                        {{ old('dospem_id', $sempro->dospem_id ?? '') == $d->id ? 'selected' : '' }}>
+                                                        {{ old('dospem1', $sempro->dospem1 ?? '') == $d->id ? 'selected' : '' }}>
                                                         {{ $d->nama }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
+
+                                        <div class="mb-3">
+                                            <label for="dospem2" class="form-label">Dosen Pembimbing 2</label>
+                                            <select class="form-select" id="dospem2" name="dospem2"
+                                                {{ $isEdit ? 'disabled' : '' }}>
+                                                <option hidden value="">Pilih Dosen Pembimbing</option>
+                                                @foreach ($dospem as $d)
+                                                    <option value="{{ $d->id }}"
+                                                        {{ old('dospem2', $sempro->dospem2 ?? '') == $d->id ? 'selected' : '' }}>
+                                                        {{ $d->nama }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+
 
                                         {{-- Judul --}}
                                         <div class="mb-3">
@@ -268,6 +290,7 @@
                     }
                 },
                 scrollX: true,
+                stripeClasses: ['table-primary', 'table-light'],
             });
 
         });

@@ -26,10 +26,10 @@
                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                             <td>
                                 <div class="">
-                                    {{ $ba->pengusul1BeritaAcara->nama }}
+                                    {{ $ba->mahasiswa1BeritaAcara->nama }}
                                 </div>
                                 <div class="">
-                                    {{ $ba->pengusul2BeritaAcara->nama }}
+                                    {{ $ba->mahasiswa2BeritaAcara->nama }}
                                 </div>
                             </td>
                             <td>{{ $ba->dosenBeritaAcara->nama }}</td>
@@ -47,12 +47,12 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Apakah Anda yakin ingin menghapus berita acara ini?')">
-                                        <i class="bi bi-trash"></i> Hapus
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
                                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#editBeritaAcaraModal{{ $ba->id }}">
-                                    <i class="bi bi-pencil-square"></i> Edit
+                                    <i class="bi bi-pencil-square"></i>
                                 </button>
                             </td>
                         </tr>
@@ -74,23 +74,23 @@
                                         @method('PUT')
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="pengusul1" class="form-label">Pengusul 1</label>
-                                                <select class="form-select" name="pengusul1" id="pengusul1" required>
-                                                    <option value="" hidden selected>Pilih Pengusul 1</option>
+                                                <label for="mahasiswa1" class="form-label">mahasiswa 1</label>
+                                                <select class="form-select" name="mahasiswa1" id="mahasiswa1" required>
+                                                    <option value="" hidden selected>Pilih mahasiswa 1</option>
                                                     @foreach ($mahasiswa as $mhs)
                                                         <option value="{{ $mhs->id }}"
-                                                            {{ $mhs->id == $ba->pengusul1 ? 'selected' : '' }}>
+                                                            {{ $mhs->id == $ba->mahasiswa1 ? 'selected' : '' }}>
                                                             {{ $mhs->nama }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="pengusul2" class="form-label">Pengusul 2</label>
-                                                <select class="form-select" name="pengusul2" id="pengusul2" required>
-                                                    <option value="" hidden selected>Pilih Pengusul 2</option>
+                                                <label for="mahasiswa2" class="form-label">mahasiswa 2</label>
+                                                <select class="form-select" name="mahasiswa2" id="mahasiswa2" required>
+                                                    <option value="" hidden selected>Pilih mahasiswa 2</option>
                                                     @foreach ($mahasiswa as $mhs)
                                                         <option value="{{ $mhs->id }}"
-                                                            {{ $mhs->id == $ba->pengusul2 ? 'selected' : '' }}>
+                                                            {{ $mhs->id == $ba->mahasiswa2 ? 'selected' : '' }}>
                                                             {{ $mhs->nama }}</option>
                                                     @endforeach
                                                 </select>
@@ -153,18 +153,18 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="pengusul1" class="form-label">Pengusul 1</label>
-                            <select class="form-select" name="pengusul1" id="pengusul1" required>
-                                <option value="" hidden selected>Pilih Pengusul 1</option>
+                            <label for="mahasiswa1" class="form-label">mahasiswa 1</label>
+                            <select class="form-select" name="mahasiswa1" id="mahasiswa1" required>
+                                <option value="" hidden selected>Pilih mahasiswa 1</option>
                                 @foreach ($mahasiswa as $mhs)
                                     <option value="{{ $mhs->id }}">{{ $mhs->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="pengusul2" class="form-label">Pengusul 2</label>
-                            <select class="form-select" name="pengusul2" id="pengusul2" required>
-                                <option value="" hidden selected>Pilih Pengusul 2</option>
+                            <label for="mahasiswa2" class="form-label">mahasiswa 2</label>
+                            <select class="form-select" name="mahasiswa2" id="mahasiswa2" required>
+                                <option value="" hidden selected>Pilih mahasiswa 2</option>
                                 @foreach ($mahasiswa as $mhs)
                                     <option value="{{ $mhs->id }}">{{ $mhs->nama }}</option>
                                 @endforeach
@@ -220,8 +220,8 @@
                     }
                 },
                 scrollX: true,
+                stripeClasses: ['table-primary', 'table-light'],
             });
-
         });
     </script>
 @endsection

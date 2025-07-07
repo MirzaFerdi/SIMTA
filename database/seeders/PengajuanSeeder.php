@@ -14,8 +14,8 @@ class PengajuanSeeder extends Seeder
     public function run(): void
     {
         DB::table('pengajuan_juduls')->insert([
-            'pengusul1' => 6,
-            'pengusul2' => 7,
+            'mahasiswa1' => 6,
+            'mahasiswa2' => 7,
             'dospem1' => 2,
             'dospem2' => 3,
             'tahun' => 2025,

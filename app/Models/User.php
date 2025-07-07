@@ -54,27 +54,31 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
-    public function pengusul1Sempro()
+    public function mahasiswa1Sempro()
     {
-        return $this->hasOne(Sempro::class, 'pengusul1');
+        return $this->hasOne(Sempro::class, 'mahasiswa1');
     }
-    public function pengusul2Sempro()
+    public function mahasiswa2Sempro()
     {
-        return $this->hasOne(Sempro::class, 'pengusul2');
+        return $this->hasOne(Sempro::class, 'mahasiswa2');
     }
-    public function dospemSempro()
+    public function dospem1Sempro()
     {
-        return $this->hasOne(Sempro::class, 'dospem_id');
+        return $this->hasOne(Sempro::class, 'dospem1');
+    }
+    public function dospem2Sempro()
+    {
+        return $this->hasOne(Sempro::class, 'dospem2');
     }
 
 
-    public function pengusul1Pengajuan()
+    public function mahasiswa1Pengajuan()
     {
-        return $this->hasOne(PengajuanJudul::class, 'pengusul1');
+        return $this->hasOne(PengajuanJudul::class, 'mahasiswa1');
     }
-    public function pengusul2Pengajuan()
+    public function mahasiswa2Pengajuan()
     {
-        return $this->hasOne(PengajuanJudul::class, 'pengusul2');
+        return $this->hasOne(PengajuanJudul::class, 'mahasiswa2');
     }
     public function dospem1Pengajuan()
     {
@@ -86,13 +90,13 @@ class User extends Authenticatable
     }
 
 
-    public function pengusul1Bimbingan()
+    public function mahasiswa1Bimbingan()
     {
-        return $this->hasMany(Bimbingan::class, 'pengusul1');
+        return $this->hasMany(Bimbingan::class, 'mahasiswa1');
     }
-    public function pengusul2Bimbingan()
+    public function mahasiswa2Bimbingan()
     {
-        return $this->hasMany(Bimbingan::class, 'pengusul2');
+        return $this->hasMany(Bimbingan::class, 'mahasiswa2');
     }
     public function dospem1Bimbingan()
     {
@@ -104,13 +108,13 @@ class User extends Authenticatable
     }
 
 
-    public function pengusul1Jadwal()
+    public function mahasiswa1Jadwal()
     {
-        return $this->hasMany(Jadwal::class, 'pengusul1');
+        return $this->hasMany(Jadwal::class, 'mahasiswa1');
     }
-    public function pengusul2Jadwal()
+    public function mahasiswa2Jadwal()
     {
-        return $this->hasMany(Jadwal::class, 'pengusul2');
+        return $this->hasMany(Jadwal::class, 'mahasiswa2');
     }
     public function dosenPenguji1Jadwal()
     {
@@ -130,13 +134,13 @@ class User extends Authenticatable
     }
 
 
-    public function pengusul1BeritaAcara()
+    public function mahasiswa1BeritaAcara()
     {
-        return $this->hasMany(BeritaAcara::class, 'pengusul1');
+        return $this->hasMany(BeritaAcara::class, 'mahasiswa1');
     }
-    public function pengusul2BeritaAcara()
+    public function mahasiswa2BeritaAcara()
     {
-        return $this->hasMany(BeritaAcara::class, 'pengusul2');
+        return $this->hasMany(BeritaAcara::class, 'mahasiswa2');
     }
     public function dosenBeritaAcara()
     {

@@ -12,8 +12,8 @@ class BeritaAcara extends Model
     protected $table = 'berita_acaras';
 
     protected $fillable = [
-        'pengusul1',
-        'pengusul2',
+        'mahasiswa1',
+        'mahasiswa2',
         'dosen',
         'pengajuan_id',
         'berita_acara',
@@ -22,14 +22,14 @@ class BeritaAcara extends Model
 
     public $timestamps = false;
 
-    public function pengusul1BeritaAcara()
+    public function mahasiswa1BeritaAcara()
     {
-        return $this->belongsTo(User::class, 'pengusul1');
+        return $this->belongsTo(User::class, 'mahasiswa1');
     }
 
-    public function pengusul2BeritaAcara()
+    public function mahasiswa2BeritaAcara()
     {
-        return $this->belongsTo(User::class, 'pengusul2');
+        return $this->belongsTo(User::class, 'mahasiswa2');
     }
 
     public function dosenBeritaAcara()

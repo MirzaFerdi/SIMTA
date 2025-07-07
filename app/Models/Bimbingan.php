@@ -13,8 +13,8 @@ class Bimbingan extends Model
     protected $table = 'bimbingans';
 
     protected $fillable = [
-        'pengusul1',
-        'pengusul2',
+        'mahasiswa1',
+        'mahasiswa2',
         'dospem1',
         'dospem2',
         'tanggal',
@@ -24,19 +24,19 @@ class Bimbingan extends Model
         'status',
     ];
 
-    public function pengusul1Bimbingan(){
-        return $this->belongsTo(User::class, 'pengusul1');
+    public function mahasiswa1Bimbingan(){
+        return $this->belongsTo(User::class, 'mahasiswa1');
     }
 
-    public function pengusul2Bimbingan(){
-        return $this->belongsTo(User::class, 'pengusul2');
+    public function mahasiswa2Bimbingan(){
+        return $this->belongsTo(User::class, 'mahasiswa2');
     }
 
     public function pengajuanJudul1(){
-        return $this->belongsTo(PengajuanJudul::class, 'pengusul1', 'pengusul1');
+        return $this->belongsTo(PengajuanJudul::class, 'mahasiswa1', 'mahasiswa1');
     }
     public function pengajuanJudul2(){
-        return $this->belongsTo(PengajuanJudul::class, 'pengusul2', 'pengusul2');
+        return $this->belongsTo(PengajuanJudul::class, 'mahasiswa2', 'mahasiswa2');
     }
 
     public function dospem1Bimbingan(){

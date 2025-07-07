@@ -2,7 +2,7 @@
     <button class="btn btn-outline-secondary me-2 d-md-none" id="sidebarToggle">
         <i class="fas fa-bars"></i>
     </button>
-    <span class="navbar-brand ms-3">
+    <span class="navbar-brand ms-3 fw-bold">
         @php
             $currentRoute = Route::currentRouteName();
             $routeTitles = [

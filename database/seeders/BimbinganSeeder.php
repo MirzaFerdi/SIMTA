@@ -14,8 +14,8 @@ class BimbinganSeeder extends Seeder
     public function run(): void
     {
         DB::table('bimbingans')->insert([
-            'pengusul1' => 6,
-            'pengusul2' => 7,
+            'mahasiswa1' => 6,
+            'mahasiswa2' => 7,
             'dospem_id' => 2,
             'tanggal' => now(),
             'topik_bimbingan' => 'Topik Bimbingan 1',

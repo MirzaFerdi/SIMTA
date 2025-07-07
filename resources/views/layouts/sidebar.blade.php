@@ -1,5 +1,7 @@
 <nav id="sidebar" class="p-3 text-white">
-    <h6 class="text-center mb-4">Sistem Informasi Manajemen Tugas Akhir</h6>
+    <div class="text-center mb-4">
+        <img src="{{ asset('image/logo2.png') }}" alt="Logo SIMTA" style="width: 100%; max-width: none;">
+    </div>
 
     <div class="d-flex flex-column flex-grow-1" style="height: 100%;">
         <ul class="nav flex-column">
@@ -47,14 +49,14 @@
                 <ul class="nav flex-column ms-4 mt-2 slide-toggle {{ $isUjian ? 'show' : '' }}" id="ujianSubmenu">
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('seminar-proposal') ? 'active fw-bold text-white' : 'text-white' }}"
-                            href="/seminar-proposal">
-                            - Seminar Proposal
+                            href="/seminar-proposal" style="font-size: 14px;">
+                            <i class="fa-solid fa-book-open-reader"></i> Seminar Proposal
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('rekap-seminar') ? 'active fw-bold text-white' : 'text-white' }}"
-                            href="/rekap-seminar">
-                            - Rekap Hasil Seminar
+                            href="/rekap-seminar" style="font-size: 14px;">
+                            <i class="fa-solid fa-book-open"></i> Rekap Hasil Seminar
                         </a>
                     </li>
                 </ul>

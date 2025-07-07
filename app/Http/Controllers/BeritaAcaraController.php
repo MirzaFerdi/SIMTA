@@ -18,7 +18,7 @@ class BeritaAcaraController extends Controller
         $mahasiswa = User::where('role_id', 3)->get();
         $dosen = User::where('role_id', 2)->get();
         $pengajuan = PengajuanJudul::where('status', 'Disetujui')->get();
-        $beritaAcara = BeritaAcara::with(['pengusul1BeritaAcara', 'pengusul2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
+        $beritaAcara = BeritaAcara::with(['mahasiswa1BeritaAcara', 'mahasiswa2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
             ->get();
 
         return view('beritaAcara', compact('beritaAcara', 'mahasiswa', 'dosen', 'pengajuan'));
@@ -30,19 +30,19 @@ class BeritaAcaraController extends Controller
 
         if ($user->role_id == 1) {
             // Admin: ambil semua rekap seminar
-            $rekapSeminar = BeritaAcara::with(['pengusul1BeritaAcara', 'pengusul2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
+            $rekapSeminar = BeritaAcara::with(['mahasiswa1BeritaAcara', 'mahasiswa2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
             ->get();
         } elseif ($user->role_id == 2) {
             // Dosen: ambil rekap seminar yang dosennya adalah user ini
-            $rekapSeminar = BeritaAcara::with(['pengusul1BeritaAcara', 'pengusul2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
+            $rekapSeminar = BeritaAcara::with(['mahasiswa1BeritaAcara', 'mahasiswa2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
             ->where('dosen', $user->id)
             ->get();
         } elseif ($user->role_id == 3) {
-            // Mahasiswa: ambil rekap seminar yang pengusul1 atau pengusul2 adalah user ini
-            $rekapSeminar = BeritaAcara::with(['pengusul1BeritaAcara', 'pengusul2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
+            // Mahasiswa: ambil rekap seminar yang mahasiswa1 atau mahasiswa2 adalah user ini
+            $rekapSeminar = BeritaAcara::with(['mahasiswa1BeritaAcara', 'mahasiswa2BeritaAcara', 'dosenBeritaAcara', 'pengajuanBeritaAcara'])
             ->where(function ($query) use ($user) {
-                $query->where('pengusul1', $user->id)
-                  ->orWhere('pengusul2', $user->id);
+                $query->where('mahasiswa1', $user->id)
+                  ->orWhere('mahasiswa2', $user->id);
             })
             ->get();
         } else {
@@ -66,16 +66,16 @@ class BeritaAcaraController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pengusul1' => 'required|exists:users,id',
-            'pengusul2' => 'nullable|exists:users,id',
+            'mahasiswa1' => 'required|exists:users,id',
+            'mahasiswa2' => 'nullable|exists:users,id',
             'dosen' => 'required|exists:users,id',
             'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
             'berita_acara' => 'required|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
         $beritaAcara = new BeritaAcara();
-        $beritaAcara->pengusul1 = $request->pengusul1;
-        $beritaAcara->pengusul2 = $request->pengusul2;
+        $beritaAcara->mahasiswa1 = $request->mahasiswa1;
+        $beritaAcara->mahasiswa2 = $request->mahasiswa2;
         $beritaAcara->dosen = $request->dosen;
         $beritaAcara->pengajuan_id = $request->pengajuan_id;
         if ($request->hasFile('berita_acara')) {
@@ -110,15 +110,15 @@ class BeritaAcaraController extends Controller
     public function update(Request $request, BeritaAcara $beritaAcara)
     {
         $request->validate([
-            'pengusul1' => 'required|exists:users,id',
-            'pengusul2' => 'nullable|exists:users,id',
+            'mahasiswa1' => 'required|exists:users,id',
+            'mahasiswa2' => 'nullable|exists:users,id',
             'dosen' => 'required|exists:users,id',
             'pengajuan_id' => 'required|exists:pengajuan_juduls,id',
             'berita_acara' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
-        $beritaAcara->pengusul1 = $request->pengusul1;
-        $beritaAcara->pengusul2 = $request->pengusul2;
+        $beritaAcara->mahasiswa1 = $request->mahasiswa1;
+        $beritaAcara->mahasiswa2 = $request->mahasiswa2;
         $beritaAcara->dosen = $request->dosen;
         $beritaAcara->pengajuan_id = $request->pengajuan_id;
 

@@ -65,10 +65,10 @@
                                                 <td>
                                                     <ul>
                                                         <li>
-                                                            {{ $jadwal->pengusul1Jadwal->nama }}
+                                                            {{ $jadwal->mahasiswa1Jadwal->nama }}
                                                         </li>
                                                         <li>
-                                                            {{ $jadwal->pengusul2Jadwal->nama }}
+                                                            {{ $jadwal->mahasiswa2Jadwal->nama }}
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -103,7 +103,7 @@
                                                     <button type="button" class="btn btn-warning btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#editModal{{ $jadwal->id }}">
-                                                        Edit
+                                                        <i class="fa-solid fa-pen-to-square"></i>
                                                     </button>
                                                     <form action="{{ route('penjadwalan.destroy', $jadwal->id) }}"
                                                         method="POST" class="d-inline">
@@ -111,7 +111,7 @@
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"
                                                             onclick="return confirm('Yakin ingin menghapus?')">
-                                                            Hapus
+                                                            <i class="fa-solid fa-trash-can"></i>
                                                         </button>
                                                     </form>
                                                 </td>
@@ -166,8 +166,8 @@
                                                                             @foreach ($pengajuans as $pengajuan)
                                                                                 <option
                                                                                     value="{{ $pengajuan->id }}"
-                                                                                    data-pengusul1="{{ $pengajuan->pengusul1Pengajuan->id ?? '' }}"
-                                                                                    data-pengusul2="{{ $pengajuan->pengusul2Pengajuan->id ?? '' }}"
+                                                                                    data-mahasiswa1="{{ $pengajuan->mahasiswa1Pengajuan->id ?? '' }}"
+                                                                                    data-mahasiswa2="{{ $pengajuan->mahasiswa2Pengajuan->id ?? '' }}"
                                                                                     data-dospem1="{{ $pengajuan->dospem1Pengajuan->id ?? '' }}"
                                                                                     data-dospem2="{{ $pengajuan->dospem2Pengajuan->id ?? '' }}"
                                                                                     {{ $jadwal->pengajuan_id == $pengajuan->id ? 'selected' : '' }}
@@ -178,30 +178,30 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="pengusul1" class="form-label">Pengusul
+                                                                        <label for="mahasiswa1" class="form-label">mahasiswa
                                                                             1</label>
-                                                                        <select class="form-select" id="pengusul1"
-                                                                            name="pengusul1" required>
-                                                                            <option hidden value="">Pilih Pengusul 1
+                                                                        <select class="form-select" id="mahasiswa1"
+                                                                            name="mahasiswa1" required>
+                                                                            <option hidden value="">Pilih mahasiswa 1
                                                                             </option>
                                                                             @foreach ($mahasiswas as $mahasiswa)
                                                                                 <option value="{{ $mahasiswa->id }}"
-                                                                                    {{ $jadwal->pengusul1 == $mahasiswa->id ? 'selected' : '' }}>
+                                                                                    {{ $jadwal->mahasiswa1 == $mahasiswa->id ? 'selected' : '' }}>
                                                                                     {{ $mahasiswa->nama }}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="pengusul2" class="form-label">Pengusul
+                                                                        <label for="mahasiswa2" class="form-label">mahasiswa
                                                                             2</label>
-                                                                        <select class="form-select" id="pengusul2"
-                                                                            name="pengusul2">
-                                                                            <option hidden value="">Pilih Pengusul 2
+                                                                        <select class="form-select" id="mahasiswa2"
+                                                                            name="mahasiswa2">
+                                                                            <option hidden value="">Pilih mahasiswa 2
                                                                                 (Opsional)
                                                                             </option>
                                                                             @foreach ($mahasiswas as $mahasiswa)
                                                                                 <option value="{{ $mahasiswa->id }}"
-                                                                                    {{ $jadwal->pengusul2 == $mahasiswa->id ? 'selected' : '' }}>
+                                                                                    {{ $jadwal->mahasiswa2 == $mahasiswa->id ? 'selected' : '' }}>
                                                                                     {{ $mahasiswa->nama }}</option>
                                                                             @endforeach
                                                                         </select>
@@ -298,10 +298,10 @@
                                                 <td>
                                                     <ul>
                                                         <li>
-                                                            {{ $jadwal->pengusul1Jadwal->nama }}
+                                                            {{ $jadwal->mahasiswa1Jadwal->nama }}
                                                         </li>
                                                         <li>
-                                                            {{ $jadwal->pengusul2Jadwal->nama }}
+                                                            {{ $jadwal->mahasiswa2Jadwal->nama }}
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -379,8 +379,8 @@
                                 @foreach ($pengajuans as $pengajuan)
                                     <option
                                         value="{{ $pengajuan->id }}"
-                                        data-pengusul1="{{ $pengajuan->pengusul1Pengajuan->id ?? '' }}"
-                                        data-pengusul2="{{ $pengajuan->pengusul2Pengajuan->id ?? '' }}"
+                                        data-mahasiswa1="{{ $pengajuan->mahasiswa1Pengajuan->id ?? '' }}"
+                                        data-mahasiswa2="{{ $pengajuan->mahasiswa2Pengajuan->id ?? '' }}"
                                         data-dospem1="{{ $pengajuan->dospem1Pengajuan->id ?? '' }}"
                                         data-dospem2="{{ $pengajuan->dospem2Pengajuan->id ?? '' }}"
                                     >
@@ -390,18 +390,18 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="pengusul1" class="form-label">Pengusul 1</label>
-                            <select class="form-select" id="pengusul1" name="pengusul1" required>
-                                <option hidden value="">Pilih Pengusul 1</option>
+                            <label for="mahasiswa1" class="form-label">mahasiswa 1</label>
+                            <select class="form-select" id="mahasiswa1" name="mahasiswa1" required>
+                                <option hidden value="">Pilih mahasiswa 1</option>
                                 @foreach ($mahasiswas as $mahasiswa)
                                     <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="pengusul2" class="form-label">Pengusul 2</label>
-                            <select class="form-select" id="pengusul2" name="pengusul2">
-                                <option hidden value="">Pilih Pengusul 2</option>
+                            <label for="mahasiswa2" class="form-label">mahasiswa 2</label>
+                            <select class="form-select" id="mahasiswa2" name="mahasiswa2">
+                                <option hidden value="">Pilih mahasiswa 2</option>
                                 @foreach ($mahasiswas as $mahasiswa)
                                     <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
                                 @endforeach
@@ -483,46 +483,47 @@
                     }
                 },
                 scrollX: true,
+                stripeClasses: ['table-primary', 'table-light'],
             });
 
-            // Fungsi untuk mengisi form pengusul dan dospem
-            function fillPengusulDospem(pengajuanSelectElement) {
+            // Fungsi untuk mengisi form mahasiswa dan dospem
+            function fillmahasiswaDospem(pengajuanSelectElement) {
                 var selectedOption = $(pengajuanSelectElement).find('option:selected');
                 var modalContainer = $(pengajuanSelectElement).closest('.modal-body');
 
-                var pengusul1Id = selectedOption.data('pengusul1');
-                var pengusul2Id = selectedOption.data('pengusul2');
+                var mahasiswa1Id = selectedOption.data('mahasiswa1');
+                var mahasiswa2Id = selectedOption.data('mahasiswa2');
                 var dospem1Id = selectedOption.data('dospem1');
                 var dospem2Id = selectedOption.data('dospem2');
 
-                modalContainer.find('select[name="pengusul1"]').val(pengusul1Id).trigger('change');
-                modalContainer.find('select[name="pengusul2"]').val(pengusul2Id).trigger('change');
+                modalContainer.find('select[name="mahasiswa1"]').val(mahasiswa1Id).trigger('change');
+                modalContainer.find('select[name="mahasiswa2"]').val(mahasiswa2Id).trigger('change');
                 modalContainer.find('select[name="dospem1"]').val(dospem1Id).trigger('change');
                 modalContainer.find('select[name="dospem2"]').val(dospem2Id).trigger('change');
             }
 
             // Event listener untuk Modal Tambah Jadwal
             $('#pengajuan_id_tambah').on('change', function() {
-                fillPengusulDospem(this);
+                fillmahasiswaDospem(this);
             });
 
             // Event listener untuk Modal Edit Jadwal (menggunakan event delegation)
             $(document).on('change', 'select[id^="pengajuan_id_edit_"]', function() {
-                fillPengusulDospem(this);
+                fillmahasiswaDospem(this);
             });
 
             // PENTING: Panggil fungsi ini saat modal dibuka agar data terisi awal
             $('#tambahModal').on('shown.bs.modal', function () {
                 // Panggil hanya jika ada pengajuan_id yang sudah terpilih secara default
                 if ($(this).find('#pengajuan_id_tambah').val()) {
-                    fillPengusulDospem($(this).find('#pengajuan_id_tambah'));
+                    fillmahasiswaDospem($(this).find('#pengajuan_id_tambah'));
                 }
             });
 
             $('[id^="editModal"]').on('shown.bs.modal', function () {
                 var modalId = $(this).attr('id');
                 var pengajuanSelect = $('#' + modalId).find('select[name="pengajuan_id"]');
-                fillPengusulDospem(pengajuanSelect);
+                fillmahasiswaDospem(pengajuanSelect);
             });
         });
     </script>

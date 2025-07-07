@@ -22,11 +22,11 @@ class JadwalController extends Controller
         })->get();
 
         // PENTING: Eager load relasi menggunakan NAMA FUNGSI RELASI dari model PengajuanJudul
-        // Yaitu: pengusul1Pengajuan, pengusul2Pengajuan, dospem1Pengajuan, dospem2Pengajuan
+        // Yaitu: mahasiswa1Pengajuan, mahasiswa2Pengajuan, dospem1Pengajuan, dospem2Pengajuan
         $pengajuans = PengajuanJudul::where('status', 'Disetujui')
                                     ->with([
-                                        'pengusul1Pengajuan',
-                                        'pengusul2Pengajuan',
+                                        'mahasiswa1Pengajuan',
+                                        'mahasiswa2Pengajuan',
                                         'dospem1Pengajuan',
                                         'dospem2Pengajuan'
                                     ])
@@ -38,8 +38,8 @@ class JadwalController extends Controller
         $userId = auth()->id();
         if (auth()->user()->role_id == 3 || auth()->user()->role_id == 2) {
             $jadwalUser = Jadwal::where(function ($query) use ($userId) {
-                $query->where('pengusul1', $userId)
-                    ->orWhere('pengusul2', $userId)
+                $query->where('mahasiswa1', $userId)
+                    ->orWhere('mahasiswa2', $userId)
                     ->orWhere('dospem1', $userId)
                     ->orWhere('dospem2', $userId)
                     ->orWhere('dosen_penguji1', $userId)
@@ -69,8 +69,8 @@ class JadwalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pengusul1' => 'required|exists:users,id',
-            'pengusul2' => 'required|exists:users,id',
+            'mahasiswa1' => 'required|exists:users,id',
+            'mahasiswa2' => 'required|exists:users,id',
             'dospem1' => 'required|exists:users,id',
             'dospem2' => 'nullable|exists:users,id',
             'dosen_penguji1' => 'required|exists:users,id',
@@ -84,8 +84,8 @@ class JadwalController extends Controller
         ]);
 
         $jadwal = new Jadwal();
-        $jadwal->pengusul1 = $request->pengusul1;
-        $jadwal->pengusul2 = $request->pengusul2;
+        $jadwal->mahasiswa1 = $request->mahasiswa1;
+        $jadwal->mahasiswa2 = $request->mahasiswa2;
         $jadwal->dospem1 = $request->dospem1;
         $jadwal->dospem2 = $request->dospem2;
         $jadwal->dosen_penguji1 = $request->dosen_penguji1;
@@ -124,8 +124,8 @@ class JadwalController extends Controller
     public function update(Request $request, Jadwal $jadwal)
     {
         $request->validate([
-            'pengusul1' => 'required|exists:users,id',
-            'pengusul2' => 'required|exists:users,id',
+            'mahasiswa1' => 'required|exists:users,id',
+            'mahasiswa2' => 'required|exists:users,id',
             'dospem1' => 'required|exists:users,id',
             'dospem2' => 'nullable|exists:users,id',
             'dosen_penguji1' => 'required|exists:users,id',

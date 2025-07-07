@@ -18,8 +18,8 @@ class BimbinganController extends Controller
     //     $dospem = User::where('role_id', 2)->get();
     //     $userId = auth()->id();
     //     if (auth()->user()->role_id == 3 || auth()->user()->role_id == 2) {
-    //         $bimbinganUser = Bimbingan::where('pengusul1', $userId)
-    //             ->orWhere('pengusul2', $userId)
+    //         $bimbinganUser = Bimbingan::where('mahasiswa1', $userId)
+    //             ->orWhere('mahasiswa2', $userId)
     //             ->orWhere('dospem1', $userId)
     //             ->orWhere('dospem2', $userId)
     //             ->get();
@@ -47,16 +47,16 @@ class BimbinganController extends Controller
             // Bimbingan sebagai mahasiswa atau dosen pembimbing
             $bimbinganDospem1 = Bimbingan::where('dospem1', $userId)
                 ->orWhere(function ($query) use ($userId) {
-                    $query->where('pengusul1', $userId)
-                        ->orWhere('pengusul2', $userId);
+                    $query->where('mahasiswa1', $userId)
+                        ->orWhere('mahasiswa2', $userId);
                 })
                 ->whereNotNull('dospem1')
                 ->get();
 
             $bimbinganDospem2 = Bimbingan::where('dospem2', $userId)
                 ->orWhere(function ($query) use ($userId) {
-                    $query->where('pengusul1', $userId)
-                        ->orWhere('pengusul2', $userId);
+                    $query->where('mahasiswa1', $userId)
+                        ->orWhere('mahasiswa2', $userId);
                 })
                 ->whereNotNull('dospem2')
                 ->get();
@@ -108,6 +108,18 @@ class BimbinganController extends Controller
 
         $bimbingan = new Bimbingan();
 
+        // Set mahasiswa dari pengajuan judul
+        $pengajuan = PengajuanJudul::where('mahasiswa1', auth()->id())
+            ->orWhere('mahasiswa2', auth()->id())
+            ->first();
+
+        if ($pengajuan) {
+            $bimbingan->mahasiswa1 = $pengajuan->mahasiswa1;
+            $bimbingan->mahasiswa2 = $pengajuan->mahasiswa2;
+        } else {
+            return redirect()->route('bimbingan')->with('error', 'Lengkapi Pengajuan Judul Terlebih Dahulu');
+        }
+
         // Set pembimbing berdasarkan jenis yang dipilih
         if ($request->dospem_type === 'dospem1') {
             $bimbingan->dospem1 = $request->dospem1;
@@ -122,17 +134,7 @@ class BimbinganController extends Controller
             $bimbingan->file = $filename;
         }
 
-        // Set pengusul dari pengajuan judul
-        $pengajuan = PengajuanJudul::where('pengusul1', auth()->id())
-            ->orWhere('pengusul2', auth()->id())
-            ->first();
 
-        if ($pengajuan) {
-            $bimbingan->pengusul1 = $pengajuan->pengusul1;
-            $bimbingan->pengusul2 = $pengajuan->pengusul2;
-        } else {
-            return redirect()->route('bimbingan')->with('error', 'Lengkapi Pengajuan Judul Terlebih Dahulu');
-        }
 
         $bimbingan->tanggal = $request->tanggal;
         $bimbingan->topik_bimbingan = $request->topik_bimbingan;
@@ -163,23 +165,30 @@ class BimbinganController extends Controller
     public function update(Request $request, Bimbingan $bimbingan)
     {
         $request->validate([
-            'dospem_id' => 'required|exists:users,id',
+            'dospem_type' => 'required|in:dospem1,dospem2',
             'tanggal' => 'required|date',
             'topik_bimbingan' => 'required|string|max:255',
         ]);
 
-        $bimbingan->dospem_id = $request->dospem_id;
+        // Update pembimbing
+        if ($request->dospem_type === 'dospem1') {
+            $bimbingan->dospem1 = $request->dospem1;
+            $bimbingan->dospem2 = null; // Clear dospem2 if updating dospem1
+        } else {
+            $bimbingan->dospem2 = $request->dospem2;
+            $bimbingan->dospem1 = null; // Clear dospem1 if updating dospem2
+        }
 
-        $pengajuan = PengajuanJudul::where('pengusul1', auth()->id())
-            ->orWhere('pengusul2', auth()->id())
+        $pengajuan = PengajuanJudul::where('mahasiswa1', auth()->id())
+            ->orWhere('mahasiswa2', auth()->id())
             ->first();
 
         if ($pengajuan) {
-            $bimbingan->pengusul1 = $pengajuan->pengusul1;
-            $bimbingan->pengusul2 = $pengajuan->pengusul2;
+            $bimbingan->mahasiswa1 = $pengajuan->mahasiswa1;
+            $bimbingan->mahasiswa2 = $pengajuan->mahasiswa2;
         } else {
-            $bimbingan->pengusul1 = null;
-            $bimbingan->pengusul2 = null;
+            $bimbingan->mahasiswa1 = null;
+            $bimbingan->mahasiswa2 = null;
         }
         $bimbingan->tanggal = $request->tanggal;
         $bimbingan->topik_bimbingan = $request->topik_bimbingan;

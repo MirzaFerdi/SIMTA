@@ -15,8 +15,8 @@ class SemproSeeder extends Seeder
     {
         // DB::table('sempros')->insert([
         //     [
-        //         'pengusul1' => 6,
-        //         'pengusul2' => 7,
+        //         'mahasiswa1' => 6,
+        //         'mahasiswa2' => 7,
         //         'dospem_id' => 2,
         //         'pengajuan_id' => 1,
         //         'no_ta' => 'AB2024',

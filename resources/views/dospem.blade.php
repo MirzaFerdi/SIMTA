@@ -28,8 +28,8 @@
                                     <td>
                                         <div class="">
                                             <ul>
-                                                <li>{{ $dospem->pengusul1Pengajuan->nama }}</li>
-                                                <li>{{ $dospem->pengusul2Pengajuan->nama }}</li>
+                                                <li>{{ $dospem->mahasiswa1Pengajuan->nama }}</li>
+                                                <li>{{ $dospem->mahasiswa2Pengajuan->nama }}</li>
                                             </ul>
                                         </div>
                                     </td>
@@ -40,7 +40,7 @@
                                         <button class="btn btn-sm btn-warning" id="editDospemBtn"
                                             data-id="{{ $dospem->id }}" data-bs-toggle="modal"
                                             data-bs-target="#editDospemModal">
-                                            <i class="fas fa-edit"></i> Edit
+                                            <i class="fas fa-edit"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -128,6 +128,7 @@
                 }
             },
             scrollX: true,
+            stripeClasses: ['table-primary', 'table-light'],
         });
 
     });

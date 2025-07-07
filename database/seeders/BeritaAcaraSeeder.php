@@ -14,8 +14,8 @@ class BeritaAcaraSeeder extends Seeder
     public function run(): void
     {
         DB::table('berita_acaras')->insert([
-            'pengusul1' => 6,
-            'pengusul2' => 7,
+            'mahasiswa1' => 6,
+            'mahasiswa2' => 7,
             'dosen' => 2,
             'pengajuan_id' => 1,
             'berita_acara' => 'BeritaAcara_1.pdf',
