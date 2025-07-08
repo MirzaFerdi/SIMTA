@@ -175,7 +175,7 @@
                                 <h5 class="fw-semibold text-secondary mb-3">Download Template</h5>
                                 <div class="row gy-2">
                                     <div class="col-md-6 d-flex align-items-center">
-                                        <div class="me-3 fw-medium" style="width: 200px;">Template Laporan Proposal:</div>
+                                        <div class="me-3 fw-medium" style="width: 200px;">Template Proposal:</div>
                                         <a href="{{ asset('Template_Laporan_Sempro.docx') }}"
                                             class="btn btn-outline-primary btn-sm" target="_blank">
                                             Download

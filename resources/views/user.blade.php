@@ -60,17 +60,17 @@
                             <td>
                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#detailModal{{ $mahasiswa->id }}">
-                                    Detail
+                                    <i class="fa-solid fa-eye"></i>
                                 </button>
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#editModal{{ $mahasiswa->id }}">
-                                    Edit
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                                 <form action="{{ route('user.delete', $mahasiswa->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Yakin ingin menghapus?')">
-                                        Hapus
+                                        <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </form>
                         </tr>
@@ -222,17 +222,17 @@
                             <td>
                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#detailModal{{ $dosen->id }}">
-                                    Detail
+                                    <i class="fa-solid fa-eye"></i>
                                 </button>
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#editModal{{ $dosen->id }}">
-                                    Edit
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                                 <form action="{{ route('user.delete', $dosen->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Yakin ingin menghapus?')">
-                                        Hapus
+                                        <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </form>
                         </tr>
